@@ -3,50 +3,56 @@
 Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de frete. Projeto desenvolvido durante o programa TreinaDev oferecido pela Campus Code.
 
 # Tarefas
-- <h1>Configuração do projeto</h1>
-      - [ ] Inicializar projeto
-      - [ ] Incluir gem do devise para autenticação
-      - [ ] Definir usuário e administrador
-      - [ ] Incluir bootstrap
-      - [ ] i18n
+<h2>Configuração do projeto</h2>
+
+- [ ] Inicializar projeto
+- [ ] Incluir gem do devise para autenticação
+- [ ] Definir usuário e administrador
+- [ ] Incluir bootstrap
+- [ ] i18n
       
-- [ ] Modalidades de transporte:
-      - [ ] Usuário visualiza modalidades de transporte
-      - [ ] Usuário vê detalhes de modalidades de transporte
-      - [ ] Administrador cadastra modalidade de transporte
-      - [ ] Administrador edita/desabilita modalidade de transporte
-      - [ ] Validações:
-          - [ ] Configuração de preços
-                - [ ] Por peso
-                - [ ] Por distância
-          - [ ] Configuração de prazos
+<h2>Modalidades de transporte</h2>
+
+- [ ] Usuário visualiza modalidades de transporte
+- [ ] Usuário vê detalhes de modalidades de transporte
+- [ ] Administrador cadastra modalidade de transporte
+- [ ] Administrador edita/desabilita modalidade de transporte
+- [ ] Validações:
+
+     - [ ] Configuração de preço por peso
+     - [ ] Configuração de preço por distância
+     - [ ] Configuração de prazos
                 
-- [ ] Gestão da frota:
-      - [ ] Usuário visualiza frota
-      - [ ] Administrador cadastra veículo para frota
-      - [ ] Administrador altera status de veículo
-      - [ ] Usuário vê detalhes de veículo
-      - [ ] Validações
+<h2>Gestão da frota</h2>
 
-- [ ] Criar ordem de serviço:
-      - [ ] Administrador cadastra ordem de serviço
-      - [ ] Validações
+- [ ] Usuário visualiza frota
+- [ ] Administrador cadastra veículo para frota
+- [ ] Administrador altera status de veículo
+- [ ] Usuário vê detalhes de veículo
+- [ ] Validações
 
-- [ ] Iniciar ordem de serviço:
-      - [ ] Usuário vê ordens de serviço pendentes
-      - [ ] Usuário vê detalhes de ordem de serviço
-      - [ ] Usuário inicia ordem de serviço
-      - [ ] Validações
-          - [ ] Configuração de preços
-          - [ ] Configuração de prazos
-          - [ ] Demais validações
+<h2>Criação de ordem de serviço</h2>
 
-- [ ] Encerrar ordem de serviço:
-   - [ ] Usuário vê ordens de serviço em andamento
-   - [ ] Validações
+- [ ] Administrador cadastra ordem de serviço
+- [ ] Validações
+
+<h2>Inicialização de ordem de serviço</h2>
+
+- [ ] Usuário vê ordens de serviço pendentes
+- [ ] Usuário vê detalhes de ordem de serviço
+- [ ] Usuário inicia ordem de serviço
+- [ ] Configuração de preços
+- [ ] Configuração de prazos
+- [ ] Demais validações
+
+<h2>Encerrar ordem de serviço</h2>
+
+- [ ] Usuário vê ordens de serviço em andamento
+- [ ] Validações
   
-- [ ] Consultar entrega:
-   - [ ] Usuário não autenticado consulta status de entrega
+<h2>Consultar entrega</h2>
+
+- [ ] Usuário não autenticado consulta status de entrega
 
 # Instalação (WIP)
 
