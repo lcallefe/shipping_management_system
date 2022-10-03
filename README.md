@@ -5,11 +5,11 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 # Tarefas
 <h2>Configuração do projeto</h2>
 
-- [ ] Inicializar projeto
-- [ ] Incluir gem do devise para autenticação
-- [ ] Definir usuário e administrador
-- [ ] Incluir bootstrap
-- [ ] i18n
+- [x] Inicializar projeto
+- [x] Incluir gem do devise para autenticação
+- [x] Definir usuário e administrador
+- [x] Incluir bootstrap
+- [ ] i18n -- WIP
       
 <h2>Modalidades de transporte</h2>
 
@@ -17,11 +17,12 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 - [ ] Usuário vê detalhes de modalidades de transporte
 - [ ] Administrador cadastra modalidade de transporte
 - [ ] Administrador edita/desabilita modalidade de transporte
-- [ ] Validações:
 
-     - [ ] Configuração de preço por peso
-     - [ ] Configuração de preço por distância
-     - [ ] Configuração de prazos
+<h3>Validações</h3>
+
+- [ ] Configuração de preço por peso
+- [ ] Configuração de preço por distância
+- [ ] Configuração de prazos
                 
 <h2>Gestão da frota</h2>
 
@@ -29,6 +30,7 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 - [ ] Administrador cadastra veículo para frota
 - [ ] Administrador altera status de veículo
 - [ ] Usuário vê detalhes de veículo
+- [ ] Usuário busca por veículo específico
 - [ ] Validações
 
 <h2>Criação de ordem de serviço</h2>
