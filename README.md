@@ -30,6 +30,7 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 - [ ] Administrador cadastra veículo para frota
 - [ ] Administrador altera status de veículo
 - [ ] Usuário vê detalhes de veículo
+- [ ] Usuário busca por veículo específico
 - [ ] Validações
 
 <h2>Criação de ordem de serviço</h2>
