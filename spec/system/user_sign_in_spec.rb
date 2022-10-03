@@ -5,13 +5,12 @@ feature 'Usuário faz login' do
     # Arrange 
 
     # Act 
-    visit root_path
-
+    visit new_user_session_path
     # Assert
-    expect(page).to have_field ('E-mail')
-    expect(page).to have_field ('Senha')
-    expect(page).to have_button ('Entrar')
-    expect(page).to have_content ('Criar uma conta')
+    expect(page).to have_field 'E-mail'
+    expect(page).to have_field 'Senha'
+    expect(page).to have_button 'Entrar'
+    expect(page).to have_content 'Criar uma conta'
   end
 
   scenario 'com sucesso' do

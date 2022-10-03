@@ -1,0 +1,33 @@
+<h1>Modalidades de transporte</h1>
+
+<% if @shipping_methods.any? %>
+  <table class="table table-striped w-auto">
+    <thead>
+      <tr>
+        <th scope="col">Modalidade</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+  <tbody>
+    <% @shipping_methods.each do |sm| %>
+      <tr>
+        <td><%= link_to sm.name, sm %></td>
+        <td><%= sm.status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <p>Não há modalidades de transporte cadastradas</p>
+<% end %>
+
+<td><%= link_to 'Voltar', root_path %></td>
+
+<% if current_user.admin %>
+  <%= link_to 'Cadastrar modalidade de transporte', new_shipping_method_path %>
+<% end %>
+
+
+
+
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_03_184346) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_03_191853) do
   create_table "orders", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -19,6 +19,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_184346) do
   create_table "shipping_methods", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.integer "min_distance"
+    t.integer "max_distance"
+    t.integer "min_height"
+    t.integer "max_height"
+    t.integer "flat_fee"
+    t.integer "weight_fee"
+    t.integer "distance_fee"
+    t.integer "vehicle_id", null: false
+    t.integer "status", default: 1
+    t.index ["vehicle_id"], name: "index_shipping_methods_on_vehicle_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -38,6 +49,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_184346) do
   create_table "vehicles", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "license_plate"
+    t.string "name"
+    t.string "brand_name"
+    t.string "model"
+    t.string "fabrication_year"
+    t.integer "full_capacity"
+    t.integer "status", default: 1
   end
 
+  add_foreign_key "shipping_methods", "vehicles"
 end
