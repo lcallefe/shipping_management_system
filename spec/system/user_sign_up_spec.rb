@@ -18,6 +18,7 @@ describe 'Usuário cria uma conta' do
     expect(page).to have_content('Olá José')
     expect(page).to have_link('Sair')
     expect(page).not_to have_content('Domínio inválido, por favor verifique seu e-mail de registro.')
+    expect(page).not_to have_content('Não foi possível salvar usuário.')
   end
 
   it 'com domínio inválido' do
@@ -34,9 +35,10 @@ describe 'Usuário cria uma conta' do
 
     # Assert
     expect(page).to have_content('Domínio inválido, por favor verifique seu e-mail de registro.')
-    expect(page).not_to have_content 'Login efetuado com sucesso.'
+    expect(page).to have_content('Não foi possível salvar usuário.')
+    expect(page).not_to have_content ('Login efetuado com sucesso.')
     expect(page).to have_link('Entrar')
-    expect(page).not_to have_link 'Sair'
+    expect(page).not_to have_link ('Sair')
   end
 
 end
