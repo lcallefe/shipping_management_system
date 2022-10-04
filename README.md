@@ -13,8 +13,8 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
       
 <h2>Modalidades de transporte</h2>
 
-- [ ] Usuário visualiza modalidades de transporte
-- [ ] Usuário vê detalhes de modalidades de transporte
+- [x] Usuário visualiza modalidades de transporte
+- [x] Usuário vê detalhes de modalidades de transporte
 - [ ] Administrador cadastra modalidade de transporte
 - [ ] Administrador edita/desabilita modalidade de transporte
 
