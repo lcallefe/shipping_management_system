@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_03_235853) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_04_053148) do
   create_table "addresses", force: :cascade do |t|
     t.string "street"
     t.string "number"
@@ -19,8 +19,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_235853) do
     t.string "address_complement"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "customer_id", null: false
-    t.integer "order_id", null: false
+    t.integer "customer_id"
+    t.integer "order_id"
     t.index ["customer_id"], name: "index_addresses_on_customer_id"
     t.index ["order_id"], name: "index_addresses_on_order_id"
   end
@@ -54,8 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_235853) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
-    t.string "min_distance"
-    t.string "max_distance"
+    t.string "min_distance_price"
+    t.string "max_distance_price"
     t.string "min_weight"
     t.string "max_weight"
     t.integer "flat_fee"
@@ -63,6 +63,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_03_235853) do
     t.string "distance_fee"
     t.integer "status", default: 1
     t.integer "order_id", null: false
+    t.string "min_distance_deadline"
+    t.string "max_distance_deadline"
+    t.string "delivery_time"
     t.index ["order_id"], name: "index_shipping_methods_on_order_id"
   end
 

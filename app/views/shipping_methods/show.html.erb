@@ -1,7 +1,7 @@
 <h2>Modalidade de transporte: <%= @shipping_method.name %></h2>
 <div class="col-xs-6">
-  <h2 class="sub-header">Configuração de preços por distância</h2>
   <h3>Taxa fixa: R$ <%= @shipping_method.flat_fee %></h3>
+  <h2 class="sub-header">Configuração de preços por distância</h2>
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
@@ -12,13 +12,13 @@
         </tr>
       </thead>
       <tbody>
-        <% min_d = @shipping_method.min_distance.split(/,/) %>
-        <% max_d = @shipping_method.max_distance.split(/,/) %>
+        <% min_dp = @shipping_method.min_distance_price.split(/,/) %>
+        <% max_dp = @shipping_method.max_distance_price.split(/,/) %>
         <% df = @shipping_method.distance_fee.split(/,/) %>
-        <% min_d.each_with_index do |d,i|%>
+        <% min_dp.each_with_index do |dp,i|%>
           <tr>
-            <td class="col-md-1"><%= d %> m</td>
-            <td class="col-md-2"><%= max_d[i]%> m</td>
+            <td class="col-md-1"><%= dp %> m</td>
+            <td class="col-md-2"><%= max_dp[i]%> m</td>
             <td class="col-md-3">R$ <%= df[i] %></td>
           </tr>
         <% end %>
@@ -51,7 +51,30 @@
       <% end %>
     </tbody>
   </table>
-
+  <div class="col-xs-6">
+<h2 class="sub-header">Prazos x Distância</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="col-md-2">Distância mínima</th>
+        <th class="col-md-3">Distância máxima</th>
+        <th class="col-md-1">Prazo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% min_dd = @shipping_method.min_distance_deadline.split(/,/) %>
+      <% max_dd = @shipping_method.max_distance_deadline.split(/,/) %>
+      <% deadline = @shipping_method.delivery_time.split(/,/) %>
+      <% min_dd.each_with_index do |dd,i|%>
+        <tr>
+          <td class="col-md-1"><%= dd %> km</td>
+          <td class="col-md-2"><%= max_dd[i] %> km</td>
+          <td class="col-md-3"><%= deadline[i] %> h</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <td><%= link_to 'Voltar', shipping_methods_path %></td>
 
 <% if current_user.admin %>
