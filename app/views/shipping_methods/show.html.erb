@@ -1,0 +1,59 @@
+<h2>Modalidade de transporte: <%= @shipping_method.name %></h2>
+<div class="col-xs-6">
+  <h2 class="sub-header">Configuração de preços por distância</h2>
+  <h3>Taxa fixa: R$ <%= @shipping_method.flat_fee %></h3>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-1">Distância mínima</th>
+          <th class="col-md-2">Distância máxima</th>
+          <th class="col-md-3">Preço</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% min_d = @shipping_method.min_distance.split(/,/) %>
+        <% max_d = @shipping_method.max_distance.split(/,/) %>
+        <% df = @shipping_method.distance_fee.split(/,/) %>
+        <% min_d.each_with_index do |d,i|%>
+          <tr>
+            <td class="col-md-1"><%= d %> m</td>
+            <td class="col-md-2"><%= max_d[i]%> m</td>
+            <td class="col-md-3">R$ <%= df[i] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="col-xs-6">
+<h2 class="sub-header">Configuração de preços por peso</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="col-md-2">Peso mínimo</th>
+        <th class="col-md-3">Peso máximo</th>
+        <th class="col-md-1">Preço</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% min_w = @shipping_method.min_weight.split(/,/) %>
+      <% max_w = @shipping_method.max_weight.split(/,/) %>
+      <% wf = @shipping_method.weight_fee.split(/,/) %>
+      <% min_w.each_with_index do |w,i|%>
+        <tr>
+          <td class="col-md-1"><%= w %> kg</td>
+          <td class="col-md-2"><%= max_w[i]%> kg</td>
+          <td class="col-md-3">R$ <%= wf[i] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<td><%= link_to 'Voltar', shipping_methods_path %></td>
+
+<% if current_user.admin %>
+  <%= link_to 'Alterar status', edit_shipping_method_path %>
+<% end %>

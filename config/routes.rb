@@ -6,6 +6,6 @@ Rails.application.routes.draw do
     get '/users/sign_out' => 'devise/sessions#destroy'     
   end
   resources :orders, only: [:index]
-  resources :shipping_methods, only: [:index, :new, :show]
+  resources :shipping_methods, only: [:index, :new, :show, :edit, :update]
   resources :vehicles, only: [:index ]
 end
