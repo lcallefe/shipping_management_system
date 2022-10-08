@@ -15,14 +15,14 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 
 - [x] Usuário visualiza modalidades de transporte
 - [x] Usuário vê detalhes de modalidades de transporte
-- [ ] Administrador cadastra modalidade de transporte
-- [ ] Administrador edita/desabilita modalidade de transporte
+- [x] Administrador cadastra modalidade de transporte
+- [x] Administrador edita/desabilita modalidade de transporte
 
 <h3>Validações</h3>
 
-- [ ] Configuração de preço por peso
-- [ ] Configuração de preço por distância
-- [ ] Configuração de prazos
+- [x] Configuração de preço por peso
+- [x] Configuração de preço por distância
+- [x] Configuração de prazos
                 
 <h2>Gestão da frota</h2>
 
@@ -57,8 +57,3 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 - [ ] Usuário não autenticado consulta status de entrega
 
 # Instalação (WIP)
-
-# Diagrama entidade relacionamento do projeto
-
-![shipping_app drawio (2)](https://user-images.githubusercontent.com/63021821/193352692-05509545-6c9e-4f9e-8f07-387e6b384d0c.png)
->>>>>>> 5a6232259ca294df38b8c8ebfe8bd457579ca479
