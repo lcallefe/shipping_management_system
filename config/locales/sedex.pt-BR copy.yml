@@ -1,10 +1,9 @@
 pt-BR:   
   activerecord:
     models: 
-      expressa: 'Modalidade Expressa'
+      sedex: 'Sedex'
     attributes:
-      expressa:
-        name: 'Nome'
+      sedex:
         flat_fee: 'Taxa fixa'
 
 

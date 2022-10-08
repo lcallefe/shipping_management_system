@@ -1,0 +1,31 @@
+pt-BR:   
+  activerecord:
+    models: 
+      work_order: 'Ordem de serviço'
+    attributes:
+      work_order:
+        street: 'Endereço'
+        city: 'Cidade'
+        state: 'Estado'
+        number: 'Número'
+        customer_name: 'Nome do cliente'
+        customer_cpf: 'CPF'
+        customer_phone_numer: 'Telefone'
+        total_price: 'Valor total'
+        product_name: 'Nome do produto'
+        product_weight: 'Peso do produto'
+        sku: 'Código do produto'
+        departure_date: 'Data de início'
+        shipping_expected_date: 'Data prevista para entrega'
+        shipping_date: 'Data de entrega'
+        warehouse_street: 'Endereço (remetente)'
+        warehouse_city: 'Cidade (remetente)'
+        warehouse_state: 'Estado (remetente)'
+        warehouse_number: 'Número (remetente)'
+        distance: 'Distância remetente x destinatário'
+
+
+
+ 
+
+

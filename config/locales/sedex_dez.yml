@@ -1,0 +1,12 @@
+pt-BR:   
+  activerecord:
+    models: 
+      sedex_dez: 'Sedex Dez'
+    attributes:
+      sedex_dez:
+        flat_fee: 'Taxa fixa'
+
+
+ 
+
+

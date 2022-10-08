@@ -1,0 +1,12 @@
+pt-BR:   
+  activerecord:
+    models: 
+      expressa: 'Expressa'
+    attributes:
+      expressa:
+        flat_fee: 'Taxa fixa'
+
+
+ 
+
+

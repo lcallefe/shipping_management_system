@@ -9,7 +9,9 @@
 
 <h3>Lista de ordens de serviço:</h3><br/>
 
-
+<% if current_user.admin? %>
+    <%= link_to 'Criar nova ordem de serviço', new_work_order_path %> <br/><br/>
+<% end %>
 
 <h3>Outros:</h3><br/>   
 

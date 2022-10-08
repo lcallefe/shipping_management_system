@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_06_150815) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_08_102511) do
   create_table "expressas", force: :cascade do |t|
     t.string "name"
     t.integer "flat_fee"
@@ -175,9 +175,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_06_150815) do
     t.date "departure_date"
     t.date "shipping_expected_date"
     t.date "shipping_date"
-    t.integer "status"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "warehouse_street"
+    t.string "warehouse_city"
+    t.string "warehouse_state"
+    t.string "warehouse_number"
+    t.integer "distance"
+    t.string "code"
+    t.string "shipping_method"
   end
 
 end

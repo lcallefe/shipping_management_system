@@ -18,4 +18,6 @@ Rails.application.routes.draw do
   resources :third_price_distances, only:[:index, :new, :edit, :update, :create]
   resources :third_price_weights, only:[:index, :new, :edit, :update, :create]
   resources :third_delivery_time_distances, only:[:index, :new, :edit, :update, :create]
+  resources :work_orders, only:[:index, :new, :create]
+
 end

@@ -1,0 +1,68 @@
+<%= render 'error' %>
+<h1>Cadastrar Ordem de serviço</h1>
+<%= form_with(model: @work_order) do |f| %>
+  <div>
+    <%= f.label :street %>
+    <%= f.text_field :street %>
+  </div><br/>
+  <div>
+    <%= f.label :city %>
+    <%= f.text_field :city %>
+  </div><br/>
+  <div>
+    <%= f.label :state %>
+    <%= f.text_field :state %>
+  </div><br/>
+  <div>
+    <%= f.label :number %>
+    <%= f.text_field :number %>
+  </div><br/>
+  <div>
+    <%= f.label :customer_name %>
+    <%= f.text_field :customer_name %>
+  </div><br/>
+  <div>
+    <%= f.label :customer_cpf %>
+    <%= f.text_field :customer_cpf %>
+  </div><br/>
+  <div>
+    <%= f.label :customer_phone_numer %>
+    <%= f.text_field :customer_phone_numer %>
+  </div><br/>
+  <div>
+    <%= f.label :sku %>
+    <%= f.text_field :sku %>
+  </div><br/>
+  <div>
+    <%= f.label :product_name%>
+    <%= f.text_field :product_name %>
+  </div><br/>
+  <div>
+    <%= f.label :product_weight %>
+    <%= f.number_field :product_weight %>
+  </div><br/>
+  <div>
+    <%= f.label :warehouse_street %>
+    <%= f.text_field :warehouse_street %>
+  </div><br/>
+  <div>
+    <%= f.label :warehouse_city %>
+    <%= f.text_field :warehouse_city %>
+  </div><br/>
+  <div>
+    <%= f.label :warehouse_state %>
+    <%= f.text_field :warehouse_state %>
+  </div><br/>
+  <div>
+    <%= f.label :warehouse_number %>
+    <%= f.text_field :warehouse_number %>
+  </div><br/> 
+  <div>
+    <%= f.label :distance %>
+    <%= f.number_field :distance %>
+  </div><br/>  
+  <%= f.submit 'Salvar' %>
+<% end %>
+
+<%= link_to 'Voltar', root_path %>
+<%= link_to 'Sair', destroy_user_session_path %>
