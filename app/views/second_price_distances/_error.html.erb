@@ -1,0 +1,8 @@
+<% if @second_price_distance.errors.full_messages.any? %>
+  <%  @second_price_distance.errors.full_messages.each do |msg| %>
+    <div><br>
+      <%= msg %>
+    </div>
+  <% end %>
+<% end %>
+<br>

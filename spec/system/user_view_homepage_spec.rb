@@ -9,12 +9,14 @@ describe 'Usuario visita tela inicial' do
     visit root_path
     
     # Assert
-    expect(page).to have_content('Sistema de frete')
+    expect(page).to have_content('Selecione a opção desejada:')
     expect(page).to have_content('Olá Luciana')
-    expect(page).to have_link('Modalidades de transporte', href: shipping_methods_path)
-    expect(page).to have_link('Ordens de serviço', href: orders_path)
-    expect(page).to have_link('Veículos', href: vehicles_path)
-    expect(page).to have_link('Sair', href: destroy_user_session_path)
+    expect(page).to have_content('Modalidades de transporte')
+    expect(page).to have_link('Sedex', href: sedexes_path)
+    expect(page).to have_link('Sedex 10', href: sedex_dezs_path)
+    expect(page).to have_link('Expressa', href: expressas_path)
+    expect(page).to have_content('Lista de ordens de serviço:')
+    expect(page).to have_link('Sair')
   end
 
   it 'e não está autenticado' do
@@ -31,7 +33,7 @@ describe 'Usuario visita tela inicial' do
     expect(page).to have_content ('Criar uma conta')
     expect(page).to have_content ('Para continuar, faça login ou registre-se.')
     expect(page).not_to have_content ('Olá João')
-    expect(page).not_to have_link('Modalidades de transporte', href: shipping_methods_path)
+    expect(page).not_to have_content('Modalidades de transporte')
     expect(page).not_to have_link 'Sair'  
   end
 end

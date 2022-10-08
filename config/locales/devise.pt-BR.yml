@@ -2,6 +2,7 @@ pt-BR:
   activerecord:
     attributes:
       user:
+        admin: Administrador
         name: Nome
         confirmation_sent_at: Confirmação enviada em
         confirmation_token: Token de confirmação

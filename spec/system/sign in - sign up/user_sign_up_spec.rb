@@ -31,6 +31,7 @@ describe 'Usuário cria uma conta' do
     fill_in 'Nome', with: 'Maria'
     fill_in 'Senha', with: 'password'
     fill_in 'Confirme sua senha', with: 'password'
+    choose 'Administrador'
     click_on 'Criar sua conta'
 
     # Assert

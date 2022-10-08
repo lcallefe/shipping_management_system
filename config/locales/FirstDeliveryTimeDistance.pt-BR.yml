@@ -1,0 +1,13 @@
+pt-BR:   
+  activerecord:
+    models: 
+      first_delivery_time_distance: 'Configuração de prazos'
+    attributes:
+      first_delivery_time_distance:
+        min_distance: 'Distância mínima'
+        max_distance: 'Distância máxima'
+        delivery_time: 'Prazo'
+
+ 
+
+

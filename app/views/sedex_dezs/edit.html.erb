@@ -1,0 +1,16 @@
+<%= render 'error'%>
+<h1>Alterar modalidade de entrega</h1>
+
+<%= form_with(model: @sedex_dez) do |f| %>
+  <div>
+    <%= f.label :flat_fee %>
+    <%= f.text_field :flat_fee %>
+  </div>
+  <div>
+    <%= f.label :status %>
+    <%= f.select :status, SedexDez.statuses.keys.to_a %>
+  </div>
+  <%= f.submit 'Salvar' %>
+<% end %>
+<%= link_to 'Sair', destroy_user_session_path %>
+<%= link_to 'Voltar', sedex_dezs_path %>

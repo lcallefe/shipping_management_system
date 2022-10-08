@@ -1,0 +1,13 @@
+pt-BR:   
+  activerecord:
+    models: 
+      expressa: 'Modalidade Expressa'
+    attributes:
+      expressa:
+        name: 'Nome'
+        flat_fee: 'Taxa fixa'
+
+
+ 
+
+

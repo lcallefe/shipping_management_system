@@ -10,63 +10,125 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_04_053148) do
-  create_table "addresses", force: :cascade do |t|
-    t.string "street"
-    t.string "number"
-    t.string "city"
-    t.string "state"
-    t.string "address_complement"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "customer_id"
-    t.integer "order_id"
-    t.index ["customer_id"], name: "index_addresses_on_customer_id"
-    t.index ["order_id"], name: "index_addresses_on_order_id"
-  end
-
-  create_table "customers", force: :cascade do |t|
-    t.string "cpf"
+ActiveRecord::Schema[7.0].define(version: 2022_10_06_150815) do
+  create_table "expressas", force: :cascade do |t|
     t.string "name"
-    t.string "email"
-    t.string "phone_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "distance"
-    t.date "departure_date"
-    t.date "shipping_expected_date"
-    t.date "shipping_date"
-    t.integer "total_price"
-    t.integer "status"
-    t.string "sku"
-    t.string "product_name"
-    t.integer "product_weight"
-    t.integer "customer_id", null: false
-    t.index ["customer_id"], name: "index_orders_on_customer_id"
-  end
-
-  create_table "shipping_methods", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name"
-    t.string "min_distance_price"
-    t.string "max_distance_price"
-    t.string "min_weight"
-    t.string "max_weight"
     t.integer "flat_fee"
-    t.string "weight_fee"
-    t.string "distance_fee"
     t.integer "status", default: 1
-    t.integer "order_id", null: false
-    t.string "min_distance_deadline"
-    t.string "max_distance_deadline"
-    t.string "delivery_time"
-    t.index ["order_id"], name: "index_shipping_methods_on_order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "work_order_id"
+    t.index ["work_order_id"], name: "index_expressas_on_work_order_id"
+  end
+
+  create_table "first_delivery_time_distances", force: :cascade do |t|
+    t.integer "min_distance"
+    t.integer "max_distance"
+    t.integer "delivery_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sedex_dez_id"
+    t.index ["sedex_dez_id"], name: "index_first_delivery_time_distances_on_sedex_dez_id"
+  end
+
+  create_table "first_price_distances", force: :cascade do |t|
+    t.integer "min_distance"
+    t.integer "max_distance"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sedex_dez_id"
+    t.index ["sedex_dez_id"], name: "index_first_price_distances_on_sedex_dez_id"
+  end
+
+  create_table "first_price_weights", force: :cascade do |t|
+    t.integer "min_weight"
+    t.integer "max_weight"
+    t.float "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sedex_dez_id"
+    t.index ["sedex_dez_id"], name: "index_first_price_weights_on_sedex_dez_id"
+  end
+
+  create_table "second_delivery_time_distances", force: :cascade do |t|
+    t.integer "min_distance"
+    t.integer "max_distance"
+    t.integer "delivery_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sedex_id"
+    t.index ["sedex_id"], name: "index_second_delivery_time_distances_on_sedex_id"
+  end
+
+  create_table "second_price_distances", force: :cascade do |t|
+    t.integer "min_distance"
+    t.integer "max_distance"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sedex_id"
+    t.index ["sedex_id"], name: "index_second_price_distances_on_sedex_id"
+  end
+
+  create_table "second_price_weights", force: :cascade do |t|
+    t.integer "min_weight"
+    t.integer "max_weight"
+    t.float "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sedex_id"
+    t.index ["sedex_id"], name: "index_second_price_weights_on_sedex_id"
+  end
+
+  create_table "sedex_dezs", force: :cascade do |t|
+    t.string "name"
+    t.integer "flat_fee"
+    t.integer "status", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "work_order_id"
+    t.index ["work_order_id"], name: "index_sedex_dezs_on_work_order_id"
+  end
+
+  create_table "sedexes", force: :cascade do |t|
+    t.string "name"
+    t.integer "flat_fee"
+    t.integer "status", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "work_order_id"
+    t.index ["work_order_id"], name: "index_sedexes_on_work_order_id"
+  end
+
+  create_table "third_delivery_time_distances", force: :cascade do |t|
+    t.integer "min_distance"
+    t.integer "max_distance"
+    t.integer "delivery_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "expressa_id"
+    t.index ["expressa_id"], name: "index_third_delivery_time_distances_on_expressa_id"
+  end
+
+  create_table "third_price_distances", force: :cascade do |t|
+    t.integer "min_distance"
+    t.integer "max_distance"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "expressa_id"
+    t.index ["expressa_id"], name: "index_third_price_distances_on_expressa_id"
+  end
+
+  create_table "third_price_weights", force: :cascade do |t|
+    t.integer "min_weight"
+    t.integer "max_weight"
+    t.float "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "expressa_id"
+    t.index ["expressa_id"], name: "index_third_price_weights_on_expressa_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -84,22 +146,38 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_04_053148) do
   end
 
   create_table "vehicles", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "license_plate"
-    t.string "name"
     t.string "brand_name"
-    t.string "model"
     t.string "fabrication_year"
     t.integer "full_capacity"
     t.integer "status", default: 1
-    t.integer "shipping_method_id"
-    t.index ["shipping_method_id"], name: "index_vehicles_on_shipping_method_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sedex_dez_id"
+    t.integer "sedex_id"
+    t.integer "expressa_id"
+    t.index ["expressa_id"], name: "index_vehicles_on_expressa_id"
+    t.index ["sedex_dez_id"], name: "index_vehicles_on_sedex_dez_id"
+    t.index ["sedex_id"], name: "index_vehicles_on_sedex_id"
   end
 
-  add_foreign_key "addresses", "customers"
-  add_foreign_key "addresses", "orders"
-  add_foreign_key "orders", "customers"
-  add_foreign_key "shipping_methods", "orders"
-  add_foreign_key "vehicles", "shipping_methods"
+  create_table "work_orders", force: :cascade do |t|
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.string "number"
+    t.string "customer_name"
+    t.string "customer_cpf"
+    t.string "customer_phone_numer"
+    t.integer "total_price"
+    t.string "product_name"
+    t.integer "product_weight"
+    t.string "sku"
+    t.date "departure_date"
+    t.date "shipping_expected_date"
+    t.date "shipping_date"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 end

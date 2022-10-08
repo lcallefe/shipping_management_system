@@ -1,0 +1,19 @@
+<h1>Cadastrar Preço</h1>
+<%= render 'error' %>
+<%= form_with(model: @third_price_weight) do |f| %>
+  <div>
+    <%= f.label :min_weight %>
+    <%= f.number_field :min_weight %>
+  </div><br/>
+  <div>
+    <%= f.label :max_weight %>
+    <%= f.number_field :max_weight %>
+  </div><br/>
+  <div>
+    <%= f.label :price %>
+    <%= f.number_field :price %>
+  </div><br/>
+  <%= f.submit 'Salvar' %>
+<% end %>
+
+<%= link_to 'Voltar', expressas_path %>
