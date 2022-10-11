@@ -35,7 +35,7 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 
 <h2>Criação de ordem de serviço</h2>
 
-- [ ] Administrador cadastra ordem de serviço
+- [x] Administrador cadastra ordem de serviço
 - [ ] Validações
 
 <h2>Inicialização de ordem de serviço</h2>
