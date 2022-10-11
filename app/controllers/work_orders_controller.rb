@@ -248,7 +248,7 @@ class WorkOrdersController < ApplicationController
       @fee_expressa = @price_distance_expressa + (@work_order.distance * @price_weight_expressa) + (flat_fee_expressa)
     end
 
-    if !@price_distance_sedex.nil? && !@price_weight_sedex.nil? && !flat_fee_sedex.nil? && !delivery_time_sedex.nil?
+    if !@price_distance_sedex.nil? && !@price_weight_sedex.nil? && !flat_fee_sedex.nil? && !@delivery_time_sedex.nil?
       @fee_sedex = @price_distance_sedex + (@work_order.distance * @price_weight_sedex) + (flat_fee_sedex)
     end
     
