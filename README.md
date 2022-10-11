@@ -58,6 +58,7 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 - [x] Usuário não autenticado consulta status de entrega
 
 <h2>Outros</h2>
+
 - [ ] Refatorar código -- criação de novas rotas, mover validações importantes do controller pro model de ordens de serviço
 - [ ] Layout do sistema
 
