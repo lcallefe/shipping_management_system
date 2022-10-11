@@ -69,10 +69,13 @@ class WorkOrdersController < ApplicationController
         @work_order.update(shipping_date: Date.today)
       # end
       if @work_order.shipping_date > @work_order.shipping_expected_date
-        @work_order.encerrada_em_atraso!
-        Vehicle.find_by(work_order_id:@work_order.id).ativo!
-        @work_order.update(delay_reason_param)
-        redirect_to pending_work_orders_path, notice: 'Ordem de serviço encerrada com sucesso.'
+        if @work_order.update(delay_reason_param)
+          @work_order.encerrada_em_atraso!
+          Vehicle.find_by(work_order_id:@work_order.id).ativo!
+          redirect_to pending_work_orders_path, notice: 'Ordem de serviço encerrada com sucesso.'
+        else  
+          redirect_to edit_work_order_path(@work_order.id), notice:'Motivo do atraso não pode ficar em branco.' 
+        end
       else
         @work_order.encerrada_no_prazo!
         Vehicle.find_by(work_order_id:@work_order.id).ativo!

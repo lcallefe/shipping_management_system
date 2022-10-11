@@ -9,9 +9,11 @@ class WorkOrder < ApplicationRecord
   validates :customer_cpf, length: { is: 11 }
   validates :product_weight, :distance, numericality: { greater_than: 0 }
   validate :check_address
+  validates :delay_reason, presence: true, if: :check_delay_reason?
   enum status: { pendente: 0, em_progresso: 1, encerrada_no_prazo: 3, encerrada_em_atraso: 4 }
   before_create :generate_code
 
+  
   private
   def generate_code
     self.code = SecureRandom.alphanumeric(15).upcase
@@ -30,4 +32,7 @@ class WorkOrder < ApplicationRecord
       errors.add(:street, " do cliente deve ser diferente do destinatário")
     end
   end 
+  def check_delay_reason? 
+    !self.id.nil? && !self.shipping_expected_date.nil? && Date.today > self.shipping_expected_date
+  end
 end

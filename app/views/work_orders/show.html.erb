@@ -1,9 +1,9 @@
 <h1>Detalhes da ordem de serviço</h1>
   <dl>
     <dt>Endereço Destino:</dt>
-    <dd><%= @work_order.street %>, <%= @work_order.number %>, <%= @work_order.city %> - <%= @work_order.state %> </dd>
+    <dd><%= @work_order.full_warehouse_address %>
     <dt>Endereço de retirada:</dt>
-    <dd><%= @work_order.warehouse_street %>, <%= @work_order.warehouse_number %>, <%= @work_order.warehouse_city %> - <%= @work_order.warehouse_state %> </dd>
+    <dd><%= @work_order.full_customer_address %>
     <dt>Dados do cliente:</dt>
     <dd>Nome:<%= @work_order.customer_name %></dd>
     <dd>CPF:<%= @work_order.customer_cpf %></dd>
