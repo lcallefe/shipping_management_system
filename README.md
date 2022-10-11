@@ -36,24 +36,24 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 <h2>Criação de ordem de serviço</h2>
 
 - [x] Administrador cadastra ordem de serviço
-- [ ] Validações
+- [ ] Validações - pendentes testes unitários para ordem de serviço
 
 <h2>Inicialização de ordem de serviço</h2>
 
-- [ ] Usuário vê ordens de serviço pendentes
-- [ ] Usuário vê detalhes de ordem de serviço
-- [ ] Usuário inicia ordem de serviço
-- [ ] Configuração de preços
-- [ ] Configuração de prazos
-- [ ] Demais validações
+- [x] Usuário vê ordens de serviço pendentes
+- [x] Usuário vê detalhes de ordem de serviço
+- [x] Usuário inicia ordem de serviço
+- [x] Configuração de preços
+- [x] Configuração de prazos
+- [] Demais validações - pendentes testes unitários para ordem de serviço
 
 <h2>Encerrar ordem de serviço</h2>
 
-- [ ] Usuário vê ordens de serviço em andamento
-- [ ] Validações
+- [x] Usuário vê ordens de serviço em andamento
+- [] Validações
   
 <h2>Consultar entrega</h2>
 
-- [ ] Usuário não autenticado consulta status de entrega
+- [x] Usuário não autenticado consulta status de entrega
 
 # Instalação (WIP)
