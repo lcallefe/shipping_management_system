@@ -50,8 +50,8 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 <h2>Encerrar ordem de serviço</h2>
 
 - [x] Usuário vê ordens de serviço em andamento
-- [ ] Usuário finaliza ordens de serviço
-- [ ] Validações
+- [x] Usuário finaliza ordens de serviço
+- [ ] Validações --pendentes testes unitários para ordem de serviço
   
 <h2>Consultar entrega</h2>
 
