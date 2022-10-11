@@ -45,12 +45,12 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 - [x] Usuário inicia ordem de serviço
 - [x] Configuração de preços
 - [x] Configuração de prazos
-- [] Demais validações - pendentes testes unitários para ordem de serviço
+- [ ] Demais validações - pendentes testes unitários para ordem de serviço
 
 <h2>Encerrar ordem de serviço</h2>
 
 - [x] Usuário vê ordens de serviço em andamento
-- [] Validações
+- [ ] Validações
   
 <h2>Consultar entrega</h2>
 
