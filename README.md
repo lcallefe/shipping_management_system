@@ -50,10 +50,16 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 <h2>Encerrar ordem de serviço</h2>
 
 - [x] Usuário vê ordens de serviço em andamento
+- [ ] Usuário finaliza ordens de serviço
 - [ ] Validações
   
 <h2>Consultar entrega</h2>
 
 - [x] Usuário não autenticado consulta status de entrega
+
+<h2>Outros</h2>
+- [ ] Refatorar código -- criação de novas rotas, mover validações importantes do controller pro model de ordens de serviço
+- [ ] Layout do sistema
+
 
 # Instalação (WIP)
