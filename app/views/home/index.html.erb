@@ -1,5 +1,6 @@
 <% if user_signed_in? %>
   <h1>Sistema de frete</h1><br/>
+ 
 
   <h2>Selecione a opção desejada:</h2><br/>
   <h3>Modalidades de transporte:</h3><br/>
@@ -8,7 +9,8 @@
   <%= link_to 'Sedex 10', sedex_dezs_path %> <br/><br/>
   <h3> Ordens de serviço </h3>
   <%= link_to 'Ordens de serviço', work_orders_path %>
-  <h3>Veículos</h3>  
+  <h3>Veículos</h3> 
+  <%= link_to 'Busca por veículo', search_vehicles_path %> 
 <% else %>
   <%= link_to 'Consultar entrega', work_orders_path %>
 <% end %>

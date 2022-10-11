@@ -20,7 +20,10 @@ Rails.application.routes.draw do
   resources :third_delivery_time_distances, only:[:index, :new, :edit, :update, :create]
   resources :work_orders, only:[:index, :new, :create, :show, :edit, :update, :show] do 
     get 'search', on: :collection
-    get 'complete', on: :member
     get 'pending', on: :collection
   end
+  resources :vehicles, only:[:index, :show] do 
+    get 'search', on: :collection
+  end
+
 end

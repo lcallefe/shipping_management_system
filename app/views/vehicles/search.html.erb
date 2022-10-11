@@ -1,0 +1,23 @@
+<%= search_form_for @q do |f| %>
+  <%= f.label :query, 'Buscar veículo' %>
+  <%= f.search_field :license_plate %>
+  <%= f.select :status_eq, Vehicle.statuses.keys.to_a %>
+  <%= f.submit %>
+<% end %>
+
+<% if @vehicles.present? %>
+<h1>Resultados da busca:</h1>
+<% @vehicles.each do |vehicle| %>
+<dl>
+  <dt><%= 'Modelo:' %></dt> 
+  <dd><%= vehicle.brand_name_and_model %>
+  <dt><%= 'Status: '%></dt> 
+  <dd><%= vehicle.status %></dd><br/>
+  <dt><%= link_to "Ver detalhes", vehicle_path(vehicle.id) %></dt> 
+<% end %>
+<% else %>
+  <%= 'Nenhum veículo encontrado.' %>
+<% end %>
+
+
+

@@ -20,6 +20,10 @@
     <dt><%= 'Data de entrega: '%></dt> 
     <dd><%= I18n.l(@work_order.shipping_date) %></dd><br/>
   <% end %>
+  <% if !@work_order.shipping_date.nil? && @work_order.shipping_date > @work_order.shipping_expected_date %>
+    <dt><%= 'Motivo do atraso: '%></dt> 
+    <dd><%= @work_order.delay_reason %></dd><br/>
+  <% end %>
 </dl>
 <% else %>
   <%= 'Nenhum pedido encontrado.' %>
