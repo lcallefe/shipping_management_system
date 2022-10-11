@@ -5,7 +5,7 @@ describe 'Usuário cria uma conta' do
     # Arrange
 
     # Act
-    visit root_path
+    visit new_user_session_path
     click_on 'Criar uma conta'
     fill_in 'E-mail', with: 'josé@sistemadefrete.com.br'
     fill_in 'Nome', with: 'José'
@@ -25,7 +25,7 @@ describe 'Usuário cria uma conta' do
     # Arrange
 
     # Act
-    visit root_path
+    visit new_user_session_path
     click_on 'Criar uma conta'
     fill_in 'E-mail', with: 'maria@maria.com'
     fill_in 'Nome', with: 'Maria'

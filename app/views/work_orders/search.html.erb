@@ -1,0 +1,26 @@
+<h1>Resultados da busca por: <%= @work_order.code %></h1> 
+
+<% if @work_order.present? %>
+<dl>
+  <dt><%= 'Endereço de saída: ' %></dt> 
+  <dd><%= @work_order.warehouse_street %>, <%= @work_order.warehouse_number %>, <%= @work_order.warehouse_city %> - <%= @work_order.warehouse_state %></dd><br/> 
+  <dt><%= 'Endereço de entrega: ' %></dt> 
+  <dd><%= @work_order.street %>, <%= @work_order.number %>, <%= @work_order.city %> - <%= @work_order.state %></dd><br/> 
+  <dt><%= 'Informações do veículo:' %></dt><br/>
+  <dt><%= 'Marca: '%></dt> 
+  <dd><%= @vehicle.brand_name %></dd><br/>
+  <dt><%= 'Modelo: '%></dt> 
+  <dd><%= @vehicle.model %></dd><br/>
+  <dt><%= 'Placa: '%></dt> 
+  <dd><%= @vehicle.license_plate %></dd><br/>
+  <dt><%= 'Ano de fabricação: '%></dt> 
+  <%= @vehicle.fabrication_year %><br/><br/>
+  <dt><%= 'Data prevista de entrega: '%></dt> 
+  <dd><%= I18n.l(@work_order.shipping_expected_date) %></dd><br/>
+  <% if !@work_order.shipping_date.nil? %>
+    <dt><%= 'Data de entrega: '%></dt> 
+    <dd><%= I18n.l(@work_order.shipping_date) %></dd><br/>
+  <% end %>
+</dl>
+<% end %>
+

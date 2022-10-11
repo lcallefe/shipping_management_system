@@ -1,0 +1,60 @@
+<%= link_to 'Voltar', work_orders_path %>
+<div class="col-xs-6">
+  <h3 class="sub-header">Lista de ordens de serviço pendentes:</h3>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-1">Código</th>
+          <th class="col-md-3">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <% if @work_orders.present? %>
+          <% @work_orders.each do |w| %>
+            <tr>
+              <td class="col-md-1"> <%= w.code %></td> 
+              <td class="col-md-3"> <%= w.status.titleize %> </td> 
+              <td class="col-md-4"> <%= link_to 'Inicializar ordem de serviço', edit_work_order_path(w.id) %></td>
+            <tr>
+          <% end %>
+        <% else %>
+          <p>Nenhuma ordem de serviço cadastrada</p>
+        <% end %>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+<div class="col-xs-6">
+<div class="col-xs-6">
+  <h3 class="sub-header">Lista de ordens de serviço em andamento:</h3>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-md-1">Código</th>
+          <th class="col-md-2">Data Prevista de Entrega</th>
+          <th class="col-md-3">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <% if @work_orders_in_progress.present? %>
+          <% @work_orders_in_progress.each do |w| %>
+            <tr>
+              <td class="col-md-1"> <%= w.code %></td> 
+              <td class="col-md-2"> <%= I18n.l(w.shipping_expected_date) if w.shipping_expected_date %></td> 
+              <td class="col-md-3"> <%= w.status.titleize %> </td> 
+              <td class="col-md-4"> <%= link_to 'Encerrar ordem de serviço', edit_work_order_path(w.id) %></td>
+              <td class="col-md-4"> <%= link_to 'Ver detalhes de ordem de serviço', work_order_path(w.id) %></td>
+            <tr>
+          <% end %>
+        <% else %>
+          <p>Nenhuma ordem de serviço cadastrada</p>
+        <% end %>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+<div class="col-xs-6">

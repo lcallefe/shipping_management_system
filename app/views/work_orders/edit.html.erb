@@ -1,0 +1,53 @@
+<%= render 'error' %>
+<%= link_to 'Voltar', pending_work_orders_path %>
+  <% if !@shipping_methods.empty? && @work_order.pendente? %>
+    <h3><%='Modalidades de entrega disponíveis'%></h3>
+
+    <%= form_with(model:@work_order) do |f|%>
+      <% @shipping_methods.each do |k, v|%>
+        <div>
+        <div><br/>
+          <%= 'Modalidade' %><br/>
+          <%= f.radio_button :shipping_method, k.titleize, :checked => true %>
+          <%= f.label :shipping_method, k.titleize  %>
+        </div><br/>
+        <div>
+          <%= "Preço #{k.titleize}:" %><br/>
+          <%= number_to_currency(v, :unit => "R$ ", :separator => ",", :delimiter => ".")%>
+        </div>
+        <% if k == 'expressa' %>
+          <%= "Prazo Modalidade Expressa:" %><br/>
+          <%= @delivery_time_expressa %>h
+        <% end %><br/>
+        <% if k == 'sedex' %>
+          <%= "Prazo Modalidade Sedex:" %><br/>
+          <%= @delivery_time_sedex %>h
+        <% end %>
+        <% if k == 'sedex_dez' %>
+          <%= "Prazo Modalidade Sedex Dez:" %><br/>
+          <%= @delivery_time_sedex_dez %>h
+        <% end %><br/>
+      </div>
+  <% end %>
+  <%= f.submit 'Salvar' %>
+
+  <% end %>
+  <% elsif @shipping_methods.empty? && @work_order.pendente?  %>
+    <%= 'Não há modalidades de entrega disponíveis.' %>
+  <% else %>
+
+<%= form_with(model: @work_order, method:"patch") do |f| %>
+  <% if Date.today > @work_order.shipping_expected_date %>
+    <div>
+      <%= f.label :delay_reason %>
+      <%= f.text_area :delay_reason %>
+    </div><br/><br/>
+  <% end %>
+<%= f.submit 'Encerrar ordem de serviço' %>
+<% end %>
+<% end %>
+
+  
+
+    
+    

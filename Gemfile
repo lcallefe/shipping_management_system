@@ -20,9 +20,17 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
 gem 'devise'
 
+gem 'sass-rails'
+
+gem 'turbolinks'
+
 gem 'bootstrap', '~> 5.2.1'
 
+gem 'popper_js', '~> 2.11.5'
+
 gem 'jquery-rails'
+
+gem 'bootstrap-sass', '~> 2.3.1.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

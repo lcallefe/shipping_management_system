@@ -17,7 +17,7 @@ feature 'Usuário faz login' do
     # Arrange
     User.create!(name: 'Maria da Silva', email: 'mariadasilva@sistemadefrete.com.br', password: '12345678')
     # Act
-    visit root_path
+    visit new_user_session_path
     fill_in 'E-mail', with: 'mariadasilva@sistemadefrete.com.br'
     fill_in 'Senha', with: '12345678'
     click_on 'Entrar'
@@ -33,7 +33,7 @@ feature 'Usuário faz login' do
   scenario 'e faz logout' do
     User.create!(name: 'João Santos', email: 'joãosantos@sistemadefrete.com.br', password: '12345678')
 
-    visit root_path
+    visit new_user_session_path
     fill_in 'E-mail', with: 'joãosantos@sistemadefrete.com.br'
     fill_in 'Senha', with: '12345678'
     click_on 'Entrar'
@@ -42,7 +42,7 @@ feature 'Usuário faz login' do
     expect(page).not_to have_content 'Olá João Santos'
     expect(page).not_to have_content 'Login efetuado com sucesso.'
     expect(page).not_to have_link 'Sair'
-    expect(page).to have_content 'Para continuar, faça login ou registre-se.'
+    expect(page).to have_content 'Consultar entrega'
   end
 
 end

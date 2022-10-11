@@ -8,6 +8,7 @@ describe 'Administrador cria uma ordem de serviço' do
     # Act
     login_as(user)
     visit root_path
+    click_on 'Ordens de serviço'
     click_on 'Criar nova ordem de serviço'
     fill_in 'Endereço', with: 'Rua Dr Nogueira Martins'
     fill_in 'Cidade', with: 'São Paulo'
@@ -29,7 +30,7 @@ describe 'Administrador cria uma ordem de serviço' do
     # Assert
     expect(page).to have_content 'Ordem de serviço registrada com sucesso.'
     expect(page).to have_link('Sair', href: destroy_user_session_path)
-    expect(current_path).to eq root_path
+    expect(current_path).to eq pending_work_orders_path
   end
 
   it 'com dados inválidos' do
@@ -39,11 +40,12 @@ describe 'Administrador cria uma ordem de serviço' do
     # Act
     login_as(user)
     visit root_path
+    click_on 'Ordens de serviço'
     click_on 'Criar nova ordem de serviço'
-    fill_in 'Endereço', with: 'Rua Dr Nogueira Martins'
+    fill_in 'Endereço', with: 'Av Paulista'
     fill_in 'Cidade', with: 'São Paulo'
     fill_in 'Estado', with: 'SP'
-    fill_in 'Número', with: '680'
+    fill_in 'Número', with: '100'
     fill_in 'Nome do cliente', with: 'Francisca'
     fill_in 'CPF', with: '222'
     fill_in 'Telefone', with: '11916031367'
@@ -52,18 +54,19 @@ describe 'Administrador cria uma ordem de serviço' do
     fill_in 'Peso do produto', with: -1
     fill_in 'Endereço (remetente)', with: 'Av Paulista'
     fill_in 'Cidade (remetente)', with: 'São Paulo'
-    fill_in 'Estado (remetente)', with: 'São Paulo'
-    fill_in 'Número (remetente)', with: 'São Paulo'
+    fill_in 'Estado (remetente)', with: 'SP'
+    fill_in 'Número (remetente)', with: '100'
     fill_in 'Distância remetente x destinatário', with: 0
     click_on 'Salvar'
  
     # Assert
     expect(page).to have_content 'CPF não possui o tamanho esperado (11 caracteres)'
     expect(page).to have_content 'Distância remetente x destinatário deve ser maior que 0'
+    expect(page).to have_content 'Endereço do cliente deve ser diferente do destinatário'
     expect(page).to have_content 'Peso do produto deve ser maior que 0'
     expect(page).to have_link('Voltar', href: root_path)
     expect(page).to have_link('Sair', href: destroy_user_session_path)
-    expect(current_path).to eq work_orders_path
+    expect(current_path).not_to eq pending_work_orders_path
   end
   it 'e mantém campos obrigatórios' do
     # Arrange
@@ -72,6 +75,7 @@ describe 'Administrador cria uma ordem de serviço' do
     # Act
     login_as(user)
     visit root_path
+    click_on 'Ordens de serviço'
     click_on 'Criar nova ordem de serviço'
     fill_in 'Endereço', with: ''
     fill_in 'Cidade', with: 'São Paulo'
@@ -97,6 +101,6 @@ describe 'Administrador cria uma ordem de serviço' do
     expect(page).to have_content 'Peso do produto não pode ficar em branco'
     expect(page).to have_content 'Distância remetente x destinatário não pode ficar em branco'
     expect(page).to have_link('Sair', href: destroy_user_session_path)
-    expect(current_path).to eq work_orders_path
+    expect(current_path).not_to eq pending_work_orders_path
   end
 end

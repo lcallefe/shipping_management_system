@@ -23,6 +23,8 @@ pt-BR:
         warehouse_state: 'Estado (remetente)'
         warehouse_number: 'Número (remetente)'
         distance: 'Distância remetente x destinatário'
+        code: 'Código'
+        delay_reason: 'Motivo do atraso'
 
 
 

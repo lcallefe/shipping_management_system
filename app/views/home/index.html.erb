@@ -1,17 +1,14 @@
+<% if user_signed_in? %>
+  <h1>Sistema de frete</h1><br/>
 
-<h1>Sistema de frete</h1><br/>
-
-<h2>Selecione a opção desejada:</h2><br/>
-<h3>Modalidades de transporte:</h3><br/>
-<%= link_to 'Expressa', expressas_path %> <br/>
-<%= link_to 'Sedex', sedexes_path %> <br/>
-<%= link_to 'Sedex 10', sedex_dezs_path %> <br/><br/>
-
-<h3>Lista de ordens de serviço:</h3><br/>
-
-<% if current_user.admin? %>
-    <%= link_to 'Criar nova ordem de serviço', new_work_order_path %> <br/><br/>
+  <h2>Selecione a opção desejada:</h2><br/>
+  <h3>Modalidades de transporte:</h3><br/>
+  <%= link_to 'Expressa', expressas_path %> <br/>
+  <%= link_to 'Sedex', sedexes_path %> <br/>
+  <%= link_to 'Sedex 10', sedex_dezs_path %> <br/><br/>
+  <h3> Ordens de serviço </h3>
+  <%= link_to 'Ordens de serviço', work_orders_path %>
+  <h3>Veículos</h3>  
+<% else %>
+  <%= link_to 'Consultar entrega', work_orders_path %>
 <% end %>
-
-<h3>Outros:</h3><br/>   
-

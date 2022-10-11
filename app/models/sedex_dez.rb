@@ -10,7 +10,7 @@ class SedexDez < ApplicationRecord
 
   private
   def set_defaults
-    self.name ||= 'sedex dez'
+    self.name ||= 'sedex_dez'
   end
   def validate_flat_fee
     if (!flat_fee.nil? && flat_fee <= 0)

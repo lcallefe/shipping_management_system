@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_08_102511) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_10_101321) do
   create_table "expressas", force: :cascade do |t|
     t.string "name"
     t.integer "flat_fee"
@@ -149,15 +149,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_08_102511) do
     t.string "brand_name"
     t.string "fabrication_year"
     t.integer "full_capacity"
-    t.integer "status", default: 1
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sedex_dez_id"
     t.integer "sedex_id"
     t.integer "expressa_id"
+    t.string "license_plate"
+    t.string "model"
+    t.integer "work_order_id"
     t.index ["expressa_id"], name: "index_vehicles_on_expressa_id"
     t.index ["sedex_dez_id"], name: "index_vehicles_on_sedex_dez_id"
     t.index ["sedex_id"], name: "index_vehicles_on_sedex_id"
+    t.index ["work_order_id"], name: "index_vehicles_on_work_order_id"
   end
 
   create_table "work_orders", force: :cascade do |t|
@@ -185,6 +189,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_08_102511) do
     t.integer "distance"
     t.string "code"
     t.string "shipping_method"
+    t.string "delay_reason"
   end
 
+  add_foreign_key "vehicles", "work_orders"
 end

@@ -1,0 +1,23 @@
+<h1>Detalhes da ordem de serviço</h1>
+  <dl>
+    <dt>Endereço Destino:</dt>
+    <dd><%= @work_order.street %>, <%= @work_order.number %>, <%= @work_order.city %> - <%= @work_order.state %> </dd>
+    <dt>Endereço de retirada:</dt>
+    <dd><%= @work_order.warehouse_street %>, <%= @work_order.warehouse_number %>, <%= @work_order.warehouse_city %> - <%= @work_order.warehouse_state %> </dd>
+    <dt>Dados do cliente:</dt>
+    <dd>Nome:<%= @work_order.customer_name %></dd>
+    <dd>CPF:<%= @work_order.customer_cpf %></dd>
+    <dd>Telefone:<%= @work_order.customer_phone_numer %></dd>
+    <dt>Data de Início:</dt>
+    <dd><%= I18n.l(@work_order.departure_date) %> </dd>
+    <dt>Data prevista de entrega:</dt>
+    <dd><%= I18n.l(@work_order.shipping_expected_date) %> </dd>
+    <dt>Prazo:</dt>
+    <% if (@work_order.departure_date - @work_order.shipping_expected_date) == 0 %>
+    <dd><%= "Chegará Hoje" %> </dd>
+    <% else %>
+    <dd><%= (@work_order.shipping_expected_date - @work_order.departure_date) %>dias</dd>
+    <% end %>
+    <dt>Valor total:</dt>
+    <dd><%= number_to_currency(@work_order.total_price, :unit => "R$ ", :separator => ",", :delimiter => ".") %> </dd>
+  <dl>

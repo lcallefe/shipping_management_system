@@ -47,7 +47,7 @@ describe 'Usuáro vê modalidade de transporte Sedex' do
     expect(page).to have_content('Sedex')
     expect(page).to have_content('Sedex')
     expect(page).to have_content('Sedex 10')
-    expect(page).to have_content('Lista de ordens de serviço:')
+    expect(page).to have_content('Ordens de serviço')
     expect(page).to have_link('Sair', href: destroy_user_session_path)
     expect(page).not_to have_link('Voltar')
     expect(current_path).to eq(root_path)
