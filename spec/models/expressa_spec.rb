@@ -12,6 +12,15 @@ RSpec.describe Expressa, type: :model do
         expect(shipping_method.errors.include?(:flat_fee)).to be true  
         expect(shipping_method.errors[:flat_fee]).to include("deve ser maior que 0")
       end
+      it 'falso quando taxa fixa é igual a 0' do
+        # Arrange
+        shipping_method = Expressa.new(flat_fee: 0)
+        # Act
+        shipping_method.valid?
+        # Assert
+        expect(shipping_method.errors.include?(:flat_fee)).to be true  
+        expect(shipping_method.errors[:flat_fee]).to include("deve ser maior que 0")
+      end
       it 'falso quando taxa fixa não é um número inteiro' do
         # Arrange
         shipping_method = Expressa.new(flat_fee: 'goiaba')

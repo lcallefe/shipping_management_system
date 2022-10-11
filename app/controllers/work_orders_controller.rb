@@ -238,7 +238,7 @@ class WorkOrdersController < ApplicationController
     find_shipping_method_price_weight
     find_shipping_method_price_distance
     find_shipping_method_delivery_time
-      
+
     flat_fee_expressa = Expressa.find_by(work_order_id: @work_order.id).flat_fee if Expressa.find_by(work_order_id: @work_order.id)
     flat_fee_sedex = Sedex.find_by(work_order_id: @work_order.id).flat_fee if Sedex.find_by(work_order_id: @work_order.id)
     flat_fee_sedex_dez = SedexDez.find_by(work_order_id: @work_order.id).flat_fee if SedexDez.find_by(work_order_id: @work_order.id)
