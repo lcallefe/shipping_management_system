@@ -237,21 +237,22 @@ class WorkOrdersController < ApplicationController
     @work_order = WorkOrder.find(params[:id])
     find_shipping_method_price_weight
     find_shipping_method_price_distance
+    find_shipping_method_delivery_time
       
     flat_fee_expressa = Expressa.find_by(work_order_id: @work_order.id).flat_fee if Expressa.find_by(work_order_id: @work_order.id)
     flat_fee_sedex = Sedex.find_by(work_order_id: @work_order.id).flat_fee if Sedex.find_by(work_order_id: @work_order.id)
     flat_fee_sedex_dez = SedexDez.find_by(work_order_id: @work_order.id).flat_fee if SedexDez.find_by(work_order_id: @work_order.id)
    
 
-    if !@price_distance_expressa.nil? && !@price_weight_expressa.nil? && !flat_fee_expressa.nil?
+    if !@price_distance_expressa.nil? && !@price_weight_expressa.nil? && !flat_fee_expressa.nil? && !@delivery_time_expressa.nil?
       @fee_expressa = @price_distance_expressa + (@work_order.distance * @price_weight_expressa) + (flat_fee_expressa)
     end
 
-    if !@price_distance_sedex.nil? && !@price_weight_sedex.nil? && !flat_fee_sedex.nil?
+    if !@price_distance_sedex.nil? && !@price_weight_sedex.nil? && !flat_fee_sedex.nil? && !delivery_time_sedex.nil?
       @fee_sedex = @price_distance_sedex + (@work_order.distance * @price_weight_sedex) + (flat_fee_sedex)
     end
     
-    if !@price_distance_sd.nil? && !@price_weight_sedex_dez.nil? && !flat_fee_sedex_dez.nil?
+    if !@price_distance_sd.nil? && !@price_weight_sedex_dez.nil? && !flat_fee_sedex_dez.nil? && !@delivery_time_sedex_dez.nil?
       @fee_sedex_dez = @price_distance_sd + (@work_order.distance * @price_weight_sedex_dez) + (flat_fee_sedex_dez)
     end
    
