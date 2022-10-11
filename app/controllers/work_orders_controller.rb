@@ -22,7 +22,6 @@ class WorkOrdersController < ApplicationController
   def pending
     @work_orders = WorkOrder.where(status:0)
     @work_orders_in_progress = WorkOrder.where(status:1)
-    @work_orders_completed = WorkOrder.where('status=? OR status=?', 3, 4)
   end
 
   def edit
@@ -89,7 +88,7 @@ class WorkOrdersController < ApplicationController
   def search 
     @code = params["query"]
     @work_order = WorkOrder.find_by(code: params["query"])
-    @vehicle = Vehicle.find_by(work_order_id:@work_order.id)
+    @vehicle = Vehicle.find_by(work_order_id:@work_order.id) if !@work_order.nil?
   end
 
   private
