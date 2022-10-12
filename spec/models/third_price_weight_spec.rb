@@ -56,7 +56,7 @@ RSpec.describe ThirdPriceWeight, type: :model do
       it 'verdadeiro quando preço é positivo' do
         # Arrange
         shipping_method = ThirdPriceWeight.new(min_weight:10, max_weight:20, 
-                                               price:15)
+                                               price:49)
         # Act
         shipping_method.valid?
         # Assert

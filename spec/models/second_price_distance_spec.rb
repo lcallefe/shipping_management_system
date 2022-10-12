@@ -56,7 +56,7 @@ RSpec.describe SecondPriceDistance, type: :model do
       it 'verdadeiro quando preço é positivo' do
         # Arrange
         shipping_method = SecondPriceDistance.new(min_distance:10, max_distance:20, 
-                                                  price:12)
+                                                  price:1)
         # Act
         shipping_method.valid?
         # Assert

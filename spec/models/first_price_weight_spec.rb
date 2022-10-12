@@ -56,7 +56,7 @@ RSpec.describe FirstPriceWeight, type: :model do
       it 'verdadeiro quando preço é positivo' do
         # Arrange
         shipping_method = FirstPriceWeight.new(min_weight:10, max_weight:20, 
-                                               price:15)
+                                               price:69)
         # Act
         shipping_method.valid?
         # Assert
@@ -113,7 +113,7 @@ RSpec.describe FirstPriceWeight, type: :model do
       end
       it 'verdadeiro quando peso máximo é positivo' do
         # Arrange
-        shipping_method = FirstPriceWeight.new(min_weight:0, max_weight:1, 
+        shipping_method = FirstPriceWeight.new(min_weight:0, max_weight:99, 
                                                price:20)
         # Act
         shipping_method.valid?
@@ -133,7 +133,7 @@ RSpec.describe FirstPriceWeight, type: :model do
       it 'verdadeiro quando peso máximo é igual a 100' do
         # Arrange
         shipping_method = FirstPriceWeight.new(min_weight:1, max_weight:100, 
-                                               price:30)
+                                               price:45)
         # Act
         shipping_method.valid?
         # Assert
@@ -141,7 +141,7 @@ RSpec.describe FirstPriceWeight, type: :model do
       end
       it 'falso quando preço é maior que 70' do
         # Arrange
-        shipping_method = FirstPriceWeight.new(min_weight:1, max_weight:100, 
+        shipping_method = FirstPriceWeight.new(min_weight:1, max_weight:99, 
                                                price:71)
         # Act
         shipping_method.valid?
@@ -161,7 +161,7 @@ RSpec.describe FirstPriceWeight, type: :model do
       it 'falso quando peso mínimo é maior que peso máximo' do
         # Arrange
         shipping_method = FirstPriceWeight.new(min_weight:2, max_weight:1, 
-                                               price:29)
+                                               price:69)
         # Act
         shipping_method.valid?
         # Assert
@@ -201,9 +201,9 @@ RSpec.describe FirstPriceWeight, type: :model do
       it 'falso quando peso máximo do intervalo atual é maior que peso mínimo do pŕoximo' do
         # Arrange
         shipping_method = FirstPriceWeight.new(min_weight:25, max_weight:30, 
-                                                price:'b')
+                                                price:69)
         second_shipping_method = FirstPriceWeight.new(min_weight:1, max_weight:26, 
-                                                       price:'b')
+                                                       price:70)
         # Act
         second_shipping_method.valid?
         # Assert

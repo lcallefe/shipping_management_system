@@ -5,7 +5,7 @@ RSpec.describe Expressa, type: :model do
     context 'numericality' do    
       it 'falso quando taxa fixa é negativa' do
         # Arrange
-        shipping_method = Expressa.new(flat_fee: -10)
+        shipping_method = Expressa.new(flat_fee: -1)
         # Act
         shipping_method.valid?
         # Assert
@@ -33,7 +33,7 @@ RSpec.describe Expressa, type: :model do
     end
     it 'status deve ser ativo por padrão' do 
       # Arrange
-      shipping_method = Expressa.new(flat_fee:10)
+      shipping_method = Expressa.new(flat_fee:1)
       # Act
       shipping_method.valid?
       # Assert

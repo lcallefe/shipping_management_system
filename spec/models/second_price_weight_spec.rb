@@ -55,7 +55,7 @@ RSpec.describe SecondPriceWeight, type: :model do
       end
       it 'verdadeiro quando preço é positivo' do
         # Arrange
-        shipping_method = SecondPriceWeight.new(min_weight:10, max_weight:20, 
+        shipping_method = SecondPriceWeight.new(min_weight:1, max_weight:20, 
                                                 price:15)
         # Act
         shipping_method.valid?

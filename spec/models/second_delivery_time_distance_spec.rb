@@ -56,7 +56,7 @@ RSpec.describe SecondDeliveryTimeDistance, type: :model do
       it 'verdadeiro quando prazo é positivo' do
         # Arrange
         shipping_method = SecondDeliveryTimeDistance.new(min_distance:10, max_distance:20, 
-                                                         delivery_time:48)
+                                                         delivery_time:239)
         # Act
         shipping_method.valid?
         # Assert
@@ -113,7 +113,7 @@ RSpec.describe SecondDeliveryTimeDistance, type: :model do
       end
       it 'verdadeiro quando distância máxima é positiva' do
         # Arrange
-        shipping_method = SecondDeliveryTimeDistance.new(min_distance:0, max_distance:1, 
+        shipping_method = SecondDeliveryTimeDistance.new(min_distance:0, max_distance:499, 
                                                          delivery_time:48)
         # Act
         shipping_method.valid?

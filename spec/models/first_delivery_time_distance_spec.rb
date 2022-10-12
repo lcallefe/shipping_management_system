@@ -56,7 +56,7 @@ RSpec.describe FirstDeliveryTimeDistance, type: :model do
       it 'verdadeiro quando prazo é positivo' do
         # Arrange
         shipping_method = FirstDeliveryTimeDistance.new(min_distance:10, max_distance:20, 
-                                                        delivery_time:48)
+                                                        delivery_time:1)
         # Act
         shipping_method.valid?
         # Assert
@@ -113,7 +113,7 @@ RSpec.describe FirstDeliveryTimeDistance, type: :model do
       end
       it 'verdadeiro quando distância máxima é positiva' do
         # Arrange
-        shipping_method = FirstDeliveryTimeDistance.new(min_distance:0, max_distance:1, 
+        shipping_method = FirstDeliveryTimeDistance.new(min_distance:1, max_distance:999, 
                                                         delivery_time:48)
         # Act
         shipping_method.valid?
@@ -161,7 +161,7 @@ RSpec.describe FirstDeliveryTimeDistance, type: :model do
       it 'falso quando distância mínima é maior que distância máxima' do
         # Arrange
         shipping_method = FirstDeliveryTimeDistance.new(min_distance:2, max_distance:1, 
-                                                        delivery_time:120)
+                                                        delivery_time:119)
         # Act
         shipping_method.valid?
         # Assert
@@ -201,9 +201,9 @@ RSpec.describe FirstDeliveryTimeDistance, type: :model do
       it 'falso quando distância máxima do intervalo atual é maior que distância mínima do pŕoximo' do
         # Arrange
         shipping_method = FirstDeliveryTimeDistance.new(min_distance:20, max_distance:50, 
-                                              delivery_time:'b')
+                                              delivery_time:119)
         second_shipping_method = FirstDeliveryTimeDistance.new(min_distance:1, max_distance:21, 
-                                              delivery_time:'b')
+                                              delivery_time:120)
         # Act
         second_shipping_method.valid?
         # Assert
