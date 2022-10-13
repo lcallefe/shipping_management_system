@@ -6,11 +6,15 @@ class SecondPriceDistancesController < ApplicationController
 
   def create
     second_price_distance_params
+    count = SecondPriceDistance.count
     @second_price_distance = SecondPriceDistance.create(second_price_distance_params)
-
-    if @second_price_distance.save 
+    
+    if @second_price_distance.save && SecondPriceDistance.count > count
       redirect_to sedexes_path, notice: 'Intervalo cadastrado com sucesso.'
-    else  
+    elsif @second_price_distance.save && SecondPriceDistance.count == count
+      flash.now[:notice] = 'Intervalo inválido.'
+      render 'edit'
+    else
       flash.now[:notice] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
       render 'new'
     end
@@ -21,17 +25,12 @@ class SecondPriceDistancesController < ApplicationController
   def update
     second_price_distance_params
     @second_price_distance = SecondPriceDistance.find(params[:id])
-    if SecondPriceDistance.count > 1
-      next_line = SecondPriceDistance.where("id > ?", @second_price_distance.id).order("id ASC").first.min_distance
-      cond = next_line < (params[:second_price_distance][:max_distance]).to_i
-      if @second_price_distance.update(second_price_distance_params) && !cond        
-        redirect_to sedexes_path, notice: 'Intervalo alterado com sucesso.' 
-      else
-        flash.now[:notice] = 'Distância máxima deve ser menor que distância mínima do próximo intervalo.'
-        render 'edit'
-      end
-    elsif SecondPriceDistance.count == 1 && @second_price_distance.update(second_price_distance_params) 
-      redirect_to sedexes_path, notice: 'Intervalo alterado com sucesso.'
+    count = SecondPriceDistance.count
+    if @second_price_distance.update(second_price_distance_params) && SecondPriceDistance.count == count
+      redirect_to sedexes_path, notice: 'Intervalo alterado com sucesso.' 
+    elsif @second_price_distance.update(second_price_distance_params) && SecondPriceDistance.count < count  
+      flash.now[:notice] = 'Intervalo seguinte é inválido e será excluído.'
+      render 'edit'
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'

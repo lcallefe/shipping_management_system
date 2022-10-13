@@ -31,16 +31,14 @@ RSpec.describe Sedex, type: :model do
         expect(shipping_method.errors[:flat_fee]).to include("deve ser maior que 0")
       end
     end
-    it 'verdadeiro quando taxa fixa positiva é maior que 0' do
+    it 'verdadeiro quando taxa fixa é positiva' do
       # Arrange
       shipping_method = Sedex.new(flat_fee: 1)
       # Act
       shipping_method.valid?
       # Assert
-      expect(shipping_method.errors.include?(:flat_fee)).to be true  
-      expect(shipping_method.errors[:flat_fee]).to include("deve ser maior que 0")
+      expect(shipping_method.errors.include?(:flat_fee)).to be false  
     end
-  end
     it 'status deve ser ativo por padrão' do 
       # Arrange
       shipping_method = Sedex.new(flat_fee:10)

@@ -2,7 +2,8 @@ class ThirdPriceWeight < ApplicationRecord
   belongs_to :expressa 
   after_initialize :set_defaults
   validates :min_weight, :max_weight, :price, :presence => true
-  after_save :update_min_weight
+  after_create :update_min_weight
+  after_save :validate_price_weight_values
   validates :min_weight, :max_weight, :price, :presence => true
   validates :min_weight, comparison: { less_than: :max_weight}
   validates :price, numericality: { less_than_or_equal_to: 50 }
@@ -17,8 +18,19 @@ class ThirdPriceWeight < ApplicationRecord
   
   def update_min_weight
     if ThirdPriceWeight.count > 1
-      last_max_weight = ThirdPriceWeight.order(:id).limit(1).offset(ThirdPriceWeight.count-2).take.max_weight 
+      last_max_weight = ThirdPriceWeight.where("created_at < ?", self.created_at).order("id DESC").first.max_weight
       self.min_weight = last_max_weight + 1
     end
   end 
+
+  def validate_price_weight_values
+    model = ThirdPriceWeight.all
+    if model.count > 1
+      model.each_with_index do |pd,i|
+        if (pd.id > model[i-1].id) && (pd.price <= model[i-1].price || pd.min_weight <= model[i-1].min_weight || pd.min_weight <= model[i-1].max_weight) 
+          pd.destroy 
+        end
+      end
+    end
+  end
 end

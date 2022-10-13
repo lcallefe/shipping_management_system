@@ -5,6 +5,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     SedexDez.create!(flat_fee:45)
+    FirstPriceDistance.delete_all
                     
     # Act
     login_as(user)
@@ -32,6 +33,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     # Arrange 
     user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
     SedexDez.create!(flat_fee:45)
+    FirstDeliveryTimeDistance.delete_all
                     
     # Act
     login_as(user)
@@ -59,6 +61,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     # Arrange 
     user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
     SedexDez.create!(flat_fee:80)
+    FirstPriceWeight.delete_all
                     
     # Act
     login_as(user)
@@ -86,6 +89,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     SedexDez.create!(flat_fee:45)
+    FirstPriceDistance.delete_all
                     
     # Act
     login_as(user)
@@ -112,6 +116,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
         # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     SedexDez.create!(flat_fee:45)
+    FirstDeliveryTimeDistance.delete_all
                     
     # Act
     login_as(user)
@@ -137,6 +142,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
         # Arrange 
     user = User.create!(email:'susanasousa@sistemadefrete.com.br', name:'Susana', password:'C3n0ur4$', admin:true)
     SedexDez.create!(flat_fee:45)
+    FirstPriceWeight.delete_all
                     
     # Act
     login_as(user)

@@ -12,6 +12,12 @@ describe 'Usuário inicia uma ordem de serviço' do
     s = Sedex.create!(name:'Sedex', flat_fee: 50)
     sd = SedexDez.create!(name:'Sedex Dez', flat_fee: 50, work_order_id: work_order.id)
     user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678')  
+    SecondPriceDistance.delete_all
+    SecondDeliveryTimeDistance.delete_all 
+    SecondPriceWeight.delete_all 
+    ThirdPriceDistance.delete_all 
+    ThirdDeliveryTimeDistance.delete_all 
+    ThirdPriceWeight.delete_all
     sedex_distance_price = SecondPriceDistance.create!(min_distance:5, max_distance:10, price:30, sedex_id:s.id)
     sedex_delivery_time = SecondDeliveryTimeDistance.create!(min_distance:5, max_distance:10, delivery_time:72, sedex_id:s.id)
     sedex_price_weight = SecondPriceWeight.create!(min_weight:10, max_weight:25, price:30, sedex_id:s.id)
@@ -19,7 +25,7 @@ describe 'Usuário inicia uma ordem de serviço' do
     sedex_dez_delivery_time = FirstDeliveryTimeDistance.create!(min_distance:5, max_distance:15, delivery_time:72, sedex_dez_id:sd.id) 
     sedex_dez_price_weight = FirstPriceWeight.create!(min_weight:5, max_weight:15, price:70, sedex_dez_id:sd.id) 
     Vehicle.create!(brand_name:'Ford', model:'Fiesta', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1234', 
-                    sedex_dez_id: 1, status:1, work_order_id: work_order.id)
+                    sedex_dez_id: s.id, status:1, work_order_id: work_order.id)
     
     # Act
     visit new_user_session_path

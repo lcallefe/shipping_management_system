@@ -1,9 +1,9 @@
 class SedexDezsController < ApplicationController
   def index
     @sedex_dez = SedexDez.find(1)
-    @price_distances = validate_price_distance_values
-    @price_weights = validate_price_weight_values
-    @delivery_time_distances = validate_delivery_time_values
+    @price_distances = FirstPriceDistance.all
+    @price_weights = FirstPriceWeight.all
+    @delivery_time_distances = FirstDeliveryTimeDistance.all
   end
 
   def edit

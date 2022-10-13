@@ -56,7 +56,7 @@ RSpec.describe SecondPriceWeight, type: :model do
       it 'verdadeiro quando preço é positivo' do
         # Arrange
         shipping_method = SecondPriceWeight.new(min_weight:1, max_weight:20, 
-                                                price:15)
+                                                price:39)
         # Act
         shipping_method.valid?
         # Assert
@@ -113,7 +113,7 @@ RSpec.describe SecondPriceWeight, type: :model do
       end
       it 'verdadeiro quando peso máximo é positivo' do
         # Arrange
-        shipping_method = SecondPriceWeight.new(min_weight:0, max_weight:1, 
+        shipping_method = SecondPriceWeight.new(min_weight:0, max_weight:49, 
                                                 price:20)
         # Act
         shipping_method.valid?
@@ -168,6 +168,16 @@ RSpec.describe SecondPriceWeight, type: :model do
         expect(shipping_method.errors.include?(:min_weight)).to be true  
         expect(shipping_method.errors[:min_weight]).to include("deve ser menor que 1")
       end
+      it 'falso quando peso mínimo é igual a peso máximo' do
+        # Arrange
+        shipping_method = SecondPriceWeight.new(min_weight:2, max_weight:2, 
+                                                price:29)
+        # Act
+        shipping_method.valid?
+        # Assert
+        expect(shipping_method.errors.include?(:min_weight)).to be true  
+        expect(shipping_method.errors[:min_weight]).to include("deve ser menor que 2")
+      end
       it 'falso quando peso mínimo não é um número inteiro' do
         # Arrange
         shipping_method = SecondPriceWeight.new(min_weight:'a', max_weight:10, 
@@ -198,16 +208,54 @@ RSpec.describe SecondPriceWeight, type: :model do
         expect(shipping_method.errors.include?(:price)).to be true  
         expect(shipping_method.errors[:price]).to include("não é um número")
       end
-      it 'falso quando peso máximo do intervalo atual é maior que peso mínimo do pŕoximo' do
+      it 'falso quando peso mínimo do intervalo atual é menor que peso máximo do anterior' do
         # Arrange
-        shipping_method = SecondPriceWeight.new(min_weight:20, max_weight:30, 
-                                                price:'b')
-        second_shipping_method = SecondPriceWeight.new(min_weight:1, max_weight:21, 
-                                                       price:'b')
+        sedex = Sedex.create!(flat_fee:1)
+        shipping_method = SecondPriceWeight.create!(min_weight:20, max_weight:30, 
+                                                    price:2, sedex_id:sedex.id)
+        second_shipping_method = SecondPriceWeight.new(min_weight:29, max_weight:31, 
+                                                       price:3, sedex_id:sedex.id)
         # Act
-        second_shipping_method.valid?
+        
         # Assert
-        expect(second_shipping_method).not_to be_valid
+        expect(SecondPriceWeight.where(id:second_shipping_method.id)).not_to exist
+      end
+      it 'falso quando preço do intervalo atual é menor que preço do anterior' do
+        # Arrange
+        sedex = Sedex.create!(flat_fee:1)
+        shipping_method = SecondPriceWeight.create!(min_weight:20, max_weight:30, 
+                                                    price:2, sedex_id:sedex.id)
+        second_shipping_method = SecondPriceWeight.new(min_weight:31, max_weight:40, 
+                                                       price:1, sedex_id:sedex.id)
+        # Act
+        
+        # Assert
+        expect(SecondPriceWeight.where(id:second_shipping_method.id)).not_to exist
+      end
+      it 'falso quando preço do intervalo atual é igual a preço do anterior' do
+        # Arrange
+        sedex = Sedex.create!(flat_fee:1)
+        shipping_method = SecondPriceWeight.create!(min_weight:20, max_weight:30, 
+                                                    price:1, sedex_id: sedex.id)
+        second_shipping_method = SecondPriceWeight.create!(min_weight:31, max_weight:40, 
+                                                           price:1, 
+                                                           sedex_id: sedex.id)
+        # Act
+
+        # Assert
+        expect(SecondPriceWeight.where(id:second_shipping_method.id )).not_to exist
+      end
+      it 'falso quando peso máximo é atualizado para valor superior ao peso mínimo do pŕoximo intervalo' do
+        # Arrange
+        sedex = Sedex.create!(flat_fee:1)
+        shipping_method = SecondPriceWeight.create!(min_weight:20, max_weight:30, 
+                                                    price:1, sedex_id: sedex.id)
+        second_shipping_method = SecondPriceWeight.create!(min_weight:31, max_weight:40, 
+                                                           price:2, sedex_id:sedex.id)
+        # Act
+        shipping_method.update(max_weight:32)                                                        
+        # Assert
+        expect(SecondPriceWeight.where(id:second_shipping_method.id )).not_to exist
       end
     end
   end

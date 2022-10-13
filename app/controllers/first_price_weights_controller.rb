@@ -6,11 +6,15 @@ class FirstPriceWeightsController < ApplicationController
 
   def create
     first_price_weight_params
+    count = FirstPriceWeight.count
     @first_price_weight = FirstPriceWeight.create(first_price_weight_params)
     
-    if @first_price_weight.save
+    if @first_price_weight.save && FirstPriceWeight.count > count
       redirect_to sedex_dezs_path, notice: 'Intervalo cadastrado com sucesso.'
-    else  
+    elsif @first_price_weight.save && FirstPriceWeight.count == count
+      flash.now[:notice] = 'Intervalo inválido.'
+      render 'edit'
+    else
       flash.now[:notice] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
       render 'new'
     end
@@ -21,17 +25,12 @@ class FirstPriceWeightsController < ApplicationController
   def update
     first_price_weight_params
     @first_price_weight = FirstPriceWeight.find(params[:id])
-    if FirstPriceWeight.count > 1
-      next_line = FirstPriceWeight.where("id > ?", @first_price_weight.id).order("id ASC").first.min_weight
-      cond = next_line < (params[:first_price_weight][:max_weight]).to_i
-      if @first_price_weight.update(first_price_weight_params) && !cond
-        redirect_to sedex_dezs_path, notice: 'Intervalo alterado com sucesso.' 
-      else
-        flash.now[:notice] = 'Não foi possível alterar intervalo: peso mínimo não pode ser maior que peso máximo do próximo intervalo.'
-        render 'edit'
-      end
-    elsif FirstPriceWeight.count == 1 && @first_price_weight.update(first_price_weight_params) 
-      redirect_to sedex_dezs_path, notice: 'Intervalo alterado com sucesso.'
+    count = FirstPriceWeight.count
+    if @first_price_weight.update(first_price_weight_params) && FirstPriceWeight.count == count
+      redirect_to sedex_dezs_path, notice: 'Intervalo alterado com sucesso.' 
+    elsif @first_price_weight.update(first_price_weight_params) && FirstPriceWeight.count < count  
+      flash.now[:notice] = 'Intervalo inválido.'
+      render 'edit'
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'

@@ -1,3 +1,4 @@
+<%= link_to 'Voltar', pending_work_orders_path %>
 <h1>Detalhes da ordem de serviço</h1>
   <dl>
     <dt>Endereço Destino:</dt>
@@ -16,7 +17,7 @@
     <% if (@work_order.departure_date - @work_order.shipping_expected_date) == 0 %>
     <dd><%= "Chegará Hoje" %> </dd>
     <% else %>
-    <dd><%= (@work_order.shipping_expected_date - @work_order.departure_date) %>dias</dd>
+    <dd><%= (@work_order.shipping_expected_date - @work_order.departure_date).to_i %> dias</dd>
     <% end %>
     <dt>Valor total:</dt>
     <dd><%= number_to_currency(@work_order.total_price, :unit => "R$ ", :separator => ",", :delimiter => ".") %> </dd>

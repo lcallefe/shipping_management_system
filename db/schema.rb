@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_10_101321) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_12_214058) do
   create_table "expressas", force: :cascade do |t|
     t.string "name"
     t.integer "flat_fee"

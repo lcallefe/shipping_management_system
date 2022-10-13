@@ -168,6 +168,16 @@ RSpec.describe SecondDeliveryTimeDistance, type: :model do
         expect(shipping_method.errors.include?(:min_distance)).to be true  
         expect(shipping_method.errors[:min_distance]).to include("deve ser menor que 1")
       end
+      it 'falso quando distância mínima é igual a distância máxima' do
+        # Arrange
+        shipping_method = SecondDeliveryTimeDistance.new(min_distance:2, max_distance:2, 
+                                                         delivery_time:120)
+        # Act
+        shipping_method.valid?
+        # Assert
+        expect(shipping_method.errors.include?(:min_distance)).to be true  
+        expect(shipping_method.errors[:min_distance]).to include("deve ser menor que 2")
+      end
       it 'falso quando distância mínima não é um número inteiro' do
         # Arrange
         shipping_method = SecondDeliveryTimeDistance.new(min_distance:'a', max_distance:10, 
@@ -198,16 +208,55 @@ RSpec.describe SecondDeliveryTimeDistance, type: :model do
         expect(shipping_method.errors.include?(:delivery_time)).to be true  
         expect(shipping_method.errors[:delivery_time]).to include("não é um número")
       end
-      it 'falso quando distância máxima do intervalo atual é maior que distância mínima do pŕoximo' do
+      it 'falso quando distância mínima do intervalo atual é menor que distância máxima do anterior' do
         # Arrange
-        shipping_method = SecondDeliveryTimeDistance.new(min_distance:20, max_distance:50, 
-                                              delivery_time:'b')
-        second_shipping_method = SecondDeliveryTimeDistance.new(min_distance:1, max_distance:21, 
-                                              delivery_time:'b')
+        sedex = Sedex.create!(flat_fee:1)
+        shipping_method = SecondDeliveryTimeDistance.create!(min_distance:20, max_distance:30, 
+                                                             delivery_time:2, sedex_id:sedex.id)
+        second_shipping_method = SecondDeliveryTimeDistance.create!(min_distance:29, max_distance:31, 
+                                                                    delivery_time:3, 
+                                                                    sedex_id:sedex.id)
         # Act
-        second_shipping_method.valid?
+        
         # Assert
-        expect(second_shipping_method).not_to be_valid
+        expect(SecondDeliveryTimeDistance.where(id: second_shipping_method.id)).not_to exist
+      end
+      it 'falso quando prazo do intervalo atual é menor que prazo do anterior' do
+        # Arrange
+        sedex = Sedex.create!(flat_fee:1)
+        shipping_method = SecondDeliveryTimeDistance.create!(min_distance:20, max_distance:30, 
+                                                             delivery_time:2, sedex_id:sedex.id)
+        second_shipping_method = SecondDeliveryTimeDistance.create!(min_distance:31, max_distance:40, 
+                                                                    delivery_time:1, 
+                                                                    sedex_id:sedex.id)
+        # Act
+        
+        # Assert
+        expect(SecondDeliveryTimeDistance.where(id: second_shipping_method.id)).not_to exist
+      end
+      it 'falso quando prazo do intervalo atual é igual a prazo do anterior' do
+        # Arrange
+        sedex = Sedex.create!(flat_fee:1)
+        shipping_method = SecondDeliveryTimeDistance.create!(min_distance:20, max_distance:30, 
+                                                             delivery_time:1, sedex_id:sedex.id)
+        second_shipping_method = SecondDeliveryTimeDistance.new(min_distance:31, max_distance:40, 
+                                                                delivery_time:1, sedex_id:sedex.id)
+        # Act
+        
+        # Assert
+        expect(SecondDeliveryTimeDistance.where(id: second_shipping_method.id)).not_to exist
+      end
+      it 'falso quando distância máxima é atualizada para valor superior à distância mínima do pŕoximo intervalo' do
+        # Arrange
+        sedex = Sedex.create!(flat_fee:1)
+        shipping_method = SecondDeliveryTimeDistance.create!(min_distance:20, max_distance:30, 
+                                                             delivery_time:1, sedex_id:sedex.id)
+        second_shipping_method = SecondDeliveryTimeDistance.create!(min_distance:31, max_distance:40, 
+                                                                delivery_time:2, sedex_id:sedex.id)
+        # Act
+        shipping_method.update(max_distance:32)                                                        
+        # Assert
+        expect(SecondDeliveryTimeDistance.where(id: second_shipping_method.id)).not_to exist
       end
     end
   end

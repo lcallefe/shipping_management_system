@@ -98,7 +98,7 @@ describe 'Usuáro altera configuração para modalidade de transporte SedexDez' 
     click_on 'Salvar'
          
     # Assert
-    expect(page).to have_content('Não foi possível alterar intervalo: distância máxima não pode ser maior que distância mínima do próximo intervalo.')
+    expect(page).to have_content('Intervalo inválido.')
     expect(page).to have_content('Distância máxima')
     expect(page).to have_content('Distância mínima')
     expect(page).to have_content('Prazo')
