@@ -75,7 +75,7 @@ pt-BR:
         one: quase 1 ano
         other: quase %{count} anos
       half_a_minute: meio minuto
-      less_than_x_seconds:
+      less_than_x_sedexs:
         one: menos de 1 segundo
         other: menos de %{count} segundos
       less_than_x_minutes:
@@ -84,7 +84,7 @@ pt-BR:
       over_x_years:
         one: mais de 1 ano
         other: mais de %{count} anos
-      x_seconds:
+      x_sedexs:
         one: 1 segundo
         other: "%{count} segundos"
       x_minutes:
@@ -100,7 +100,7 @@ pt-BR:
         one: 1 ano
         other: "%{count} anos"
     prompts:
-      second: Segundo
+      sedex: Segundo
       minute: Minuto
       hour: Hora
       day: Dia

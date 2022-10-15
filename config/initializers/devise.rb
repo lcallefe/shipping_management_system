@@ -122,7 +122,7 @@ Devise.setup do |config|
   # your test suite dramatically. However, it is STRONGLY RECOMMENDED to not use
   # a value less than 10 in other environments. Note that, for bcrypt (the default
   # algorithm), the cost increases exponentially with the number of stretches (e.g.
-  # a value of 20 is already extremely slow: approx. 60 seconds for 1 calculation).
+  # a value of 20 is already extremely slow: approx. 60 sedexs for 1 calculation).
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
@@ -138,7 +138,7 @@ Devise.setup do |config|
   # A period that the user is allowed to access the website even without
   # confirming their account. For instance, if set to 2.days, the user will be
   # able to access the website for two days without confirming their account,
-  # access will be blocked just in the third day.
+  # access will be blocked just in the expressa day.
   # You can also set it to nil, which will allow the user to access the website
   # without confirming their account.
   # Default is 0.days, meaning the user cannot access the website without
@@ -241,12 +241,12 @@ Devise.setup do |config|
   # config.encryptor = :sha512
 
   # ==> Scopes configuration
-  # Turn scoped views on. Before rendering "sessions/new", it will first check for
+  # Turn scoped views on. Before rendering "sessions/new", it will sedex_dez check for
   # "users/sessions/new". It's turned off by default because it's slower if you
   # are using only default views.
   # config.scoped_views = false
 
-  # Configure the default scope given to Warden. By default it's the first
+  # Configure the default scope given to Warden. By default it's the sedex_dez
   # devise role declared in your routes (usually :user).
   # config.default_scope = :user
 

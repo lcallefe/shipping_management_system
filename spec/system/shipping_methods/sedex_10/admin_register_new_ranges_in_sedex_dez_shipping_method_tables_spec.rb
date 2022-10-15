@@ -5,13 +5,13 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     SedexDez.create!(flat_fee:45)
-    FirstPriceDistance.delete_all
+    SedexDezPriceDistance.delete_all
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex 10' 
-    click_link('Cadastrar intervalo', href: new_first_price_distance_path)
+    click_link('Cadastrar intervalo', href: new_sedex_dez_price_distance_path)
     fill_in 'Distância mínima', with: '10'
     fill_in 'Distância máxima', with: '40'
     fill_in 'Preço', with: '70'
@@ -33,13 +33,13 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     # Arrange 
     user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
     SedexDez.create!(flat_fee:45)
-    FirstDeliveryTimeDistance.delete_all
+    SedexDezPriceDistance.delete_all
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex 10' 
-    click_link('Cadastrar intervalo', href: new_first_delivery_time_distance_path)
+    click_link('Cadastrar intervalo', href: new_sedex_dez_delivery_time_distance_path)
     fill_in 'Distância mínima', with: '10'
     fill_in 'Distância máxima', with: '40'
     fill_in 'Prazo', with: '100'
@@ -61,13 +61,13 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     # Arrange 
     user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
     SedexDez.create!(flat_fee:80)
-    FirstPriceWeight.delete_all
+    SedexDezPriceWeight.delete_all
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex 10' 
-    click_link('Cadastrar intervalo', href: new_first_price_weight_path)
+    click_link('Cadastrar intervalo', href: new_sedex_dez_price_weight_path)
     fill_in 'Peso mínimo', with: '10'
     fill_in 'Peso máximo', with: '40'
     fill_in 'Preço', with: '40'
@@ -89,13 +89,13 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     SedexDez.create!(flat_fee:45)
-    FirstPriceDistance.delete_all
+    SedexDezPriceDistance.delete_all
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex 10' 
-    click_link('Cadastrar intervalo', href: new_first_price_distance_path)
+    click_link('Cadastrar intervalo', href: new_sedex_dez_price_distance_path)
     fill_in 'Distância mínima', with: '10'
     fill_in 'Distância máxima', with: ''
     fill_in 'Preço', with: '100'
@@ -110,19 +110,19 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     expect(page).to have_link('Voltar', href: sedex_dezs_path)
     expect(page).to have_link('Sair', href: destroy_user_session_path)
     expect(page).not_to have_link('Cadastrar intervalo')
-    expect(current_path).to eq first_price_distances_path
+    expect(current_path).to eq sedex_dez_price_distances_path
   end
   it 'e mantém campos obrigatórios para distância x prazo' do
         # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     SedexDez.create!(flat_fee:45)
-    FirstDeliveryTimeDistance.delete_all
+    SedexDezPriceDistance.delete_all
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex 10' 
-    click_link('Cadastrar intervalo', href: new_first_delivery_time_distance_path)
+    click_link('Cadastrar intervalo', href: new_sedex_dez_delivery_time_distance_path)
     fill_in 'Distância mínima', with: ''
     fill_in 'Distância máxima', with: '20'
     fill_in 'Prazo', with: '100'
@@ -136,19 +136,19 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     expect(page).to have_link('Voltar', href: sedex_dezs_path)
     expect(page).to have_link('Sair', href: destroy_user_session_path)
     expect(page).not_to have_link('Editar intervalo')
-    expect(current_path).to eq first_delivery_time_distances_path
+    expect(current_path).to eq sedex_dez_delivery_time_distances_path
   end
   it 'e cadastra dados inválidos para peso | valor por km' do
         # Arrange 
     user = User.create!(email:'susanasousa@sistemadefrete.com.br', name:'Susana', password:'C3n0ur4$', admin:true)
     SedexDez.create!(flat_fee:45)
-    FirstPriceWeight.delete_all
+    SedexDezPriceWeight.delete_all
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex 10' 
-    click_link('Cadastrar intervalo', href: new_first_price_weight_path)
+    click_link('Cadastrar intervalo', href: new_sedex_dez_price_weight_path)
     fill_in 'Peso mínimo', with: 0
     fill_in 'Peso máximo', with: -1
     fill_in 'Preço', with: '10'
@@ -161,6 +161,6 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Sed
     expect(page).to have_link('Voltar', href: sedex_dezs_path)
     expect(page).to have_link('Sair', href: destroy_user_session_path)
     expect(page).not_to have_content('Peso | Valor por km')
-    expect(current_path).to eq first_price_weights_path
+    expect(current_path).to eq sedex_dez_price_weights_path
   end
 end

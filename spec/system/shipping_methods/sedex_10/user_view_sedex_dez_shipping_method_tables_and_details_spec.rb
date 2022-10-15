@@ -5,9 +5,9 @@ describe 'Usuáro vê modalidade de transporte Sedex Dez' do
     # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710')
     sd = SedexDez.create!(flat_fee:20)
-    FirstDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_dez_id:sd.id)
-    FirstPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_dez_id:sd.id)
-    FirstPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_dez_id:sd.id)
+    SedexDezDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_dez_id:sd.id)
+    SedexDezPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_dez_id:sd.id)
+    SedexDezPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_dez_id:sd.id)
                     
     # Act
     login_as(user)
@@ -32,9 +32,9 @@ describe 'Usuáro vê modalidade de transporte Sedex Dez' do
     # Arrange 
     user = User.create!(email:'marianadasilva_user@sistemadefrete.com.br', name:'Mariana', password:'123G01@b@')
     sd = SedexDez.create!(flat_fee:20)
-    FirstDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_dez_id:sd.id)
-    FirstPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_dez_id:sd.id)
-    FirstPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_dez_id:sd.id)
+    SedexDezDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_dez_id:sd.id)
+    SedexDezPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_dez_id:sd.id)
+    SedexDezPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_dez_id:sd.id)
 
     # Act
     login_as(user)
@@ -56,9 +56,9 @@ describe 'Usuáro vê modalidade de transporte Sedex Dez' do
     # Arrange 
     user = User.create!(email:'giovanadesouza@sistemadefrete.com.br', name:'Giovana', password:'123l@s@nh@')
     sd = SedexDez.create!(flat_fee:20)
-    FirstDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_dez_id:sd.id)
-    FirstPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_dez_id:sd.id)
-    FirstPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_dez_id:sd.id)
+    SedexDezDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_dez_id:sd.id)
+    SedexDezPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_dez_id:sd.id)
+    SedexDezPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_dez_id:sd.id)
 
     # Act
     login_as(user)
@@ -75,9 +75,9 @@ describe 'Usuáro vê modalidade de transporte Sedex Dez' do
     # Arrange 
     user = User.create!(email:'giovanadesouza@sistemadefrete.com.br', name:'Giovana', password:'lovewilltearusapart')
     sd = SedexDez.create!(flat_fee:20)
-    FirstDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_dez_id:sd.id)
-    FirstPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_dez_id:sd.id)
-    FirstPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_dez_id:sd.id)
+    SedexDezDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_dez_id:sd.id)
+    SedexDezPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_dez_id:sd.id)
+    SedexDezPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_dez_id:sd.id)
 
     # Act
     login_as(user)

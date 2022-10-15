@@ -1,7 +1,7 @@
 class Sedex < ApplicationRecord
-  has_many :second_delivery_time_distances
-  has_many :second_price_distances
-  has_many :second_price_weights
+  has_many :sedex_delivery_time_distances
+  has_many :sedex_price_distances
+  has_many :sedex_price_weights
   has_many :vehicles
   before_validation :validate_flat_fee
   belongs_to :work_orders, optional:true

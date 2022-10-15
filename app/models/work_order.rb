@@ -9,10 +9,9 @@ class WorkOrder < ApplicationRecord
   validates :customer_cpf, length: { is: 11 }
   validates :product_weight, :distance, numericality: { greater_than: 0 }
   validate :check_address
-  validates :delay_reason, presence: true, if: :check_delay_reason?
+  validates_uniqueness_of :code, on: :create
   enum status: { pendente: 0, em_progresso: 1, encerrada_no_prazo: 3, encerrada_em_atraso: 4 }
   before_create :generate_code
-  after_update :find_price_sedex
 
   def full_warehouse_address  
     "#{warehouse_street}, #{warehouse_number}, #{warehouse_city} - #{warehouse_state}"
@@ -21,8 +20,118 @@ class WorkOrder < ApplicationRecord
   def full_customer_address  
     "#{street}, #{number}, #{city} - #{state}"
   end 
-  
+
+  def find_price
+    all_shipping_methods = ['expressa', 'sedex', 'sedex_dez']
+    @sm_and_prices = []
+    Expressa.last.update(work_order_id:self.id)
+    Sedex.last.update(work_order_id:self.id)
+    SedexDez.last.update(work_order_id:self.id)
+
+    all_shipping_methods.each do |shipping_method| 
+      id_name = shipping_method
+      table_name = id_name.pluralize 
+
+      price_distance = ActiveRecord::Base.connection.exec_query("select pd.price 
+      from work_orders w join #{table_name} sm
+      on w.id = sm.work_order_id join #{id_name}_price_distances pd 
+      on sm.id = pd.#{id_name}_id 
+      where w.distance between pd.min_distance and pd.max_distance").rows.join.to_i
+
+      price_weight = ActiveRecord::Base.connection.exec_query("select pw.price 
+      from work_orders w join #{table_name} sm
+      on w.id = sm.work_order_id join #{id_name}_price_weights pw 
+      on sm.id = pw.#{id_name}_id 
+      where w.product_weight between pw.min_weight and pw.max_weight").rows.join.to_i
+
+      flat_fee = ActiveRecord::Base.connection.exec_query("select sm.flat_fee 
+      from work_orders w join #{table_name} sm on w.id = sm.work_order_id").rows.join.to_i
+      if !price_weight.nil? && !price_weight.zero? && !price_distance.nil? && !price_distance.zero? && !flat_fee.nil? && !flat_fee.zero?
+        sm_price = (self.distance * price_weight) + price_distance + flat_fee
+      end
+      @sm_and_prices << [shipping_method, sm_price]
+    end
+
+    @sm_and_prices.map!{|sm_price| 
+      sm_price.compact!
+      if sm_price.length == 2 
+        @sm_and_prices.delete(sm_price)
+      end 
+    }.compact!
+    return @sm_and_prices.to_h
+  end
+
+  def find_delivery_time
+    shipping_methods = ['expressa', 'sedex', 'sedex_dez']
+    @delivery_times = []
+    Expressa.last.update(work_order_id:self.id)
+    Sedex.last.update(work_order_id:self.id)
+    SedexDez.last.update(work_order_id:self.id)
+    
+    shipping_methods.each do |shipping_method| 
+      id_name = shipping_method
+      table_name = id_name.pluralize 
+      
+      delivery_time = ActiveRecord::Base.connection.exec_query("select dt.delivery_time 
+      from work_orders w join #{table_name} sm
+      on w.id = sm.work_order_id join #{id_name}_delivery_time_distances dt 
+      on sm.id = dt.#{id_name}_id 
+      where w.distance between dt.min_distance and dt.max_distance").rows.join.to_i
+      @delivery_times << [shipping_method, delivery_time]
+    end
+    @delivery_times.map!{|dt| 
+      @delivery_times.compact!
+      if dt.length == 2 
+        @delivery_times.delete(dt)
+      end 
+    }.compact!
+    
+    return @delivery_times.to_h
+  end
+
+  def check_available_price_and_delivery_times 
+    sms = ["expressa", "sedex", "sedex_dez"] 
+    new_hash_available_shipping_methods = []
+    delivery_time = find_delivery_time 
+    price = find_price
+
+    if !delivery_time.empty? && !price.empty? 
+      sms.each do |s|
+        if (!price.include? s) || (!delivery_time.include? s) || (delivery_time[s].zero?) || (price[s].zero?)
+          if (price.include? s) && (delivery_time.include? s) 
+            price.delete(s) 
+            delivery_time.delete(s)
+          elsif delivery_time.include? s
+            delivery_time.delete(s)
+          elsif price.include? s  
+            price.delete(s)
+          end
+        end
+      end
+      new_hash_available_shipping_methods << delivery_time.merge!(price){ |k, distance, price| Array(distance).push(price) }
+    end
+    if new_hash_available_shipping_methods[0].nil? 
+      self.errors.add(:base, "Não há modalidades de entrega disponíveis.")
+    end
+    new_hash_available_shipping_methods[0]
+  end
+
+  def set_vehicle  
+    p self.shipping_method.downcase.parameterize(separator:'_').to_sym
+    @vehicle = Vehicle.joins(self.shipping_method.downcase.parameterize(separator:'_').to_sym).where("full_capacity >= ?", self.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
+    if !@vehicle.nil?
+      @vehicle.update(work_order_id:self.id)
+      @vehicle.em_entrega!
+    else  
+      self.errors.add(:base, "Não há veículos disponíveis para a modalidade escolhida.")
+      return false
+    end
+    true
+  end 
+
+
   private
+
   def generate_code
     self.code = SecureRandom.alphanumeric(15).upcase
   end
@@ -32,210 +141,10 @@ class WorkOrder < ApplicationRecord
       errors.add(:street, " do cliente deve ser diferente do destinatário")
     end
   end 
-  def check_delay_reason? 
-    !self.id.nil? && !self.shipping_expected_date.nil? && Date.today > self.shipping_expected_date
-  end
-  def find_price_sedex
-    if self.shipping_method = "Sedex"
-      spd_price_distance = ActiveRecord::Base.connection.exec_query("select spd.price 
-      from work_orders w join sedexes s
-      on w.id = s.work_order_id join second_price_distances spd 
-      on s.id = spd.sedex_id 
-      where w.distance between spd.min_distance and spd.max_distance").rows.join.to_i
-
-      spd_price_weight = ActiveRecord::Base.connection.exec_query("select spw.price 
-      from work_orders w join sedexes s
-      on w.id = s.work_order_id join second_price_weights spw 
-      on s.id = spw.sedex_id 
-      where w.product_weight between spw.min_weight and spw.max_weight").rows.join.to_i
-
-      self.total_price = (self.distance * spd_price_weight) + spd_price_distance + Sedex.last.flat_fee
-    end
-  end
-
-
-  
-  
-  
-  
-  def find_shipping_method_price_distance
-    @work_order = WorkOrder.find(params[:id])
-    expressa = ActiveRecord::Base.connection.exec_query(
-      "select p.min_distance, p.max_distance, p.price, e.id 
-      from expressas e 
-      join third_price_distances p on e.id = p.expressa_id")
-
-    sedex = ActiveRecord::Base.connection.exec_query(
-      "select p.min_distance, p.max_distance, p.price, s.id 
-      from sedexes s
-      join second_price_distances p on s.id = p.sedex_id")
-
-    sedex_dez = ActiveRecord::Base.connection.exec_query(
-      "select p.min_distance, p.max_distance, p.price, sd.id 
-      from sedex_dezs sd
-      join first_price_distances p on sd.id = p.sedex_dez_id")
-
-    expressa.rows.each do |row|
-      temp = Expressa.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.distance) && (temp.ativo?)
-        @price_distance_expressa = row[2]
-        temp.update(work_order_id:@work_order.id)
-      end
-    end
-
-    sedex.rows.each do |row|
-      temp = Sedex.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.distance) && (temp.ativo?)
-        @price_distance_sedex = row[2]
-        temp.update(work_order_id:@work_order.id)
-      end
-    end
-
-    sedex_dez.rows.each do |row|
-      temp = SedexDez.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.distance) && (temp.ativo?)
-        @price_distance_sd = row[2]
-        SedexDez.find(row[3]).update(work_order_id:@work_order.id)
-      end
-    end
-  end
-
-  def find_shipping_method_price_weight
-    @work_order = WorkOrder.find(params[:id])
-    expressa = ActiveRecord::Base.connection.exec_query(
-      "select p.min_weight, p.max_weight, p.price, e.id 
-      from expressas e 
-      join third_price_weights p on e.id = p.expressa_id")
-
-    @sedex = ActiveRecord::Base.connection.exec_query(
-      "select p.min_weight, p.max_weight, p.price, s.id 
-      from sedexes s
-      join second_price_weights p on s.id = p.sedex_id")
-
-    sedex_dez = ActiveRecord::Base.connection.exec_query(
-      "select p.min_weight, p.max_weight, p.price, sd.id 
-      from sedex_dezs sd
-      join first_price_weights p on sd.id = p.sedex_dez_id")
-
-    expressa.rows.each do |row|
-      temp = Expressa.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.product_weight) && (temp.ativo?)
-        @price_weight_expressa = row[2]
-        temp.update(work_order_id:@work_order.id)
-      end
-    end
-
-    @sedex.rows.each do |row|
-      temp = Sedex.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.product_weight) && (temp.ativo?)
-        @price_weight_sedex = row[2]
-        temp.update(work_order_id:@work_order.id)
-      end
-    end
-
-    sedex_dez.rows.each do |row|
-      temp = SedexDez.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.product_weight) && (temp.ativo?)
-        @price_weight_sedex_dez = row[2]
-        temp.update(work_order_id:@work_order.id)
-      end
-    end
-  end
-
-  def find_shipping_method_delivery_time
-    expressa = ActiveRecord::Base.connection.exec_query(
-      "select d.min_distance, d.max_distance, d.delivery_time, e.id 
-      from expressas e 
-      join third_delivery_time_distances d
-      on e.id = d.expressa_id")
-
-    sedex = ActiveRecord::Base.connection.exec_query(
-      "select d.min_distance, d.max_distance, d.delivery_time, s.id
-      from sedexes s
-      join second_delivery_time_distances d
-      on s.id = d.sedex_id")
-
-    sedex_dez = ActiveRecord::Base.connection.exec_query(
-      "select d.min_distance, d.max_distance, d.delivery_time, sd.id 
-      from sedex_dezs sd
-      join first_delivery_time_distances d
-      on sd.id = d.sedex_dez_id")
-
-    expressa.rows.each do |row|
-      temp = Expressa.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.product_weight) && (temp.ativo?)
-        @delivery_time_expressa = row[2]
-        temp.update(work_order_id:@work_order.id)
-      end
-    end
-
-    sedex.rows.each do |row|
-      temp = Sedex.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.distance) && (temp.ativo?)
-        @delivery_time_sedex = row[2]
-        temp.update(work_order_id:@work_order.id)
-      end
-    end
-
-    sedex_dez.rows.each do |row|
-      temp = SedexDez.find(row[3])
-      if ((row[0]..row[1]).include? @work_order.distance) && (temp.ativo?)
-        @delivery_time_sedex_dez = row[2]
-        temp.update(work_order_id:@work_order.id)
-      end
-    end
-  end
-
-  def calculate_fee
-    @shipping_methods = []
-    @work_order = WorkOrder.find(params[:id])
-    find_shipping_method_price_weight
-    find_shipping_method_price_distance
-    find_shipping_method_delivery_time
-
-    flat_fee_expressa = Expressa.find_by(work_order_id: @work_order.id).flat_fee if Expressa.find_by(work_order_id: @work_order.id)
-    flat_fee_sedex = Sedex.find_by(work_order_id: @work_order.id).flat_fee if Sedex.find_by(work_order_id: @work_order.id)
-    flat_fee_sedex_dez = SedexDez.find_by(work_order_id: @work_order.id).flat_fee if SedexDez.find_by(work_order_id: @work_order.id)
-   
-
-    if !@price_distance_expressa.nil? && !@price_weight_expressa.nil? && !flat_fee_expressa.nil? && !@delivery_time_expressa.nil?
-      @fee_expressa = @price_distance_expressa + (@work_order.distance * @price_weight_expressa) + (flat_fee_expressa)
-    end
-
-    if !@price_distance_sedex.nil? && !@price_weight_sedex.nil? && !flat_fee_sedex.nil? && !@delivery_time_sedex.nil?
-      @fee_sedex = @price_distance_sedex + (@work_order.distance * @price_weight_sedex) + (flat_fee_sedex)
-    end
-    
-    if !@price_distance_sd.nil? && !@price_weight_sedex_dez.nil? && !flat_fee_sedex_dez.nil? && !@delivery_time_sedex_dez.nil?
-      @fee_sedex_dez = @price_distance_sd + (@work_order.distance * @price_weight_sedex_dez) + (flat_fee_sedex_dez)
-    end
-   
-    @shipping_methods << ['expressa', @fee_expressa] if @fee_expressa
-    @shipping_methods << ['sedex', @fee_sedex] if @fee_sedex
-    @shipping_methods << ['sedex_dez', @fee_sedex_dez] if @fee_sedex_dez
-  end
-
-
-  def work_order_create_params 
-    work_order_create_params = params.require(:work_order).permit(:street, :city, :state, 
-    :number, :customer_name, :customer_cpf, :customer_phone_numer, :product_name,
-    :product_weight, :sku, :warehouse_street, :warehouse_state, :warehouse_number, 
-    :distance, :warehouse_city)
-  end
-
-  def delay_reason_param
-    delay_reason_param = params.require(:work_order).permit(:delay_reason)
-  end
-
-  def work_order_start_params
-    work_order_start_params = params.require(:work_order).permit(:shipping_method)
-  end
-
-  def set_vehicle
-    @work_order = WorkOrder.find(params[:id])
-    @vehicle = Vehicle.joins(@work_order.shipping_method.downcase.parameterize(separator:'_').to_sym).where("full_capacity >= ?", @work_order.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
-    @vehicle.update(work_order_id:@work_order.id)
-    return @vehicle
-  end
-
 end
+
+  
+
+
+
+

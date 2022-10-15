@@ -1,9 +1,9 @@
 class ExpressasController < ApplicationController
   def index
-    @expressa = Expressa.find(1)
-    @price_distances = ThirdPriceDistance.all
-    @price_weights = ThirdPriceWeight.all
-    @delivery_time_distances = ThirdDeliveryTimeDistance.all
+    @expressa = Expressa.last
+    @price_distances = ExpressaPriceDistance.all
+    @price_weights = ExpressaPriceWeight.all
+    @delivery_time_distances = ExpressaDeliveryTimeDistance.all
   end
 
   def new 

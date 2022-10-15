@@ -5,9 +5,9 @@ describe 'Usuáro vê modalidade de transporte Expressa' do
     # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710')
     sm = Expressa.create!(flat_fee:20)
-    ThirdDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, expressa_id:sm.id)
-    ThirdPriceDistance.create!(min_distance:10, max_distance:30, price:40, expressa_id:sm.id)
-    ThirdPriceWeight.create!(min_weight:5, max_weight:15, price:25, expressa_id:sm.id)
+    ExpressaDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, expressa_id:sm.id)
+    ExpressaPriceDistance.create!(min_distance:10, max_distance:30, price:40, expressa_id:sm.id)
+    ExpressaPriceWeight.create!(min_weight:5, max_weight:15, price:25, expressa_id:sm.id)
                     
     # Act
     login_as(user)
@@ -32,9 +32,9 @@ describe 'Usuáro vê modalidade de transporte Expressa' do
     # Arrange 
     user = User.create!(email:'marianadasilva_user@sistemadefrete.com.br', name:'Mariana', password:'123G01@b@')
     sm = Expressa.create!(flat_fee:20)
-    ThirdDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, expressa_id:sm.id)
-    ThirdPriceDistance.create!(min_distance:10, max_distance:30, price:40, expressa_id:sm.id)
-    ThirdPriceWeight.create!(min_weight:5, max_weight:15, price:25, expressa_id:sm.id)
+    ExpressaDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, expressa_id:sm.id)
+    ExpressaPriceDistance.create!(min_distance:10, max_distance:30, price:40, expressa_id:sm.id)
+    ExpressaPriceWeight.create!(min_weight:5, max_weight:15, price:25, expressa_id:sm.id)
 
     # Act
     login_as(user)
@@ -57,9 +57,9 @@ describe 'Usuáro vê modalidade de transporte Expressa' do
     # Arrange 
     user = User.create!(email:'giovanadesouza@sistemadefrete.com.br', name:'Giovana', password:'123l@s@nh@')
     sm = Expressa.create!(flat_fee:20)
-    ThirdDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, expressa_id:sm.id)
-    ThirdPriceDistance.create!(min_distance:10, max_distance:30, price:40, expressa_id:sm.id)
-    ThirdPriceWeight.create!(min_weight:5, max_weight:15, price:25, expressa_id:sm.id)
+    ExpressaDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, expressa_id:sm.id)
+    ExpressaPriceDistance.create!(min_distance:10, max_distance:30, price:40, expressa_id:sm.id)
+    ExpressaPriceWeight.create!(min_weight:5, max_weight:15, price:25, expressa_id:sm.id)
 
     # Act
     login_as(user)
@@ -76,9 +76,9 @@ describe 'Usuáro vê modalidade de transporte Expressa' do
     # Arrange 
     user = User.create!(email:'giovanadesouza@sistemadefrete.com.br', name:'Giovana', password:'lovewilltearusapart')
     sm = Expressa.create!(flat_fee:20)
-    ThirdDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, expressa_id:sm.id)
-    ThirdPriceDistance.create!(min_distance:10, max_distance:30, price:40, expressa_id:sm.id)
-    ThirdPriceWeight.create!(min_weight:5, max_weight:15, price:25, expressa_id:sm.id)
+    ExpressaDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, expressa_id:sm.id)
+    ExpressaPriceDistance.create!(min_distance:10, max_distance:30, price:40, expressa_id:sm.id)
+    ExpressaPriceWeight.create!(min_weight:5, max_weight:15, price:25, expressa_id:sm.id)
 
     # Act
     login_as(user)

@@ -1,7 +1,7 @@
 class Expressa < ApplicationRecord
-  has_many :third_delivery_time_distances
-  has_many :third_price_distances
-  has_many :third_price_weights
+  has_many :expressa_delivery_time_distances
+  has_many :expressa_price_distances
+  has_many :expressa_price_weights
   has_many :vehicles
   before_validation :validate_flat_fee
   belongs_to :work_orders, optional:true

@@ -5,13 +5,13 @@ describe 'Usuáro altera configuração para modalidade de transporte Sedex' do
     # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     s = Sedex.create!(flat_fee:45)
-    pd = SecondPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_id:s.id)
+    pd = SedexPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_id:s.id)
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex' 
-    click_link('Editar intervalo', href: edit_second_price_distance_path(pd.id))
+    click_link('Editar intervalo', href: edit_sedex_price_distance_path(pd.id))
     fill_in 'Distância mínima', with: 5
     fill_in 'Preço', with: 35
     click_on 'Salvar'
@@ -32,13 +32,13 @@ describe 'Usuáro altera configuração para modalidade de transporte Sedex' do
     # Arrange 
     user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
     s = Sedex.create!(flat_fee:45)
-    dt = SecondDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_id:s.id)
+    dt = SedexDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_id:s.id)
                 
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex' 
-    click_link('Editar intervalo', href: edit_second_delivery_time_distance_path(dt.id))
+    click_link('Editar intervalo', href: edit_sedex_delivery_time_distance_path(dt.id))
     fill_in 'Distância máxima', with: 25
     fill_in 'Prazo', with: 25
     click_on 'Salvar'
@@ -59,13 +59,13 @@ describe 'Usuáro altera configuração para modalidade de transporte Sedex' do
     # Arrange 
     user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
     s = Sedex.create!(flat_fee:80)
-    pw = SecondPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_id:s.id)
+    pw = SedexPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_id:s.id)
                 
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex' 
-    click_link('Editar intervalo', href: edit_second_price_weight_path(pw.id))
+    click_link('Editar intervalo', href: edit_sedex_price_weight_path(pw.id))
     fill_in 'Peso mínimo', with: 8
     fill_in 'Peso máximo', with: 20
     click_on 'Salvar'
@@ -85,14 +85,14 @@ describe 'Usuáro altera configuração para modalidade de transporte Sedex' do
     # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     s = Sedex.create!(flat_fee:45)
-    dt = SecondDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_id:s.id)
-    SecondDeliveryTimeDistance.create!(min_distance: 21, max_distance: 30, delivery_time: 25, sedex_id:s.id)
+    dt = SedexDeliveryTimeDistance.create!(min_distance: 10, max_distance: 20, delivery_time: 15, sedex_id:s.id)
+    SedexDeliveryTimeDistance.create!(min_distance: 21, max_distance: 30, delivery_time: 25, sedex_id:s.id)
     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex' 
-    click_link('Editar intervalo', href: edit_second_delivery_time_distance_path(dt.id))
+    click_link('Editar intervalo', href: edit_sedex_delivery_time_distance_path(dt.id))
     fill_in 'Distância máxima', with: 22
     fill_in 'Prazo', with: 20
     click_on 'Salvar'
@@ -111,14 +111,14 @@ describe 'Usuáro altera configuração para modalidade de transporte Sedex' do
         # Arrange 
     user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
     s = Sedex.create!(flat_fee:45)
-    pw = SecondPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_id:s.id)
+    pw = SedexPriceWeight.create!(min_weight:5, max_weight:15, price:25, sedex_id:s.id)
 
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex' 
-    click_link('Editar intervalo', href: edit_second_price_weight_path(pw.id))
+    click_link('Editar intervalo', href: edit_sedex_price_weight_path(pw.id))
     fill_in 'Peso mínimo', with: 5
     fill_in 'Peso máximo', with: 'a'
     fill_in 'Preço', with: 30
@@ -137,14 +137,14 @@ describe 'Usuáro altera configuração para modalidade de transporte Sedex' do
         # Arrange 
     user = User.create!(email:'susanasousa@sistemadefrete.com.br', name:'Susana', password:'C3n0ur4$', admin:true)
     s = Sedex.create!(flat_fee:45)
-    pd = SecondPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_id:s.id)
+    pd = SedexPriceDistance.create!(min_distance:10, max_distance:30, price:40, sedex_id:s.id)
 
                     
     # Act
     login_as(user)
     visit root_path 
     click_on 'Sedex' 
-    click_link('Editar intervalo', href: edit_second_price_distance_path(pd.id))
+    click_link('Editar intervalo', href: edit_sedex_price_distance_path(pd.id))
     fill_in 'Distância mínima', with: 10
     fill_in 'Distância máxima', with: 25
     fill_in 'Preço', with: 0

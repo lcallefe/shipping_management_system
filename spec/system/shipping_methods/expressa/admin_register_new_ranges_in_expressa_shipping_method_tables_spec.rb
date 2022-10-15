@@ -10,7 +10,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     login_as(user)
     visit root_path 
     click_on 'Expressa' 
-    click_link('Cadastrar intervalo', href: new_third_price_distance_path)
+    click_link('Cadastrar intervalo', href: new_expressa_price_distance_path)
     fill_in 'Distância mínima', with: '10'
     fill_in 'Distância máxima', with: '40'
     fill_in 'Preço', with: '50'
@@ -37,7 +37,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     login_as(user)
     visit root_path 
     click_on 'Expressa' 
-    click_link('Cadastrar intervalo', href: new_third_delivery_time_distance_path)
+    click_link('Cadastrar intervalo', href: new_expressa_delivery_time_distance_path)
     fill_in 'Distância mínima', with: '10'
     fill_in 'Distância máxima', with: '40'
     fill_in 'Prazo', with: '48'
@@ -64,7 +64,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     login_as(user)
     visit root_path 
     click_on 'Expressa' 
-    click_link('Cadastrar intervalo', href: new_third_price_weight_path)
+    click_link('Cadastrar intervalo', href: new_expressa_price_weight_path)
     fill_in 'Peso mínimo', with: '10'
     fill_in 'Peso máximo', with: '30'
     fill_in 'Preço', with: '40'
@@ -91,7 +91,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     login_as(user)
     visit root_path 
     click_on 'Expressa' 
-    click_link('Cadastrar intervalo', href: new_third_price_distance_path)
+    click_link('Cadastrar intervalo', href: new_expressa_price_distance_path)
     fill_in 'Distância mínima', with: '10'
     fill_in 'Distância máxima', with: ''
     fill_in 'Preço', with: '100'
@@ -106,7 +106,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     expect(page).to have_link('Voltar', href: expressas_path)
     expect(page).to have_link('Sair', href: destroy_user_session_path)
     expect(page).not_to have_link('Cadastrar intervalo')
-    expect(current_path).to eq third_price_distances_path
+    expect(current_path).to eq expressa_price_distances_path
   end
   it 'e mantém campos obrigatórios para distância x prazo' do
         # Arrange 
@@ -117,7 +117,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     login_as(user)
     visit root_path 
     click_on 'Expressa' 
-    click_link('Cadastrar intervalo', href: new_third_delivery_time_distance_path)
+    click_link('Cadastrar intervalo', href: new_expressa_delivery_time_distance_path)
     fill_in 'Distância mínima', with: ''
     fill_in 'Distância máxima', with: '20'
     fill_in 'Prazo', with: '24'
@@ -131,7 +131,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     expect(page).to have_link('Voltar', href: expressas_path)
     expect(page).to have_link('Sair', href: destroy_user_session_path)
     expect(page).not_to have_link('Editar intervalo')
-    expect(current_path).to eq third_delivery_time_distances_path
+    expect(current_path).to eq expressa_delivery_time_distances_path
   end
   it 'e cadastra dados inválidos para peso | valor por km' do
         # Arrange 
@@ -142,7 +142,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     login_as(user)
     visit root_path 
     click_on 'Expressa' 
-    click_link('Cadastrar intervalo', href: new_third_price_weight_path)
+    click_link('Cadastrar intervalo', href: new_expressa_price_weight_path)
     fill_in 'Peso mínimo', with: 0
     fill_in 'Peso máximo', with: -1
     fill_in 'Preço', with: '10'
@@ -155,6 +155,6 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     expect(page).to have_link('Voltar', href: expressas_path)
     expect(page).to have_link('Sair', href: destroy_user_session_path)
     expect(page).not_to have_content('Peso | Valor por km')
-    expect(current_path).to eq third_price_weights_path
+    expect(current_path).to eq expressa_price_weights_path
   end
 end

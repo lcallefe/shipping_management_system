@@ -1,0 +1,20 @@
+<h1>Cadastrar Distância</h1>
+<%= render 'error'%>
+<%= form_with(model: @sedex_delivery_time_distance) do |f| %>
+  <div>
+    <%= f.label :min_distance %>
+    <%= f.number_field :min_distance %>
+  </div><br/>
+  <div>
+    <%= f.label :max_distance %>
+    <%= f.number_field :max_distance %>
+  </div><br/>
+  <div>
+    <%= f.label :delivery_time %>
+    <%= f.number_field :delivery_time %>
+  </div><br/>
+  <%= f.submit 'Salvar' %>
+<% end %>
+
+<%= link_to 'Voltar', sedexes_path %>
+<%= link_to 'Sair', destroy_user_session_path %>

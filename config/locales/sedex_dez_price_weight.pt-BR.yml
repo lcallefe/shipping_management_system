@@ -1,0 +1,9 @@
+pt-BR:   
+  activerecord:
+    models: 
+      sedex_dez_price_weight: 'Configuração de prazos'
+    attributes:
+      sedex_dez_price_weight:
+        min_weight: 'Peso mínimo'
+        max_weight: 'Peso máximo'
+        price: 'Preço'

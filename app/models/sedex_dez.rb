@@ -1,7 +1,7 @@
 class SedexDez < ApplicationRecord
-  has_many :first_delivery_time_distances
-  has_many :first_price_distances
-  has_many :first_price_weights
+  has_many :sedex_dez_delivery_time_distances
+  has_many :sedex_dez_price_distances
+  has_many :sedex_dez_price_weights
   has_many :vehicles
   before_validation :validate_flat_fee
   validates :flat_fee, numericality: { only_integer: true }, :allow_nil => true

@@ -222,95 +222,83 @@ RSpec.describe WorkOrder, type: :model do
     context 'correctness' do
       it 'verdadeiro quando cálculo do preço é realizado corretamente' do 
         # Arrange
-        SecondPriceDistance.delete_all 
-        SecondPriceWeight.delete_all
-        SecondDeliveryTimeDistance.delete_all
+        SedexPriceDistance.delete_all 
+        SedexPriceWeight.delete_all
+        SedexDezDeliveryTimeDistance.delete_all
         Sedex.delete_all
         work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
                                        customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
-                                       product_weight:10, sku:'123', departure_date:2.days.ago, warehouse_state:'SP', 
+                                       product_weight:10, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                                        warehouse_number:'234', distance:10)
-        s = Sedex.create!(name:'Sedex', flat_fee: 50)
-        sedex_distance_price = SecondPriceDistance.create!(min_distance:5, max_distance:40, price:30, sedex_id:s.id)
-        sedex_price_weight = SecondPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
-        SecondDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+        s = Sedex.create!(name:'sedex', flat_fee: 50)
+        Expressa.create!(name:'expressa', flat_fee:40)
+        SedexDez.create!(name:'sedex_dez', flat_fee:30)
+        SedexPriceDistance.create!(min_distance:5, max_distance:40, price:30, sedex_id:s.id)
+        SedexPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
+        SedexDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
                         sedex_id: s.id, status:1, work_order_id: work_order.id)
-
-
-        # Act
-        s.update(work_order_id: work_order.id)
-        # Cálculo = s.flat_fee + sedex_price_weight.price * work_order.distance + sedex_distance_price
         work_order.update(shipping_method:s.name)
       
+        # Act
+        
         # Assert
-        expect(work_order.total_price).to eq 90 
+        expect(work_order.find_price[s.name]).to eq 90 
       end
-    #   it 'falso quando cálculo do preço não está correto' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-    #   it 'verdadeiro quando data prevista para entrega está correta' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-    #   it 'falso quando data prevista para entrega não está correta' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-    #   it 'falso quando status não corresponde à entrega em atraso' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-    #   it 'verdadeiro quando status corresponde à entrega em atraso' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-    #   it 'falso quando status não corresponde à entrega dentro do prazo' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-    #   it 'verdadeiro quando status corresponde à entrega em atraso' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
+      it 'falso quando cálculo do preço não está correto' do 
+        # Arrange
+        SedexPriceDistance.delete_all 
+        SedexPriceWeight.delete_all
+        SedexDeliveryTimeDistance.delete_all
+        Sedex.delete_all
+        work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:10, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+                                       warehouse_number:'234', distance:10)
+        s = Sedex.create!(name:'sedex', flat_fee: 50)
+        Expressa.create!(name:'expressa', flat_fee:40)
+        SedexDez.create!(name:'sedex_dez', flat_fee:30)
+        sedex_distance_price = SedexPriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
+        sedex_price_weight = SedexPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
+        SedexDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
+                        sedex_id: s.id, status:1, work_order_id: work_order.id)
+        s.update(work_order_id: work_order.id)
+        work_order.update(shipping_method:s.name)
+
+        # Act
+   
+        
+        # Assert
+        expect(work_order.find_price[s.name]).not_to eq 69
+      end
+    end
+    #context 'availability' do
     #   it 'falso quando ordem de serviço é iniciada e não há 
     #       métodos de entrega disponíveis' do 
     #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
+    #     ExpressaPriceDistance.delete_all 
+    #     ExpressaPriceWeight.delete_all
+    #     ExpressaDeliveryTimeDistance.delete_all
+    #     Expressa.delete_all
+    #     work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+    #                                    customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+    #                                    product_weight:10, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+    #                                    warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+    #                                    warehouse_number:'234', distance:40)
+    #     e = Expressa.create!(name:'Expressa', flat_fee: 10)
+    #     expressa_distance_price = ExpressaPriceDistance.create!(min_distance:5, max_distance:30, price:30, expressa_id:e.id)
+    #     expressa_price_weight = ExpressaPriceWeight.create!(min_weight:1, max_weight:30, price:1, expressa_id:e.id)
+    #     ExpressaDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:48, expressa_id:e.id)
+    #     Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
+    #                     expressa_id: e.id, status:1, work_order_id: work_order.id) 
+    #     # Act 
+        
+
+
     #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
     #   end
     #   it 'falso quando ordem de serviço é iniciada e não há 
     #       veículos disponíveis para realizar a entrega' do 
@@ -339,6 +327,6 @@ RSpec.describe WorkOrder, type: :model do
     #     # Assert
     #     expect(work_order.status).to eq 'ativo' 
     #   end
-    end
+  #end
   end
 end

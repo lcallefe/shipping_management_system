@@ -1,0 +1,13 @@
+pt-BR:   
+  activerecord:
+    models: 
+      expressa_price_weight: 'Configuração peso x preço'
+    attributes:
+      expressa_price_weight:
+        min_weight: 'Peso mínimo'
+        max_weight: 'Peso máximo'
+        price: 'Preço'
+
+ 
+
+

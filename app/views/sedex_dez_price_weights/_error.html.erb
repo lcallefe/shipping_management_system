@@ -1,0 +1,8 @@
+<% if @sedex_dez_price_weight.errors.full_messages.any? %>
+  <%  @sedex_dez_price_weight.errors.full_messages.each do |msg| %>
+    <div><br>
+      <%= msg %>
+    </div>
+  <% end %>
+<% end %>
+<br>

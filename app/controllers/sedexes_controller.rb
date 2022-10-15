@@ -1,9 +1,9 @@
 class SedexesController < ApplicationController
   def index
     @sedex = Sedex.find(1)
-    @price_distances = SecondPriceDistance.all
-    @price_weights = SecondPriceWeight.all
-    @delivery_time_distances = SecondDeliveryTimeDistance.all
+    @price_distances = SedexPriceDistance.all
+    @price_weights = SedexPriceWeight.all
+    @delivery_time_distances = SedexDeliveryTimeDistance.all
   end
 
   def edit
@@ -24,7 +24,7 @@ class SedexesController < ApplicationController
   end
 
   def validate_delivery_time_values
-    model = SecondDeliveryTimeDistance.all
+    model = SedexDeliveryTimeDistance.all
     if model.count > 1
       model.each_with_index do |dt,i|
         if dt.id > model[i-1].id
@@ -39,7 +39,7 @@ class SedexesController < ApplicationController
   end
 
   def validate_price_weight_values
-    model = SecondPriceWeight.all
+    model = SedexPriceWeight.all
     if model.count > 1
       model.each_with_index do |pw,i|
         if pw.id > model[i-1].id
@@ -54,7 +54,7 @@ class SedexesController < ApplicationController
   end
 
   def validate_price_distance_values
-    model = SecondPriceDistance.all
+    model = SedexPriceDistance.all
     if model.count > 1
       model.each_with_index do |pd,i|
         if pd.id > model[i-1].id
