@@ -108,7 +108,7 @@ class WorkOrder < ApplicationRecord
           end
         end
       end
-      new_hash_available_shipping_methods << delivery_time.merge!(price){ |k, distance, price| Array(distance).push(price) }
+      new_hash_available_shipping_methods << delivery_time.merge!(price){ |k, delivery_time, price| Array(delivery_time).push(price) }
     end
     if new_hash_available_shipping_methods[0].nil? 
       self.errors.add(:base, "Não há modalidades de entrega disponíveis.")
@@ -117,7 +117,6 @@ class WorkOrder < ApplicationRecord
   end
 
   def set_vehicle  
-    p self.shipping_method.downcase.parameterize(separator:'_').to_sym
     @vehicle = Vehicle.joins(self.shipping_method.downcase.parameterize(separator:'_').to_sym).where("full_capacity >= ?", self.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
     if !@vehicle.nil?
       @vehicle.update(work_order_id:self.id)

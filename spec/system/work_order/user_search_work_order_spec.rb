@@ -112,31 +112,6 @@ describe 'Usuário busca por uma ordem de serviço a partir da tela inicial' do
     expect(page).to have_content "Data prevista de entrega: #{I18n.localize(Date.today-1)}"
     expect(current_path).to eq search_work_orders_path
   end
-  it 'e entrega foi realizada com atraso' do 
-    # Arrange 
-    s = Sedex.create!(name:'Sedex', flat_fee: 50)
-    work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
-                                  customer_cpf:'12345678909', customer_phone_numer: '11981232345', total_price:50,
-                                  product_name:'Bicicleta', product_weight:5, sku:'123', departure_date:3.days.ago, 
-                                  shipping_expected_date:1.day.ago, warehouse_street:'Rua dos Vianas',
-                                  warehouse_city:'São Bernardo do Campo', warehouse_state:'SP', warehouse_number:'234', 
-                                  distance:20, shipping_method:s.name, shipping_date: Date.today, delay_reason: 'Enchente')                          
-    vehicle = Vehicle.create!(brand_name:'Ford', model:'Fiesta', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1234', 
-                              sedex_id: s.id, status:2, work_order_id: work_order.id)
-   
-    #Act 
-    visit root_path 
-    click_on 'Consultar entrega'
-    fill_in 'Buscar entrega', with: "#{work_order.code}"
-    click_on 'Buscar'
-    
-    # Arrange
-    expect(page).to have_content "Motivo do atraso"
-    expect(page).to have_content "Enchente"
-    expect(page).to have_content "Data de entrega: #{I18n.localize(Date.today)}"
-    expect(page).to have_content "Data prevista de entrega: #{I18n.localize(Date.today-1)}"
-    expect(current_path).to eq search_work_orders_path
-  end
   it 'e entrega foi realizada dentro do prazo' do 
     # Arrange 
     s = Sedex.create!(name:'Sedex', flat_fee: 50)

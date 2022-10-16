@@ -260,8 +260,8 @@ RSpec.describe WorkOrder, type: :model do
         s = Sedex.create!(name:'sedex', flat_fee: 50)
         Expressa.create!(name:'expressa', flat_fee:40)
         SedexDez.create!(name:'sedex_dez', flat_fee:30)
-        sedex_distance_price = SedexPriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
-        sedex_price_weight = SedexPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
+        SedexPriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
+        SedexPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
         SedexDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
                         sedex_id: s.id, status:1, work_order_id: work_order.id)
@@ -275,58 +275,183 @@ RSpec.describe WorkOrder, type: :model do
         expect(work_order.find_price[s.name]).not_to eq 69
       end
     end
-    #context 'availability' do
-    #   it 'falso quando ordem de serviço é iniciada e não há 
-    #       métodos de entrega disponíveis' do 
-    #     # Arrange
-    #     ExpressaPriceDistance.delete_all 
-    #     ExpressaPriceWeight.delete_all
-    #     ExpressaDeliveryTimeDistance.delete_all
-    #     Expressa.delete_all
-    #     work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
-    #                                    customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
-    #                                    product_weight:10, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
-    #                                    warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
-    #                                    warehouse_number:'234', distance:40)
-    #     e = Expressa.create!(name:'Expressa', flat_fee: 10)
-    #     expressa_distance_price = ExpressaPriceDistance.create!(min_distance:5, max_distance:30, price:30, expressa_id:e.id)
-    #     expressa_price_weight = ExpressaPriceWeight.create!(min_weight:1, max_weight:30, price:1, expressa_id:e.id)
-    #     ExpressaDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:48, expressa_id:e.id)
-    #     Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
-    #                     expressa_id: e.id, status:1, work_order_id: work_order.id) 
-    #     # Act 
+    context 'availability' do
+      it 'falso quando ordem de serviço é iniciada e não há 
+          métodos de entrega disponíveis' do 
+        # Arrange
+        SedexPriceDistance.delete_all 
+        SedexPriceWeight.delete_all
+        SedexDeliveryTimeDistance.delete_all
+        Sedex.delete_all
+        work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:500, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+                                       warehouse_number:'234', distance:400)
+        s = Sedex.create!(name:'sedex', flat_fee: 50)
+        Expressa.create!(name:'expressa', flat_fee:40)
+        SedexDez.create!(name:'sedex_dez', flat_fee:30)
+        SedexPriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
+        SedexPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
+        SedexDezDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30)
+        SedexDezPriceDistance.create!(min_distance:5, max_distance:40, price:10)
+        SedexDezPriceWeight.create!(min_weight:1, max_weight:30, price:1)
+        ExpressaDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30)
+        ExpressaPriceDistance.create!(min_distance:5, max_distance:40, price:10)
+        ExpressaPriceWeight.create!(min_weight:1, max_weight:30, price:1)
+        SedexDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
+                        sedex_id: s.id, status:1, work_order_id: work_order.id)
+        work_order.check_available_price_and_delivery_times
+
+        # Act
+
+
+        # Assert  
+        expect(work_order.errors.include?(:base)).to be true  
+        expect(work_order.errors[:base]).to include("Não há modalidades de entrega disponíveis.") 
+      end
+      it 'falso quando ordem de serviço é iniciada e não há 
+          veículos disponíveis para realizar a entrega' do 
+        # Arrange
+        SedexPriceDistance.delete_all 
+        SedexPriceWeight.delete_all
+        SedexDeliveryTimeDistance.delete_all
+        Sedex.delete_all
+        work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:51, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+                                       warehouse_number:'234', distance:400)
+        s = Sedex.create!(name:'sedex', flat_fee: 50)
+        e = Expressa.create!(name:'expressa', flat_fee:40)
+        sd = SedexDez.create!(name:'sedex_dez', flat_fee:30)
+        SedexDezPriceWeight.create!(min_weight:1, max_weight:40, price:10)
+        ExpressaPriceWeight.create!(min_weight:1, max_weight:30, price:20)
+        SedexPriceWeight.create!(min_weight:1, max_weight:50, price:30)
+        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:50, license_plate:'ABC-1235', 
+                        sedex_id: s.id, status:1)
+        Vehicle.create!(brand_name:'Fiat', model:'Uno', fabrication_year:'1995', full_capacity:50, license_plate:'ABC-1235', 
+                        expressa_id: e.id, status:1)  
+        Vehicle.create!(brand_name:'Chevrolet', model:'Celta', fabrication_year:'1999', full_capacity:50, license_plate:'ABC-1235', 
+                        sedex_dez_id:1, status:1) 
+        work_order.update(shipping_method:sd.name)                  
+        work_order.set_vehicle 
+                   
+        # Act
+        
+
+        # Assert
+        expect(work_order.errors.include?(:base)).to be true  
+        expect(work_order.errors[:base]).to include("Não há veículos disponíveis para a modalidade escolhida.") 
+      end  
+
+      it 'verdadeiro quando ordem de serviço é iniciada e há 
+          ao menos um veículo disponível para realizar a entrega' do 
+        # Arrange
+        SedexPriceDistance.delete_all 
+        SedexPriceWeight.delete_all
+        SedexDeliveryTimeDistance.delete_all
+        Sedex.delete_all
+        work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:50, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+                                       warehouse_number:'234', distance:400)
+        s = Sedex.create!(name:'sedex', flat_fee: 50)
+        e = Expressa.create!(name:'expressa', flat_fee:40)
+        sd = SedexDez.create!(name:'sedex_dez', flat_fee:30)
+        SedexDezPriceWeight.create!(min_weight:1, max_weight:40, price:10)
+        ExpressaPriceWeight.create!(min_weight:1, max_weight:30, price:20)
+        SedexPriceWeight.create!(min_weight:1, max_weight:50, price:30)
+        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:50, license_plate:'ABC-1235', 
+                        sedex_id: s.id, status:1)
+        Vehicle.create!(brand_name:'Fiat', model:'Uno', fabrication_year:'1995', full_capacity:50, license_plate:'ABC-1235', 
+                        expressa_id: e.id, status:1)  
+        Vehicle.create!(brand_name:'Chevrolet', model:'Celta', fabrication_year:'1999', full_capacity:50, license_plate:'ABC-1235', 
+                        sedex_dez_id:1, status:1) 
+        work_order.update(shipping_method:sd.name)                  
+        work_order.set_vehicle 
+                   
+        # Act
+        
+
+        # Assert
+        expect(work_order.errors.include?(:base)).to be false  
+        expect(work_order.errors[:base]).not_to include("Não há veículos disponíveis para a modalidade escolhida.") 
+      end
+       it 'falso quando método de entrega atende o peso mas não atende distância da ordem de serviço' do 
+        SedexPriceDistance.delete_all 
+        SedexPriceWeight.delete_all
+        SedexDeliveryTimeDistance.delete_all
+        Sedex.delete_all
+        work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:10, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+                                       warehouse_number:'234', distance:41)
+        s = Sedex.create!(name:'sedex', flat_fee: 50)
+        Expressa.create!(name:'expressa', flat_fee:40)
+        SedexDez.create!(name:'sedex_dez', flat_fee:30)
+        SedexPriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
+        SedexPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
+        SedexDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
+                        sedex_id: s.id, status:1, work_order_id: work_order.id) 
+        work_order.check_available_price_and_delivery_times
+
+
+
+
+        expect(work_order.errors.include?(:base)).to be true  
+        expect(work_order.errors[:base]).to include("Não há modalidades de entrega disponíveis.")
+       end
+       it 'falso quando método de entrega atende a distância mas não atende o peso da ordem de serviço' do 
+        SedexPriceDistance.delete_all 
+        SedexPriceWeight.delete_all
+        SedexDeliveryTimeDistance.delete_all
+        Sedex.delete_all
+        work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:31, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+                                       warehouse_number:'234', distance:40)
+        s = Sedex.create!(name:'sedex', flat_fee: 50)
+        Expressa.create!(name:'expressa', flat_fee:40)
+        SedexDez.create!(name:'sedex_dez', flat_fee:30)
+        SedexPriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
+        SedexPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
+        SedexDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
+                        sedex_id: s.id, status:1, work_order_id: work_order.id) 
+        work_order.check_available_price_and_delivery_times
+
+
+
+
+        expect(work_order.errors.include?(:base)).to be true  
+        expect(work_order.errors[:base]).to include("Não há modalidades de entrega disponíveis.")
+      end
+      it 'verdadeiro quando código alfanumérico é único com 15 caracteres' do 
+        work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:31, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+                                       warehouse_number:'234', distance:40)
+        second_work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:31, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
+                                       warehouse_number:'234', distance:40)                              
         
 
 
-    #     # Assert
-    #   end
-    #   it 'falso quando ordem de serviço é iniciada e não há 
-    #       veículos disponíveis para realizar a entrega' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-    #   it 'verdadeiro quando ordem de serviço é iniciada e há 
-    #       ao menos um método de entrega disponível' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-    #   it 'verdadeiro quando ordem de serviço é iniciada e há 
-    #       ao menos um veículo disponível para realizar a entrega' do 
-    #     # Arrange
-    #     work_order = WorkOrder.new(flat_fee:1)
-    #     # Act
-    #     work_order.valid?
-    #     # Assert
-    #     expect(work_order.status).to eq 'ativo' 
-    #   end
-  #end
+
+
+        expect(work_order.code).not_to be eq second_work_order.code  
+        expect(work_order.code.length).to eq 15  
+        expect(second_work_order.code.length).to eq 15  
+      end
+    end
   end
 end
