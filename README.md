@@ -26,17 +26,17 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
                 
 <h2>Gestão da frota</h2>
 
-- [ ] Usuário visualiza frota
-- [ ] Administrador cadastra veículo para frota
-- [ ] Administrador altera status de veículo
-- [ ] Usuário vê detalhes de veículo
-- [ ] Usuário busca por veículo específico
-- [ ] Validações
+- [x] Usuário visualiza frota
+- [x] Administrador cadastra veículo para frota
+- [x] Administrador altera status de veículo
+- [x] Usuário vê detalhes de veículo
+- [x] Usuário busca por veículo específico
+- [x] Validações
 
 <h2>Criação de ordem de serviço</h2>
 
 - [x] Administrador cadastra ordem de serviço
-- [ ] Validações - pendentes testes unitários para ordem de serviço
+- [x] Validações - pendentes testes unitários para ordem de serviço
 
 <h2>Inicialização de ordem de serviço</h2>
 
@@ -45,13 +45,13 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 - [x] Usuário inicia ordem de serviço
 - [x] Configuração de preços
 - [x] Configuração de prazos
-- [ ] Demais validações - pendentes testes unitários para ordem de serviço
+- [x] Demais validações - pendentes testes unitários para ordem de serviço
 
 <h2>Encerrar ordem de serviço</h2>
 
 - [x] Usuário vê ordens de serviço em andamento
 - [x] Usuário finaliza ordens de serviço
-- [ ] Validações --pendentes testes unitários para ordem de serviço
+- [x] Validações --pendentes testes unitários para ordem de serviço
   
 <h2>Consultar entrega</h2>
 
@@ -59,8 +59,44 @@ Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de
 
 <h2>Outros</h2>
 
-- [ ] Refatorar código -- criação de novas rotas, mover validações importantes do controller pro model de ordens de serviço
+- [ ] Refatorar código -- (I18n !!)
 - [ ] Layout do sistema
 
 
-# Instalação (WIP)
+# Configuração e instalação do projeto
+
+Gems adicionais presentes no projeto: devise e bootstrap;
+
+<h2>Gem 'devise'</h2> 
+Utilizada no processo de autenticação e criação de usuários
+
+<h2>Gem 'bootstrap'</h2> 
+Provê componentes CSS, SASS, LESS e JS auxiliando na criação do layout do sistema de forma personalizada
+
+<h2>Instalação do projeto</h2>
+
+1) Executar o seguinte comando no terminal para download do projeto: ```git@github.com:lcallefe/shipping_management_system.git```
+2) Abrir a pasta principal do projeto (shipping_management_system) no terminal e executar comando abaixo para instalação das gems:
+```    
+bundle install
+```
+3) Carregando massa de dados empregada no projeto:
+```
+rails db:seed
+```
+
+4) Para rodar os testes, utilize o comando abaixo:
+
+```    
+rspec
+```
+5) Acesso à aplicação: 
+```
+rails s
+```
+Uma vez que for exibida uma mensagem no terminal informando que o servidor está operante:
+Acessar aplicação por meio da url [http://localhost:3000](http://localhost:3000)  para consultar entrega. Caso deseje se autenticar e ter acesso às demais funcionalidades do sistema, entrar em [http://localhost:3000/users/sign_in](http://localhost:3000/users/sign_in)
+
+
+
+
