@@ -1,9 +1,10 @@
-<%= search_form_for @q do |f| %>
+<%= link_to 'Voltar', vehicles_path %>
+<%= form_with(url: search_vehicles_path, method: :get) do |f| %>
   <%= f.label :query, 'Buscar veículo' %>
-  <%= f.search_field :license_plate %>
-  <%= f.select :status_eq, Vehicle.statuses.keys.to_a %>
-  <%= f.submit %>
-<% end %>
+  <%= f.search_field :query %>
+  <%= f.select :status, Vehicle.statuses.keys.to_a %>
+  <%= f.submit 'Buscar' %>
+<%end%>
 
 <% if @vehicles.present? %>
 <h1>Resultados da busca:</h1>

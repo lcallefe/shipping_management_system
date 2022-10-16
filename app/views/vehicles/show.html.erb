@@ -1,0 +1,25 @@
+<%= link_to 'Alterar status', edit_vehicle_path(@vehicle.id)%>
+<%= link_to 'Voltar', vehicles_path %>
+<h1></h1>
+<dl>
+  <dt>Detalhes do veículo:</dt>
+  <dd><%= @vehicle.brand_name_and_model %></dd>
+  <dt>Placa:</dt>
+  <dd><%= @vehicle.license_plate %></dd>
+  <dt>Ano de fabricação:</dt>
+  <dd><%= @vehicle.fabrication_year %></dd>
+  <dt>Capacidade do veículo:</dt>
+  <dd><%= @vehicle.full_capacity %> kg</dd>
+  <dt>Status:</dt>
+  <dd><%= @vehicle.status %></dd>
+   <dt>Método de entrega:</dt>
+   <% if !@vehicle.sedex_id.nil? %>
+    <dd><%= Sedex.find(@vehicle.sedex_id).name %></dd>
+   <% elsif !@vehicle.sedex_dez_id.nil? %>
+    <dd><%= SedexDez.find(@vehicle.sedex_dez_id).name %></dd>
+   <% elsif !@vehicle.expressa_id.nil? %>
+    <dd><%= Expressa.find(@vehicle.expressa_id).name %></dd>
+   <% end %>
+</dl>
+
+

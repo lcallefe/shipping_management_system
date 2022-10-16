@@ -1,0 +1,9 @@
+<h1>Alterar status</h1>
+<%= link_to 'Voltar', vehicle_path(@vehicle.id) %>
+<%= form_with(model:@vehicle) do |f|%>
+  <div>
+    <%= f.label :status  %>
+      <%= f.select :status, Vehicle.statuses.keys.to_a %>
+  </div>
+  <%= f.submit 'Salvar' %>
+<% end %>

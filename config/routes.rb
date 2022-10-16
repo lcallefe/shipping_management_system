@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     patch 'complete', on: :member, to: "work_orders#complete", param: :work_order
     get 'complete', on: :member, to: "work_orders#complete"
   end
-  resources :vehicles, only:[:index, :show] do 
+  resources :vehicles, only:[:index, :show, :new, :create, :edit, :update] do 
     get 'search', on: :collection
   end
 

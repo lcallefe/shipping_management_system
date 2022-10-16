@@ -1,0 +1,14 @@
+pt-BR:   
+  activerecord:
+    models: 
+      vehicle: 'Veículo'
+    attributes:
+      vehicle:
+        license_plate: 'Placa'
+        brand_name: 'Marca'
+        model: 'Modelo'
+        fabrication_year: 'Ano de fabricação'
+        full_capacity: 'Capacidade máxima de carga'
+        sedex_id: 'Sedex'
+        sedex_dez_id: 'Sedex Dez'
+        expressa_id: 'Expressa'

@@ -1,0 +1,37 @@
+<%= render 'error' %>
+<h1>Cadastrar Veículo</h1>
+<%= form_with(model: @vehicle) do |f| %>
+  <div>
+    <%= f.label :brand_name %>
+    <%= f.text_field :brand_name %>
+  </div><br/>
+  <div>
+    <%= f.label :model %>
+    <%= f.text_field :model %>
+  </div><br/>
+  <div>
+    <%= f.label :fabrication_year %>
+    <%= f.text_field :fabrication_year %>
+  </div><br/>
+  <div>
+    <%= f.label :license_plate %>
+    <%= f.text_field :license_plate %>
+  </div><br/>
+  <div>
+    <%= f.label :full_capacity %>
+    <%= f.number_field :full_capacity %>
+  </div><br/>
+  <div><br/>
+    <%= 'Modalidade' %><br/>
+      <%= f.radio_button :sedex_id, false %>
+      <%= f.label :sedex_id, :value => false  %>
+      <%= f.radio_button :sedex_dez_id, false %>
+      <%= f.label :sedex_dez_id, :value => false %>
+      <%= f.radio_button :expressa_id, false  %>
+      <%= f.label :expressa_id, :value => false %>
+  </div><br/>
+  <%= f.submit 'Salvar' %>
+<% end %>
+
+<%= link_to 'Voltar', vehicles_path %>
+<%= link_to 'Sair', destroy_user_session_path %>

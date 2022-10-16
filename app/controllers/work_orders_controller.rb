@@ -53,10 +53,12 @@ class WorkOrdersController < ApplicationController
   def complete 
     @work_order = WorkOrder.find(params[:id])
     @work_order.update(shipping_date:Date.today)
+    @vehicle = Vehicle.find_by(work_order_id:@work_order.id)
     if Date.today > @work_order.shipping_expected_date
       if @work_order.update(work_order_complete_params)
         if params[:work_order][:delay_reason].present?
           @work_order.encerrada_em_atraso!
+          @vehicle.ativo!
           redirect_to pending_work_orders_path, notice: 'Ordem de serviço encerrada com sucesso.'
         else  
           flash.now[:notice] = "Motivo do atraso não pode ficar em branco."
@@ -67,6 +69,7 @@ class WorkOrdersController < ApplicationController
       end
     else
       @work_order.encerrada_no_prazo!
+      @vehicle.ativo!
       redirect_to pending_work_orders_path, notice: 'Ordem de serviço encerrada com sucesso.'
     end
   end

@@ -39,7 +39,7 @@ describe 'Usuário busca por uma ordem de serviço a partir da tela inicial' do
                         distance:20, shipping_method:s.name, shipping_date: Date.today)                           
     vehicle = Vehicle.create!(brand_name:'Ford', model:'Fiesta', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1234', 
                               sedex_id: s.id, status:1, work_order_id: work_order.id)
-    sedex_vehicle = Vehicle.create!(brand_name:'Fiat', model:'Tempra', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1234', 
+    sedex_vehicle = Vehicle.create!(brand_name:'Fiat', model:'Tempra', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1235', 
                               sedex_id: s.id, status:1, work_order_id: sedex_work_order.id)
     
     # Act  
