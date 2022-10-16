@@ -1,6 +1,7 @@
 # Sistema de Frete
 
 Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de frete. Projeto desenvolvido durante o programa TreinaDev oferecido pela Campus Code.
+Este sistema é responsável por gerenciar a frota de entrega para um e-commerce com alcance nacional. É possível cadastrar diferentes tipos de transporte definindo as cidades de atuação, os prazos e os custos. Além disso, o administrador do sistema pode cadastrar novas ordens de serviço sendo realizados os cálculos de frete de acordo com os tipos de transporte que atendem ao perfil do pedido. Por fim, o administrador do sistema é capaz controlar as ordens de serviço em andamento, encerrar ordens de serviço e consultar o status da frota de veículos da empresa.
 
 # Tarefas
 <h2>Configuração do projeto</h2>
