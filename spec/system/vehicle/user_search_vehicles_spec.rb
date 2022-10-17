@@ -83,7 +83,7 @@ describe 'Usuário busca por um veículo' do
     visit root_path
     click_on 'Busca por veículo'
     fill_in 'Buscar veículo', with: 'EFJ'
-    select "Em Manutenção", :from => "status"
+    select "Em Manutenção", from: "status"
     click_on 'Buscar'
     
     # Assert

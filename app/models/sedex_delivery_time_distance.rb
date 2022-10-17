@@ -1,6 +1,5 @@
 class SedexDeliveryTimeDistance < ApplicationRecord
   belongs_to :sedex
-  after_initialize :set_defaults
   after_create :update_min_distance
   after_save :validate_delivery_time_values
   validates :min_distance, :max_distance, :delivery_time, :presence => true
@@ -11,9 +10,6 @@ class SedexDeliveryTimeDistance < ApplicationRecord
   validates :min_distance, :max_distance, :delivery_time, numericality: { only_integer: true }
  
   private
-  def set_defaults
-    self.sedex_id ||= 1
-  end 
 
   def update_min_distance
     if SedexDeliveryTimeDistance.count > 1

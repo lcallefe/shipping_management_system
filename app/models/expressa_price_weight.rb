@@ -1,6 +1,5 @@
 class ExpressaPriceWeight < ApplicationRecord
   belongs_to :expressa 
-  after_initialize :set_defaults
   validates :min_weight, :max_weight, :price, :presence => true
   after_create :update_min_weight
   after_save :validate_price_weight_values
@@ -12,10 +11,7 @@ class ExpressaPriceWeight < ApplicationRecord
   validates :min_weight, :max_weight, numericality: { only_integer: true }
 
   private
-  def set_defaults
-    self.expressa_id ||= 1
-  end  
-  
+
   def update_min_weight
     if ExpressaPriceWeight.count > 1
       last_max_weight = ExpressaPriceWeight.where("created_at < ?", self.created_at).order("id DESC").first.max_weight

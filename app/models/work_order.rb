@@ -36,7 +36,7 @@ class WorkOrder < ApplicationRecord
       from work_orders w join #{table_name} sm
       on w.id = sm.work_order_id join #{id_name}_price_distances pd 
       on sm.id = pd.#{id_name}_id 
-      where w.distance between pd.min_distance and pd.max_distance").rows.join.to_i
+      where w.distance between pd.min_distance and pd.max_distance and sm.status == 1").rows.join.to_i
 
       price_weight = ActiveRecord::Base.connection.exec_query("select pw.price 
       from work_orders w join #{table_name} sm
@@ -45,7 +45,7 @@ class WorkOrder < ApplicationRecord
       where w.product_weight between pw.min_weight and pw.max_weight").rows.join.to_i
 
       flat_fee = ActiveRecord::Base.connection.exec_query("select sm.flat_fee 
-      from work_orders w join #{table_name} sm on w.id = sm.work_order_id").rows.join.to_i
+      from work_orders w join #{table_name} sm on w.id = sm.work_order_id and sm.status == 1").rows.join.to_i
       if !price_weight.nil? && !price_weight.zero? && !price_distance.nil? && !price_distance.zero? && !flat_fee.nil? && !flat_fee.zero?
         sm_price = (self.distance * price_weight) + price_distance + flat_fee
       end
@@ -76,7 +76,7 @@ class WorkOrder < ApplicationRecord
       from work_orders w join #{table_name} sm
       on w.id = sm.work_order_id join #{id_name}_delivery_time_distances dt 
       on sm.id = dt.#{id_name}_id 
-      where w.distance between dt.min_distance and dt.max_distance").rows.join.to_i
+      where w.distance between dt.min_distance and dt.max_distance and sm.status == 1").rows.join.to_i
       @delivery_times << [shipping_method, delivery_time]
     end
     @delivery_times.map!{|dt| 

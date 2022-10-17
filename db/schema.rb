@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_17_060751) do
   create_table "expressa_delivery_time_distances", force: :cascade do |t|
     t.integer "min_distance"
     t.integer "max_distance"
     t.integer "delivery_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "expressa_id"
+    t.integer "expressa_id", default: 1
     t.index ["expressa_id"], name: "index_expressa_delivery_time_distances_on_expressa_id"
   end
 
@@ -27,7 +27,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "expressa_id"
+    t.integer "expressa_id", default: 1
     t.index ["expressa_id"], name: "index_expressa_price_distances_on_expressa_id"
   end
 
@@ -37,12 +37,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
     t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "expressa_id"
+    t.integer "expressa_id", default: 1
     t.index ["expressa_id"], name: "index_expressa_price_weights_on_expressa_id"
   end
 
   create_table "expressas", force: :cascade do |t|
-    t.string "name"
+    t.string "name", default: "expressa"
     t.integer "flat_fee"
     t.integer "status", default: 1
     t.datetime "created_at", null: false
@@ -57,7 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
     t.integer "delivery_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sedex_id"
+    t.integer "sedex_id", default: 1
     t.index ["sedex_id"], name: "index_sedex_delivery_time_distances_on_sedex_id"
   end
 
@@ -67,7 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
     t.integer "delivery_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sedex_dez_id"
+    t.integer "sedex_dez_id", default: 1
     t.index ["sedex_dez_id"], name: "index_sedex_dez_delivery_time_distances_on_sedex_dez_id"
   end
 
@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sedex_dez_id"
+    t.integer "sedex_dez_id", default: 1
     t.index ["sedex_dez_id"], name: "index_sedex_dez_price_distances_on_sedex_dez_id"
   end
 
@@ -87,12 +87,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
     t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sedex_dez_id"
+    t.integer "sedex_dez_id", default: 1
     t.index ["sedex_dez_id"], name: "index_sedex_dez_price_weights_on_sedex_dez_id"
   end
 
   create_table "sedex_dezs", force: :cascade do |t|
-    t.string "name"
+    t.string "name", default: "sedex_dez"
     t.integer "flat_fee"
     t.integer "status", default: 1
     t.datetime "created_at", null: false
@@ -107,7 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sedex_id"
+    t.integer "sedex_id", default: 1
     t.index ["sedex_id"], name: "index_sedex_price_distances_on_sedex_id"
   end
 
@@ -117,12 +117,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_080750) do
     t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sedex_id"
+    t.integer "sedex_id", default: 1
     t.index ["sedex_id"], name: "index_sedex_price_weights_on_sedex_id"
   end
 
   create_table "sedexes", force: :cascade do |t|
-    t.string "name"
+    t.string "name", default: "sedex"
     t.integer "flat_fee"
     t.integer "status", default: 1
     t.datetime "created_at", null: false

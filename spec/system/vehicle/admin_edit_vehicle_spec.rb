@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Usuáro altera status da modalidade de entrega' do
   it 'a partir da tela inicial' do
     # Arrange 
-    user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678')  
+    user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678', admin:true)  
     sm = Sedex.create!(name:'Sedex', flat_fee: 50)
     Vehicle.delete_all
     Vehicle.create!(brand_name:'Ford', model:'Fiesta', fabrication_year:'2001', full_capacity:100, license_plate:'EFJ-1234', 

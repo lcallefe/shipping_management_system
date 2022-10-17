@@ -1,6 +1,5 @@
 class ExpressaDeliveryTimeDistance < ApplicationRecord
   belongs_to :expressa
-  after_initialize :set_defaults
   after_create :update_min_distance
   after_save :validate_delivery_time_distance_values
   validates :min_distance, :max_distance, :delivery_time, :presence => true
@@ -12,10 +11,7 @@ class ExpressaDeliveryTimeDistance < ApplicationRecord
   validates :min_distance, :max_distance, :delivery_time, numericality: { only_integer: true }
  
   private
-  def set_defaults
-    self.expressa_id ||= 1
-  end 
-
+ 
   def update_min_distance
     if ExpressaDeliveryTimeDistance.count > 1
       last_max_distance = ExpressaDeliveryTimeDistance.where("created_at < ?", self.created_at).order("id DESC").first.max_distance

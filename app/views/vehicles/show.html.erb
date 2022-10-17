@@ -1,4 +1,6 @@
-<%= link_to 'Alterar status', edit_vehicle_path(@vehicle.id)%>
+<% if admin %>
+  <%= link_to 'Alterar status', edit_vehicle_path(@vehicle.id)%>
+<% end %>
 <%= link_to 'Voltar', vehicles_path %>
 <h1></h1>
 <dl>

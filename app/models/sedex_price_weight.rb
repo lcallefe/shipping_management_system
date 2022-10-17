@@ -1,6 +1,5 @@
 class SedexPriceWeight < ApplicationRecord
   belongs_to :sedex 
-  after_initialize :set_defaults
   validates :min_weight, :max_weight, :price, :presence => true
   after_create :update_min_weight
   after_save :validate_price_weight_values
@@ -12,9 +11,6 @@ class SedexPriceWeight < ApplicationRecord
   validates :min_weight, :max_weight, numericality: { only_integer: true }
 
   private
-  def set_defaults
-    self.sedex_id ||= 1
-  end  
   
   def update_min_weight
     if SedexPriceWeight.count > 1

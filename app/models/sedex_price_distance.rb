@@ -1,6 +1,5 @@
 class SedexPriceDistance < ApplicationRecord
   belongs_to :sedex 
-  after_initialize :set_defaults
   after_create :update_min_distance
   after_save :validate_price_distance_values
   validates :min_distance, :max_distance, :price, :presence => true
@@ -11,9 +10,6 @@ class SedexPriceDistance < ApplicationRecord
   validates :min_distance, :max_distance, :price, numericality: { only_integer: true }
 
   private
-  def set_defaults
-    self.sedex_id ||= 1
-  end   
 
   def update_min_distance
     if SedexPriceDistance.count > 1

@@ -432,6 +432,32 @@ RSpec.describe WorkOrder, type: :model do
         expect(work_order.errors.include?(:base)).to be true  
         expect(work_order.errors[:base]).to include("Não há modalidades de entrega disponíveis.")
       end
+      it 'falso quando método de entrega está desabilitado' do 
+        SedexPriceDistance.delete_all 
+        SedexPriceWeight.delete_all
+        SedexDeliveryTimeDistance.delete_all
+        Sedex.delete_all
+        work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
+                                       customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
+                                       product_weight:29, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
+                                       warehouse_street:'Av Bosque da Saúde', warehouse_city:'São Paulo',  
+                                       warehouse_number:'111', distance:10)
+        s = Sedex.create!(name:'sedex', flat_fee: 50, status:0)
+        Expressa.create!(name:'expressa', flat_fee:10)
+        SedexDez.create!(name:'sedex_dez', flat_fee:10)
+        SedexPriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
+        SedexPriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
+        SedexDeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
+                        sedex_id: s.id, status:1, work_order_id: work_order.id) 
+        work_order.check_available_price_and_delivery_times
+
+
+
+
+        expect(work_order.errors.include?(:base)).to be true  
+        expect(work_order.errors[:base]).to include("Não há modalidades de entrega disponíveis.")
+      end
       it 'verdadeiro quando código alfanumérico é único com 15 caracteres' do 
         work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
                                        customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
