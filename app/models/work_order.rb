@@ -49,7 +49,8 @@ class WorkOrder < ApplicationRecord
       if !price_weight.nil? && !price_weight.zero? && !price_distance.nil? && !price_distance.zero? && !flat_fee.nil? && !flat_fee.zero?
         sm_price = (self.distance * price_weight) + price_distance + flat_fee
       end
-      @sm_and_prices << [shipping_method, sm_price]
+      if sm_price == nil then @sm_and_prices == nil else @sm_and_prices << [shipping_method, sm_price] end
+      @sm_and_prices 
     end
 
     @sm_and_prices.map!{|sm_price| 
