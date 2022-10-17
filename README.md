@@ -1,7 +1,7 @@
 # Sistema de Frete
 
 Sistema logístico criado para gerenciamento de ordens de serviço e cálculo de frete. Projeto desenvolvido durante o programa TreinaDev oferecido pela Campus Code.<br/><br/>
-Este sistema é responsável por gerenciar a frota de entrega para um e-commerce com alcance nacional. É possível cadastrar diferentes tipos de transporte definindo as cidades de atuação, os prazos e os custos. Além disso, o administrador do sistema pode cadastrar novas ordens de serviço sendo realizados os cálculos de frete de acordo com os tipos de transporte que atendem ao perfil do pedido. Por fim, o administrador do sistema é capaz controlar as ordens de serviço em andamento, encerrar ordens de serviço e consultar o status da frota de veículos da empresa.
+Este sistema é responsável por gerenciar a frota de entrega para um e-commerce com alcance nacional. Há dois tipos de usuários autorizados -- administrador e usuário comum -- e cada um deles possui privilégios diferentes dentro da aplicação. O administrador pode cadastrar diferentes tipos de transporte definindo as cidades de atuação, os prazos e os custos. Além disso, consegue cadastrar novas ordens de serviço, sendo realizados os cálculos de frete de acordo com os tipos de transporte que atendem ao perfil do pedido. Por fim, todos os usuários são capazes de controlar as ordens de serviço em andamento, encerrar ordens de serviço e consultar o status da frota de veículos da empresa.
 
 # Tarefas
 <h2>Configuração do projeto</h2>
@@ -10,7 +10,7 @@ Este sistema é responsável por gerenciar a frota de entrega para um e-commerce
 - [x] Incluir gem do devise para autenticação
 - [x] Definir usuário e administrador
 - [x] Incluir bootstrap
-- [ ] i18n -- WIP
+- [x] i18n 
       
 <h2>Modalidades de transporte</h2>
 
@@ -60,7 +60,7 @@ Este sistema é responsável por gerenciar a frota de entrega para um e-commerce
 
 <h2>Outros</h2>
 
-- [ ] Refatorar código -- (I18n !!)
+- [ ] Refatorar código 
 - [ ] Layout do sistema
 
 
@@ -77,7 +77,7 @@ Provê componentes CSS, SASS, LESS e JS auxiliando na criação do layout do sis
 <h2>Instalação do projeto</h2>
 
 1) Executar o seguinte comando no terminal para download do projeto: ```git@github.com:lcallefe/shipping_management_system.git```
-2) Abrir a pasta principal do projeto (shipping_management_system) no terminal e executar comando abaixo para instalação das gems:
+2) Abrir a pasta principal do projeto (shipping_management_system) no terminal e executar o comando abaixo para instalação das gems:
 ```    
 bundle install
 ```
