@@ -16,8 +16,6 @@
   <dd><%= Vehicle.human_enum_name(:status, vehicle.status) %></dd><br/>
   <dt><%= link_to "Ver detalhes", vehicle_path(vehicle.id) %></dt> 
 <% end %>
-<% else %>
-  <%= 'Nenhum veículo encontrado.' %>
 <% end %>
 
 

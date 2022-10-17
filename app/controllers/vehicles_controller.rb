@@ -41,8 +41,14 @@ class VehiclesController < ApplicationController
   def search 
     @license_plate = params["query"]
     @status = params["status"]
-    @vehicles = Vehicle.where("license_plate LIKE ?", "%#{@license_plate}%").or(Vehicle.where(status: @status))
-  end
+    if @license_plate.nil? || @license_plate.empty?
+      @vehicles = Vehicle.where("license_plate LIKE ?", "").or(Vehicle.where(status: @status))
+      flash.now[:notice] = 'Nenhum veículo encontrado.' if @vehicles.blank?
+    else   
+      @vehicles = Vehicle.where("license_plate LIKE ?", "%#{@license_plate}%").or(Vehicle.where(status: @status))
+      flash.now[:notice] = 'Nenhum veículo encontrado.' if @vehicles.blank?
+    end
+  end 
 
   private  
   def vehicle_create_params  

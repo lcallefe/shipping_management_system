@@ -4,14 +4,12 @@
 <%= link_to 'Voltar', root_path %>
 
 <% if @vehicles.present? %>
-<% @vehicles.each do |vehicle| %>
-<dl>
-  <dt><%= 'Modelo:' %></dt> 
-  <dd><%= vehicle.brand_name_and_model %>
-  <dt><%= 'Status: '%></dt> 
-  <dd><%= Vehicle.human_enum_name(:status, vehicle.status) %></dd><br/>
-  <dt><%= link_to "Ver detalhes", vehicle_path(vehicle.id) %></dt> 
-<% end %>
-<% else %>
-  <%= 'Nenhum veículo encontrado.' %>
+  <% @vehicles.each do |vehicle| %>
+  <dl>
+    <dt><%= 'Modelo:' %></dt> 
+    <dd><%= vehicle.brand_name_and_model %>
+    <dt><%= 'Status: '%></dt> 
+    <dd><%= Vehicle.human_enum_name(:status, vehicle.status) %></dd><br/>
+    <dt><%= link_to "Ver detalhes", vehicle_path(vehicle.id) %></dt> 
+  <% end %>
 <% end %>
