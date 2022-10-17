@@ -95,8 +95,7 @@ rspec
 ```
 rails s
 ```
-Uma vez que for exibida uma mensagem no terminal informando que o servidor está operante:
-Acessar aplicação por meio da url [http://localhost:3000](http://localhost:3000)  para consultar entrega. Caso deseje se autenticar e ter acesso às demais funcionalidades do sistema, entrar em [http://localhost:3000/users/sign_in](http://localhost:3000/users/sign_in)
+Uma vez que for exibida uma mensagem no terminal informando que o servidor está operante, acessar aplicação por meio da url [http://localhost:3000](http://localhost:3000)  para consultar entrega. Caso deseje se autenticar e ter acesso às demais funcionalidades do sistema, entrar em [http://localhost:3000/users/sign_in](http://localhost:3000/users/sign_in)
 
 
 
