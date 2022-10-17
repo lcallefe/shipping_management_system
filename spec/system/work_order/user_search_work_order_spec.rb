@@ -81,11 +81,11 @@ describe 'Usuário busca por uma ordem de serviço a partir da tela inicial' do
     click_on 'Buscar'
     
     # Arrange
-    expect(page).to have_content "Nenhum pedido encontrado"
+    expect(page).to have_content "Nenhuma ordem de serviço encontrada."
     expect(page).not_to have_content "São Bernardo do Campo - SP"
     expect(page).not_to have_content "#{work_order.code}"
     expect(page).not_to have_content "Fiesta"
-    expect(current_path).to eq search_work_orders_path
+    expect(page).to have_link('Voltar', href: work_orders_path)
   end
   it 'e entrega foi realizada com atraso' do 
     # Arrange 

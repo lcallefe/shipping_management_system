@@ -63,8 +63,7 @@ describe 'Usuário busca por um veículo' do
     click_on 'Buscar'
     
     # Assert
-    expect(page).to have_content 'Ford - Fiesta'
-    expect(page).to have_content 'Ativo'
+    expect(page).not_to have_content 'Ford - Fiesta'
     expect(page).to have_content 'Volkswagen - Golf'
     expect(page).to have_content 'Em entrega'
   end

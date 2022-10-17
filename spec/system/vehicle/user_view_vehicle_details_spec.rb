@@ -48,6 +48,7 @@ describe 'Usuário vê detalhes de veículo' do
     click_on 'Ver detalhes'
     click_on 'Voltar'
     click_on 'Voltar'
+    click_on 'Voltar'
  
     # Assert
     expect(page).not_to have_content 'Salvar'

@@ -53,6 +53,7 @@ class WorkOrdersController < ApplicationController
     @code = params["query"]
     @work_order = WorkOrder.find_by(code: params["query"])
     @vehicle = Vehicle.find_by(work_order_id:@work_order.id) if !@work_order.nil?
+    flash.now[:notice] = 'Nenhuma ordem de serviço encontrada.' if @work_order.blank?
   end
 
   def complete 
