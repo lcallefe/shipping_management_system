@@ -3,7 +3,7 @@
 <%= form_with(model:@vehicle) do |f|%>
   <div>
     <%= f.label :status  %>
-      <%= f.select :status, Vehicle.statuses.keys.to_a %>
+    <%= f.select :status, Vehicle.statuses.keys.map { |status| [Vehicle.human_enum_name(:status, status), status] } %>
   </div>
   <%= f.submit 'Salvar' %>
 <% end %>

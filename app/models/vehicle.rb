@@ -11,11 +11,12 @@ class Vehicle < ApplicationRecord
   validates :model, :brand_name, length: { minimum: 4 }
   validates :full_capacity, numericality: { greater_than: 0 }
   validates :model, :brand_name, :fabrication_year, :full_capacity, :license_plate, presence: true
-  enum status: { em_entrega: 2, ativo: 1, em_manutenção: 0 } 
+  enum status: { in_progress: 2, active: 1, repair: 0 } 
 
   def brand_name_and_model 
     "#{brand_name} - #{model}"
   end
+
 end
 
 

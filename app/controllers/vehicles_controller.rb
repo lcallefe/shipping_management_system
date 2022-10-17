@@ -1,4 +1,5 @@
 class VehiclesController < ApplicationController
+  before_action :find_vehicle_by_id, only:[:edit, :update, :show]
 
   def index 
     @vehicles = Vehicle.all
@@ -22,11 +23,9 @@ class VehiclesController < ApplicationController
   end
 
   def edit
-    @vehicle = Vehicle.find(params[:id])
   end
 
   def update
-    @vehicle = Vehicle.find(params[:id])
     vehicle_edit_params
     if @vehicle.update(vehicle_edit_params)
       redirect_to vehicles_path
@@ -37,7 +36,6 @@ class VehiclesController < ApplicationController
   end
 
   def show  
-    @vehicle = Vehicle.find(params[:id])
   end
 
   def search 
@@ -52,5 +50,8 @@ class VehiclesController < ApplicationController
   end
   def vehicle_edit_params  
     vehicle_edit_params = params.require(:vehicle).permit(:status)
+  end
+  def find_vehicle_by_id  
+    @vehicle = Vehicle.find(params[:id])
   end
 end

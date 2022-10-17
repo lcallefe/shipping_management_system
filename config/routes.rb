@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   devise_scope :user do  
     get '/users/sign_out' => 'devise/sessions#destroy'     
   end 
-  # Modalidades de entrega / configuração Preços | Prazos | Pesos
   resources :sedexes, only:[:index, :new, :create, :edit, :update]
   resources :sedex_dezs, only:[:index, :new, :create, :edit, :update]
   resources :expressas, only:[:index, :new, :create, :edit, :update]
@@ -21,14 +20,8 @@ Rails.application.routes.draw do
   resources :work_orders, only:[:index, :new, :create, :show, :edit, :update, :show] do 
     get 'search', on: :collection
     get 'pending', on: :collection
-    put 'complete', on: :member, to: "work_orders#complete", param: :work_order
-    patch 'complete', on: :member, to: "work_orders#complete", param: :work_order
-    get 'complete', on: :member, to: "work_orders#complete"
   end
   resources :vehicles, only:[:index, :show, :new, :create, :edit, :update] do 
     get 'search', on: :collection
   end
-
-  # resources :complete, only:[:edit, :update]
-
 end

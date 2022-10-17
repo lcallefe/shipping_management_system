@@ -25,7 +25,7 @@ describe 'Usuário vê detalhes de veículo' do
     expect(page).to have_content  "Capacidade do veículo:"
     expect(page).to have_content '100 kg'
     expect(page).to have_content 'Status:'
-    expect(page).to have_content 'ativo'
+    expect(page).to have_content 'Ativo'
     expect(page).to have_content 'Método de entrega'
     expect(page).to have_content 'Sedex'
     expect(page).to have_link('Sair', href: destroy_user_session_path)

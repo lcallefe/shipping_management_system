@@ -1,17 +1,18 @@
 class SedexDezPriceWeightsController < ApplicationController
+  before_action :find_price_weight_by_id, only:[:edit, :update]
+  before_action :sedex_dez_price_weight_params, only:[:create, :update]
+  before_action :count, only:[:create, :update]
 
   def new
     @sedex_dez_price_weight = SedexDezPriceWeight.new
   end
 
   def create
-    sedex_dez_price_weight_params
-    count = SedexDezPriceWeight.count
     @sedex_dez_price_weight = SedexDezPriceWeight.create(sedex_dez_price_weight_params)
     
-    if @sedex_dez_price_weight.save && SedexDezPriceWeight.count > count
+    if @sedex_dez_price_weight.save && SedexDezPriceWeight.count > @count
       redirect_to sedex_dezs_path, notice: 'Intervalo cadastrado com sucesso.'
-    elsif @sedex_dez_price_weight.save && SedexDezPriceWeight.count == count
+    elsif @sedex_dez_price_weight.save && SedexDezPriceWeight.count == @count
       flash.now[:notice] = 'Intervalo inválido.'
       render 'edit'
     else
@@ -19,16 +20,14 @@ class SedexDezPriceWeightsController < ApplicationController
       render 'new'
     end
   end
+
   def edit
-    @sedex_dez_price_weight = SedexDezPriceWeight.find(params[:id])
   end
+
   def update
-    sedex_dez_price_weight_params
-    @sedex_dez_price_weight = SedexDezPriceWeight.find(params[:id])
-    count = SedexDezPriceWeight.count
-    if @sedex_dez_price_weight.update(sedex_dez_price_weight_params) && SedexDezPriceWeight.count == count
+    if @sedex_dez_price_weight.update(sedex_dez_price_weight_params) && SedexDezPriceWeight.count == @count
       redirect_to sedex_dezs_path, notice: 'Intervalo alterado com sucesso.' 
-    elsif @sedex_dez_price_weight.update(sedex_dez_price_weight_params) && SedexDezPriceWeight.count < count  
+    elsif @sedex_dez_price_weight.update(sedex_dez_price_weight_params) && SedexDezPriceWeight.count < @count  
       flash.now[:notice] = 'Intervalo inválido.'
       render 'edit'
     else
@@ -39,5 +38,13 @@ class SedexDezPriceWeightsController < ApplicationController
   private
   def sedex_dez_price_weight_params
     sedex_dez_price_weight = params.require(:sedex_dez_price_weight).permit(:min_weight, :max_weight, :price)
+  end
+
+  def find_price_weight_by_id
+    @sedex_dez_price_weight = SedexDezPriceWeight.find(params[:id])
+  end
+
+  def count  
+    @count = SedexDezPriceWeight.count
   end
 end

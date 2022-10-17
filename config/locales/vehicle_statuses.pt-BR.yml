@@ -1,0 +1,9 @@
+pt-BR:
+  activerecord:
+    attributes:
+      vehicle:
+        statuses:
+          active: "Ativo"
+          repair: "Em Manutenção"
+          in_progress: "Em entrega"
+          

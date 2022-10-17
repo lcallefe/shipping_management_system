@@ -59,6 +59,7 @@ describe 'Usuáro cadastra nova configuração para modalidade de transporte Exp
     # Arrange 
     user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
     Expressa.create!(flat_fee:80)
+    ExpressaPriceWeight.delete_all
                     
     # Act
     login_as(user)

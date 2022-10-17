@@ -1,0 +1,9 @@
+pt-BR:
+  activerecord:
+    attributes:
+      work_order:
+        statuses:
+          pending: "Pendente"
+          in_progress: "Em Progresso"
+          within_deadline: "Encerrada no prazo"
+          after_deadline: "Encerrada em atraso"

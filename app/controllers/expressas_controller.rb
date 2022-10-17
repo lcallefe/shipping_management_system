@@ -1,4 +1,6 @@
 class ExpressasController < ApplicationController
+  before_action :find_expressa_by_id, only:[:edit, :update]
+
   def index
     @expressa = Expressa.last
     @price_distances = ExpressaPriceDistance.all
@@ -11,10 +13,9 @@ class ExpressasController < ApplicationController
   end
 
   def edit
-    @expressa = Expressa.find(params[:id])
   end
+  
   def update
-    @expressa = Expressa.find(params[:id])
     if @expressa.update(expressa_params)
       redirect_to expressas_path, notice: 'Modalidade de entrega alterada com sucesso.'
     else
@@ -25,5 +26,9 @@ class ExpressasController < ApplicationController
   private
   def expressa_params
     expressa_params = params.require(:expressa).permit(:flat_fee, :status)
+  end
+
+  def find_expressa_by_id
+    @expressa = Expressa.find(params[:id])
   end
 end

@@ -10,7 +10,7 @@ class WorkOrder < ApplicationRecord
   validates :product_weight, :distance, numericality: { greater_than: 0 }
   validate :check_address
   validates_uniqueness_of :code, on: :create
-  enum status: { pendente: 0, em_progresso: 1, encerrada_no_prazo: 3, encerrada_em_atraso: 4 }
+  enum status: { pending: 0, in_progress: 1, within_deadline: 3, after_deadline: 4 }
   before_create :generate_code
 
   def full_warehouse_address  
@@ -120,15 +120,14 @@ class WorkOrder < ApplicationRecord
     @vehicle = Vehicle.joins(self.shipping_method.downcase.parameterize(separator:'_').to_sym).where("full_capacity >= ?", self.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
     if !@vehicle.nil?
       @vehicle.update(work_order_id:self.id)
-      @vehicle.em_entrega!
+      @vehicle.in_progress!
     else  
       self.errors.add(:base, "Não há veículos disponíveis para a modalidade escolhida.")
       return false
     end
     true
   end 
-
-
+  
   private
 
   def generate_code

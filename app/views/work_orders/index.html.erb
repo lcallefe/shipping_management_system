@@ -1,6 +1,6 @@
 <%= link_to 'Voltar', root_path %>
 <% if user_signed_in? %>
-  <% if current_user.admin? %>
+  <% if admin %>
     <%= link_to 'Criar nova ordem de serviço', new_work_order_path %>
   <% end %>
 <%= link_to 'Ver ordens de serviço', pending_work_orders_path %>

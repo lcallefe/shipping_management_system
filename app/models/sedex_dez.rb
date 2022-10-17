@@ -6,7 +6,7 @@ class SedexDez < ApplicationRecord
   before_validation :validate_flat_fee
   validates :flat_fee, numericality: { only_integer: true }, :allow_nil => true
   belongs_to :work_orders, optional:true
-  enum status: { ativo: 1, inativo: 0 }
+  enum status: { active: 1, disabled: 0 }
 
   private
   def set_defaults

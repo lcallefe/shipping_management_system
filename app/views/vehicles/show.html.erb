@@ -11,7 +11,7 @@
   <dt>Capacidade do veículo:</dt>
   <dd><%= @vehicle.full_capacity %> kg</dd>
   <dt>Status:</dt>
-  <dd><%= @vehicle.status %></dd>
+  <dd><%= Vehicle.human_enum_name(:status, @vehicle.status) %></dd>
    <dt>Método de entrega:</dt>
    <% if !@vehicle.sedex_id.nil? %>
     <dd><%= Sedex.find(@vehicle.sedex_id).name %></dd>

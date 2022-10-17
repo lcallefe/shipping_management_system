@@ -5,10 +5,10 @@
   <div>
     <%= f.label :flat_fee %>
     <%= f.text_field :flat_fee %>
-  </div>
+  </div><br/><br/>
   <div>
     <%= f.label :status %>
-    <%= f.select :status, SedexDez.statuses.keys.to_a %>
+    <%= f.select :status, SedexDez.statuses.keys.map { |status| [SedexDez.human_enum_name(:status, status), status] } %>  </div>
   </div>
   <%= f.submit 'Salvar' %>
 <% end %>

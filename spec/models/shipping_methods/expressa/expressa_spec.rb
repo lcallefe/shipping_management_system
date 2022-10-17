@@ -41,10 +41,11 @@ RSpec.describe Expressa, type: :model do
       it 'status deve ser ativo por padrão' do 
         # Arrange
         shipping_method = Expressa.new(flat_fee:1)
+        status = Expressa.human_enum_name(:status, shipping_method.status)
         # Act
         shipping_method.valid?
         # Assert
-        expect(shipping_method.status).to eq 'ativo' 
+        expect(status).to eq 'Ativo'
       end
     end
   end

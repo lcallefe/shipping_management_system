@@ -5,12 +5,13 @@
   <div>
     <%= f.label :flat_fee %>
     <%= f.text_field :flat_fee %>
-  </div>
+  </div><br/>
   <div>
     <%= f.label :status %>
-    <%= f.select :status, Sedex.statuses.keys.to_a %>
-  </div>
-  <%= f.submit 'Salvar' %>
+    <%= f.select :status, Sedex.statuses.keys.map { |status| [Sedex.human_enum_name(:status, status), status] } %> 
+  </div><br/><br/>
+    
+    <%= f.submit 'Salvar' %><br/>
 <% end %>
 <%= link_to 'Sair', destroy_user_session_path %>
 <%= link_to 'Voltar', sedexes_path %>

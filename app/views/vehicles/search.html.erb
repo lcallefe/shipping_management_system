@@ -2,7 +2,7 @@
 <%= form_with(url: search_vehicles_path, method: :get) do |f| %>
   <%= f.label :query, 'Buscar veículo' %>
   <%= f.search_field :query %>
-  <%= f.select :status, Vehicle.statuses.keys.to_a %>
+  <%= f.select :status, Vehicle.statuses.keys.map { |status| [Vehicle.human_enum_name(:status, status), status] } %>
   <%= f.submit 'Buscar' %>
 <%end%>
 
@@ -13,7 +13,7 @@
   <dt><%= 'Modelo:' %></dt> 
   <dd><%= vehicle.brand_name_and_model %>
   <dt><%= 'Status: '%></dt> 
-  <dd><%= vehicle.status %></dd><br/>
+  <dd><%= Vehicle.human_enum_name(:status, vehicle.status) %></dd><br/>
   <dt><%= link_to "Ver detalhes", vehicle_path(vehicle.id) %></dt> 
 <% end %>
 <% else %>

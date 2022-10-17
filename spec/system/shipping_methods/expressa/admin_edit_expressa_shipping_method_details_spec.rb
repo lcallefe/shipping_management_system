@@ -12,12 +12,12 @@ describe 'Usuáro altera detalhes da modalidade de entrega' do
     visit root_path 
     click_on 'Expressa' 
     click_link('Editar', href: edit_expressa_path(expressa.id))
-    select 'inativo', from: 'Status'
+    select 'Desabilitado', from: 'Status'
     click_on 'Salvar'
          
     # Assert
     expect(page).to have_content('Modalidade de entrega alterada com sucesso.')
-    expect(page).to have_content('Status: Inativo')
+    expect(page).to have_content('Status: Desabilitado')
     expect(current_path).to eq expressas_path
   end
   it 'e volta para a tela de modalidade de entrega Expressa' do

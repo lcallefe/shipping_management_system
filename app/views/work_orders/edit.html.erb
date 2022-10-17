@@ -1,6 +1,6 @@
 <%= render 'error' %>
 <%= link_to 'Voltar', pending_work_orders_path %>
-  <% if !@shipping_methods.nil? && @work_order.pendente? %>
+  <% if !@shipping_methods.nil? && @work_order.pending? %>
     <h3><%='Modalidades de entrega disponíveis'%></h3>
     <%= form_with(model:@work_order) do |f|%>
       <% @shipping_methods.each do |k, v|%>
@@ -20,7 +20,7 @@
       <% end %>
      <%= f.submit 'Salvar' %>
     <% end %>
-  <% elsif @work_order.em_progresso? %>
+  <% elsif @work_order.in_progress? %>
     <%= render 'error' %>
     <%= form_with(model:@work_order) do |f|%>
     <% if Date.today > @work_order.shipping_expected_date %>

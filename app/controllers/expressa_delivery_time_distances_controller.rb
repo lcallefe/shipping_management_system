@@ -1,17 +1,18 @@
 class ExpressaDeliveryTimeDistancesController < ApplicationController
+  before_action :set_time_distance, only:[:edit, :update]
+  before_action :expressa_delivery_time_distance_params, only:[:create, :update]
+  before_action :count, only:[:create, :update]
 
   def new
     @expressa_delivery_time_distance = ExpressaDeliveryTimeDistance.new
   end
 
   def create
-    expressa_delivery_time_distance_params
-    count = ExpressaDeliveryTimeDistance.count
     @expressa_delivery_time_distance = ExpressaDeliveryTimeDistance.create(expressa_delivery_time_distance_params)
     
-    if @expressa_delivery_time_distance.save && ExpressaDeliveryTimeDistance.count > count
+    if @expressa_delivery_time_distance.save && ExpressaDeliveryTimeDistance.count > @count
       redirect_to expressas_path, notice: 'Intervalo cadastrado com sucesso.'
-    elsif @expressa_delivery_time_distance.save && ExpressaDeliveryTimeDistance.count == count
+    elsif @expressa_delivery_time_distance.save && ExpressaDeliveryTimeDistance.count == @count
       flash.now[:notice] = 'Intervalo inválido.'
       render 'edit'
     else
@@ -20,15 +21,12 @@ class ExpressaDeliveryTimeDistancesController < ApplicationController
     end
   end
   def edit
-    @expressa_delivery_time_distance = ExpressaDeliveryTimeDistance.find(params[:id])
   end
+
   def update 
-    expressa_delivery_time_distance_params
-    @expressa_delivery_time_distance = ExpressaDeliveryTimeDistance.find(params[:id])
-    count = ExpressaDeliveryTimeDistance.count
-    if @expressa_delivery_time_distance.update(expressa_delivery_time_distance_params) && ExpressaDeliveryTimeDistance.count == count
+    if @expressa_delivery_time_distance.update(expressa_delivery_time_distance_params) && ExpressaDeliveryTimeDistance.count == @count
       redirect_to expressas_path, notice: 'Intervalo alterado com sucesso.' 
-    elsif @expressa_delivery_time_distance.update(expressa_delivery_time_distance_params) && ExpressaDeliveryTimeDistance.count < count  
+    elsif @expressa_delivery_time_distance.update(expressa_delivery_time_distance_params) && ExpressaDeliveryTimeDistance.count < @count  
       flash.now[:notice] = 'Intervalo inválido.'
       render 'edit'
     else
@@ -40,5 +38,13 @@ class ExpressaDeliveryTimeDistancesController < ApplicationController
   private
   def expressa_delivery_time_distance_params
     expressa_delivery_time_distance_params = params.require(:expressa_delivery_time_distance).permit(:min_distance, :max_distance, :delivery_time, :expressa_id)
+  end
+
+  def set_time_distance   
+    @expressa_delivery_time_distance = ExpressaDeliveryTimeDistance.find(params[:id])
+  end
+
+  def count  
+    @count = ExpressaDeliveryTimeDistance.count
   end
 end

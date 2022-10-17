@@ -1,17 +1,19 @@
 class ExpressaPriceWeightsController < ApplicationController
+  before_action :set_expressa_price_weight, only:[:edit, :update]
+  before_action :expressa_price_weight_params, only:[:create, :update]
+  before_action :count, only:[:create, :update]
+
 
   def new
     @expressa_price_weight = ExpressaPriceWeight.new
   end
 
   def create
-    expressa_price_weight_params
-    count = ExpressaPriceWeight.count
     @expressa_price_weight = ExpressaPriceWeight.create(expressa_price_weight_params)
     
-    if @expressa_price_weight.save && ExpressaPriceWeight.count > count
+    if @expressa_price_weight.save && ExpressaPriceWeight.count > @count
       redirect_to expressas_path, notice: 'Intervalo cadastrado com sucesso.'
-    elsif @expressa_price_weight.save && ExpressaPriceWeight.count == count
+    elsif @expressa_price_weight.save && ExpressaPriceWeight.count == @count
       flash.now[:notice] = 'Intervalo inválido.'
       render 'edit'
     else
@@ -21,15 +23,13 @@ class ExpressaPriceWeightsController < ApplicationController
   end
   
   def edit
-    @expressa_price_weight = ExpressaPriceWeight.find(params[:id])
   end
+  
   def update
-    expressa_price_weight_params
-    @expressa_price_weight = ExpressaPriceWeight.find(params[:id])
     count = ExpressaPriceWeight.count
-    if @expressa_price_weight.update(expressa_price_weight_params) && ExpressaPriceWeight.count == count
+    if @expressa_price_weight.update(expressa_price_weight_params) && ExpressaPriceWeight.count == @count
       redirect_to expressas_path, notice: 'Intervalo alterado com sucesso.' 
-    elsif @expressa_price_weight.update(expressa_price_weight_params) && ExpressaPriceWeight.count < count  
+    elsif @expressa_price_weight.update(expressa_price_weight_params) && ExpressaPriceWeight.count < @count  
       flash.now[:notice] = 'Intervalo seguinte é inválido e será excluído.'
       render 'edit'
     else
@@ -40,5 +40,13 @@ class ExpressaPriceWeightsController < ApplicationController
   private
   def expressa_price_weight_params
     expressa_price_weight = params.require(:expressa_price_weight).permit(:min_weight, :max_weight, :price)
+  end
+
+  def set_expressa_price_weight  
+    @expressa_price_weight = ExpressaPriceWeight.find(params[:id])
+  end
+
+  def count 
+    @count = ExpressaPriceWeight.count 
   end
 end

@@ -1,0 +1,8 @@
+pt-BR:
+  activerecord:
+    attributes:
+      sedex:
+        statuses:
+          active: "Ativo"
+          disabled: "Desabilitado"
+          

@@ -1,4 +1,6 @@
 class SedexDezsController < ApplicationController
+  before_action :find_sedex_dez_by_id, only:[:edit, :update]
+
   def index
     @sedex_dez = SedexDez.find(1)
     @price_distances = SedexDezPriceDistance.all
@@ -7,10 +9,8 @@ class SedexDezsController < ApplicationController
   end
 
   def edit
-    @sedex_dez = SedexDez.find(params[:id])
   end
   def update
-    @sedex_dez = SedexDez.find(params[:id])
     if @sedex_dez.update(sedex_dez_params)
       redirect_to sedex_dezes_path, notice: 'Modalidade de entrega alterada com sucesso.'
     else
@@ -23,48 +23,7 @@ class SedexDezsController < ApplicationController
     sedex_dez_params = params.require(:sedex_dez).permit(:flat_fee, :status)
   end
 
-  def validate_delivery_time_values
-    model = SedexDezPriceDistance.all
-    if model.count > 1
-      model.each_with_index do |dt,i|
-        if dt.id > model[i-1].id
-          if (dt.delivery_time < model[i-1].delivery_time || dt.min_distance < model[i-1].min_distance || dt.max_distance < model[i-1].max_distance)
-              dt.destroy
-              flash.now[:notice] = 'Intervalo não é válido, por favor verifique e tente novamente.'
-          end
-        end
-      end
-    end
-    model
-  end
-
-  def validate_price_weight_values
-    model = SedexDezPriceWeight.all
-    if model.count > 1
-      model.each_with_index do |pw,i|
-        if pw.id > model[i-1].id
-          if (pw.min_weight < model[i-1].min_weight || pw.max_weight < model[i-1].max_weight|| pw.price < model[i-1].price || pw.min_weight < model[i-1].max_weight)
-              pw.destroy
-              flash.now[:notice] = 'Intervalo não é válido, por favor verifique e tente novamente.'
-          end
-        end
-      end
-    end
-    model
-  end
-
-  def validate_price_distance_values
-    model = SedexDezPriceDistance.all
-    if model.count > 1
-      model.each_with_index do |pd,i|
-        if pd.id > model[i-1].id
-          if (pd.price < model[i-1].price || pd.min_distance < model[i-1].min_distance || pd.max_distance < model[i-1].max_distance)
-              pd.destroy
-              flash.now[:notice] = 'Intervalo não é válido, por favor verifique e tente novamente.'
-          end
-        end
-      end
-    end
-    model
+  def find_sedex_dez_by_id 
+    @sedex_dez = SedexDez.find(params[:id])
   end
 end

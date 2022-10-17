@@ -19,13 +19,13 @@
             <td class="col-md-1"> <%= pd.min_distance %>km </td> 
             <td class="col-md-2"> <%= pd.max_distance %>km </td> 
             <td class="col-md-3"> <%= number_to_currency(pd.price, :unit => "R$ ", :separator => ",", :delimiter => ".") %> </td> 
-            <% if current_user.admin? %>
+            <% if admin %>
               <td class="col-md-3"> <%= link_to 'Editar intervalo', edit_expressa_price_distance_path(pd.id) %></td>
             <% end %>
           <tr>
         <% end%>
       <% end %>
-      <% if current_user.admin? %>
+      <% if admin %>
         <tr>
           <td></td>
           <td></td>
@@ -56,13 +56,13 @@
               <td class="col-md-1"> <%= dt.min_distance %>km </td> 
               <td class="col-md-2"> <%= dt.max_distance %>km </td> 
               <td class="col-md-3"> <%= dt.delivery_time %>h </td> 
-              <% if current_user.admin? %>
+              <% if admin %>
                 <td class="col-md-3"> <%= link_to 'Editar intervalo', edit_expressa_delivery_time_distance_path(dt.id) %></td>
               <% end  %>
             <tr>
           <% end%>
         <% end %>
-        <% if current_user.admin? %>
+        <% if admin %>
           <tr>
             <td></td>
             <td></td>
@@ -93,13 +93,13 @@
               <td class="col-md-1"> <%= pw.min_weight %>kg </td> 
               <td class="col-md-2"> <%= pw.max_weight %>kg </td> 
               <td class="col-md-3"> <%= number_to_currency(pw.price, :unit => "R$ ", :separator => ",", :delimiter => ".") %> </td> 
-              <% if current_user.admin? %>
+              <% if admin %>
                 <td class="col-md-3"> <%= link_to 'Editar intervalo', edit_expressa_price_weight_path(pw.id) %></td>
               <% end  %>
             <tr>
           <% end%>
         <% end %>
-        <% if current_user.admin? %>
+        <% if admin %>
           <tr>
             <td></td>
             <td></td>
@@ -112,12 +112,12 @@
     </table>
   </div>
 
-Status: <%= @expressa.status.capitalize %>
+Status: <%= Expressa.human_enum_name(:status, @expressa.status) %>
 </div>
-<% if @expressa.flat_fee.nil? && current_user.admin? %>
+<% if @expressa.flat_fee.nil? && admin %>
   <%= link_to 'Cadastrar taxa fixa', edit_expressa_path(@expressa.id) %>
 <% end %>
-<% if current_user.admin? %>
+<% if admin %>
   <%= link_to 'Editar', edit_expressa_path(@expressa.id) %>
 <% end %>
 Taxa fixa: <%= number_to_currency(@expressa.flat_fee, :unit => "R$ ", :separator => ",", :delimiter => ".") %><br/>

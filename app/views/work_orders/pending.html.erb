@@ -15,7 +15,7 @@
           <% @work_orders.each do |w| %>
             <tr>
               <td class="col-md-1"> <%= w.code %></td> 
-              <td class="col-md-3"> <%= w.status.titleize %> </td> 
+              <td class="col-md-3"> <%= WorkOrder.human_enum_name(:status, w.status) %> </td> 
               <td class="col-md-4"> <%= link_to 'Inicializar ordem de serviço', edit_work_order_path(w.id) %></td>
             <tr>
           <% end %>
@@ -45,7 +45,7 @@
             <tr>
               <td class="col-md-1"> <%= w.code %></td> 
               <td class="col-md-2"> <%= I18n.l(w.shipping_expected_date) if w.shipping_expected_date %></td> 
-              <td class="col-md-3"> <%= w.status.titleize %> </td> 
+              <td class="col-md-3"> <%= WorkOrder.human_enum_name(:status, w.status) %> </td> 
               <td class="col-md-4"> <%= link_to 'Encerrar ordem de serviço', edit_work_order_path(w.id) %></td>
               <td class="col-md-4"> <%= link_to 'Ver detalhes de ordem de serviço', work_order_path(w.id) %></td>
             <tr>

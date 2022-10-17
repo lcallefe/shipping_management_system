@@ -42,10 +42,11 @@ RSpec.describe SedexDez, type: :model do
     it 'status deve ser ativo por padrão' do 
       # Arrange
       shipping_method = SedexDez.new(flat_fee:10)
+      status = SedexDez.human_enum_name(:status, shipping_method.status)
       # Act
       shipping_method.valid?
       # Assert
-      expect(shipping_method.status).to eq 'ativo' 
+      expect(status).to eq 'Ativo' 
     end
   end
 end

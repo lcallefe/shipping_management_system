@@ -17,14 +17,14 @@ describe 'Usuáro altera status da modalidade de entrega' do
     click_on 'Buscar'
     click_on 'Ver detalhes'
     click_on 'Alterar status'
-    select 'em_manutenção', from: 'Status'
+    select 'Em Manutenção', from: 'Status'
     click_on 'Salvar'
 
          
     # Assert
     expect(page).to have_content('Ford - Fiesta')
     expect(page).to have_content('Status:')
-    expect(page).to have_content('em_manutenção')
+    expect(page).to have_content('Em Manutenção')
     expect(current_path).to eq vehicles_path
   end
   it 'e volta para a tela de detalhes do veículo' do
@@ -48,7 +48,7 @@ describe 'Usuáro altera status da modalidade de entrega' do
     # Assert
     expect(page).to have_content('Renault - Sedan')
     expect(page).to have_content('Status:')
-    expect(page).to have_content('ativo')
+    expect(page).to have_content('Ativo')
     expect(page).not_to have_button('Salvar')
     expect(current_path).to eq vehicle_path(vehicle.id)
   end

@@ -5,12 +5,12 @@
   <div>
     <%= f.label :flat_fee %>
     <%= f.text_field :flat_fee %>
-  </div>
+  </div><br/><br/>
   <div>
     <%= f.label :status %>
-    <%= f.select :status, Expressa.statuses.keys.to_a %>
-  </div>
+    <%= f.select :status, Expressa.statuses.keys.map { |status| [Expressa.human_enum_name(:status, status), status] } %>  
+  </div><br/>
   <%= f.submit 'Salvar' %>
 <% end %>
-<%= link_to 'Sair', destroy_user_session_path %>
+<%= link_to 'Sair', destroy_user_session_path %><br/><br/>
 <%= link_to 'Voltar', expressas_path %>

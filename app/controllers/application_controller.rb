@@ -4,7 +4,13 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  helper_method :admin
+  
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :admin])
+  end
+
+  def admin  
+    current_user.admin?
   end
 end
