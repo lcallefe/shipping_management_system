@@ -80,7 +80,7 @@ RSpec.describe SedexDezPriceDistance, type: :model do
         
         shipping_method.valid?
         
-        expect(shipping_method.errors.include?(:min_distance)).to be false 
+        expect(shipping_method.errors[:min_distance]).not_to include("deve ser maior que 0")
       end
       it 'falso quando distância máxima é negativa' do
         

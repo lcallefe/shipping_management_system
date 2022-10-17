@@ -80,7 +80,7 @@ RSpec.describe SedexPriceWeight, type: :model do
         
         shipping_method.valid?
         
-        expect(shipping_method.errors.include?(:min_weight)).to be false 
+        expect(shipping_method.errors[:min_weight]).not_to include("deve ser maior que 0")
       end
       it 'falso quando peso máximo é negativo' do
         
@@ -107,7 +107,7 @@ RSpec.describe SedexPriceWeight, type: :model do
         
         shipping_method.valid?
         
-        expect(shipping_method.errors.include?(:max_weight)).to be false  
+        expect(shipping_method.errors[:max_weight]).not_to include("deve ser maior que 0")
       end
       it 'falso quando peso máximo é maior que 50' do
         
@@ -226,18 +226,17 @@ RSpec.describe SedexPriceWeight, type: :model do
         expect(SedexPriceWeight.where(id:sedex_shipping_method.id )).not_to exist
       end
       it 'falso quando peso máximo é atualizado para valor superior ao peso mínimo do pŕoximo intervalo' do
-        
         sedex = Sedex.create!(flat_fee:1)
         shipping_method = SedexPriceWeight.create!(min_weight:20, max_weight:30, 
                                                     price:1, sedex_id: sedex.id)
         sedex_shipping_method = SedexPriceWeight.create!(min_weight:31, max_weight:40, 
                                                            price:2, sedex_id:sedex.id)
-        
         shipping_method.update(max_weight:32)                                                        
+
         
         expect(SedexPriceWeight.where(id:sedex_shipping_method.id )).not_to exist
       end
-    end
+   end
   end
 end
 
