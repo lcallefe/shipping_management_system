@@ -77,7 +77,7 @@ Provê componentes CSS, SASS, LESS e JS auxiliando na criação do layout do sis
 <h2>Instalação do projeto</h2>
 
 1) Executar o seguinte comando no terminal para download do projeto: ```git@github.com:lcallefe/shipping_management_system.git```
-2) Abrir a pasta principal do projeto (shipping_management_system) no terminal e executar comando abaixo para instalação das gems:
+2) Abrir a pasta principal do projeto (shipping_management_system) no terminal e executar o comando abaixo para instalação das gems:
 ```    
 bundle install
 ```
