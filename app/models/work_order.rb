@@ -63,7 +63,7 @@ class WorkOrder < ApplicationRecord
   end
 
   def find_delivery_time
-    shipping_methods = ['expressa', 'sedex', 'sedex_dez']
+    shipping_methods = find_available_shipping_methods
     @delivery_times = []
     Expressa.last.update(work_order_id:self.id)
     Sedex.last.update(work_order_id:self.id)
@@ -91,7 +91,7 @@ class WorkOrder < ApplicationRecord
   end
 
   def check_available_price_and_delivery_times 
-    sms = ["expressa", "sedex", "sedex_dez"] 
+    sms = find_available_shipping_methods 
     new_hash_available_shipping_methods = []
     delivery_time = find_delivery_time 
     price = find_price
@@ -130,6 +130,12 @@ class WorkOrder < ApplicationRecord
   end 
   
   private
+  find_available_shipping_methods  
+    expressa = Expressa.last.name 
+    sedex = Sedex.last.name  
+    sedex_dez = SedexDez.last.name
+    [expressa, sedex, sedex_dez]
+  end
 
   def generate_code
     self.code = SecureRandom.alphanumeric(15).upcase
