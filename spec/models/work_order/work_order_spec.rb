@@ -326,15 +326,18 @@ RSpec.describe WorkOrder, type: :model do
         s = Sedex.create!(name:'sedex', flat_fee: 50)
         e = Expressa.create!(name:'expressa', flat_fee:40)
         sd = SedexDez.create!(name:'sedex_dez', flat_fee:30)
-        SedexDezPriceWeight.create!(min_weight:1, max_weight:40, price:10)
+        SedexDezPriceWeight.create!(min_weight:1, max_weight:50, price:10)
         ExpressaPriceWeight.create!(min_weight:1, max_weight:30, price:20)
         SedexPriceWeight.create!(min_weight:1, max_weight:50, price:30)
+        # veículo em entrega
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:50, license_plate:'ABC-1234', 
-                        sedex_id: s.id, status:1)
+                        sedex_id: s.id, status:2)
+        # método de entrega expressa não atende o peso
         Vehicle.create!(brand_name:'Fiat', model:'Tempra', fabrication_year:'1995', full_capacity:50, license_plate:'BAU-1235', 
-                        expressa_id: e.id, status:1)  
+                        expressa_id: e.id, status:1) 
+        # veículo em manutenção
         Vehicle.create!(brand_name:'Chevrolet', model:'Celta', fabrication_year:'1999', full_capacity:50, license_plate:'ABC-1235', 
-                        sedex_dez_id:1, status:1) 
+                        sedex_dez_id:1, status:0) 
         work_order.update(shipping_method:sd.name)                  
         work_order.set_vehicle 
                    
