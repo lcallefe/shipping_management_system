@@ -22,13 +22,12 @@ class WorkOrder < ApplicationRecord
   end 
 
   def find_price
-    all_shipping_methods = ['expressa', 'sedex', 'sedex_dez']
     @sm_and_prices = []
     Expressa.last.update(work_order_id:self.id)
     Sedex.last.update(work_order_id:self.id)
     SedexDez.last.update(work_order_id:self.id)
 
-    all_shipping_methods.each do |shipping_method| 
+    find_available_shipping_methods.each do |shipping_method| 
       id_name = shipping_method
       table_name = id_name.pluralize 
 
@@ -59,13 +58,12 @@ class WorkOrder < ApplicationRecord
   end
 
   def find_delivery_time
-    shipping_methods = find_available_shipping_methods
     @delivery_times = []
     Expressa.last.update(work_order_id:self.id)
     Sedex.last.update(work_order_id:self.id)
     SedexDez.last.update(work_order_id:self.id)
     
-    shipping_methods.each do |shipping_method| 
+    find_available_shipping_methods.each do |shipping_method| 
       id_name = shipping_method
       table_name = id_name.pluralize 
       
@@ -122,10 +120,6 @@ class WorkOrder < ApplicationRecord
   end 
   
   private
-  def delivery_time_collection()  
-
-
-  end
   def find_available_shipping_methods  
     expressa = Expressa.last.name 
     sedex = Sedex.last.name  
