@@ -130,7 +130,7 @@ third_wo = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'A
                              product_weight:10, sku:'123', departure_date:(Date.today-5), warehouse_state:'SP', 
                              warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                              warehouse_number:'234', distance:10, shipping_date:Date.today, 
-                             shipping_expected_date:Date.today-3, shipping_method:e.name, status:4) 
+                             shipping_expected_date:Date.today-3, shipping_method:e.name, status:1) 
 tempra.update(work_order_id:third_wo.id)
 e.update(work_order_id:third_wo.id)
 
