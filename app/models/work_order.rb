@@ -53,12 +53,8 @@ class WorkOrder < ApplicationRecord
       @sm_and_prices 
     end
 
-    @sm_and_prices.map!{|sm_price| 
-      sm_price.compact!
-      if sm_price.length == 2 
-        @sm_and_prices.delete(sm_price)
-      end 
-    }.compact!
+    delivery_time_collection(@sm_and_prices)
+
     return @sm_and_prices.to_h
   end
 
@@ -80,12 +76,8 @@ class WorkOrder < ApplicationRecord
       where w.distance between dt.min_distance and dt.max_distance and sm.status == 1").rows.join.to_i
       @delivery_times << [shipping_method, delivery_time]
     end
-    @delivery_times.map!{|dt| 
-      @delivery_times.compact!
-      if dt.length == 2 
-        @delivery_times.delete(dt)
-      end 
-    }.compact!
+    
+    delivery_time_collection(@delivery_times)
     
     return @delivery_times.to_h
   end
@@ -130,7 +122,11 @@ class WorkOrder < ApplicationRecord
   end 
   
   private
-  find_available_shipping_methods  
+  def delivery_time_collection()  
+
+
+  end
+  def find_available_shipping_methods  
     expressa = Expressa.last.name 
     sedex = Sedex.last.name  
     sedex_dez = SedexDez.last.name
@@ -139,6 +135,15 @@ class WorkOrder < ApplicationRecord
 
   def generate_code
     self.code = SecureRandom.alphanumeric(15).upcase
+  end
+
+  def delivery_time_collection(delivery_times)  
+    delivery_times.map!{|dt| 
+      delivery_times.compact!
+      if dt.length == 2 
+        delivery_times.delete(dt)
+      end 
+    }.compact!
   end
 
   def check_address  
