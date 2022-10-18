@@ -29,8 +29,7 @@ class ExpressaPriceDistancesController < ApplicationController
     if @expressa_price_distance.update(expressa_price_distance_params) && ExpressaPriceDistance.count == @count
       redirect_to expressas_path, notice: 'Intervalo alterado com sucesso.' 
     elsif @expressa_price_distance.update(expressa_price_distance_params) && ExpressaPriceDistance.count < @count  
-      flash.now[:notice] = 'Intervalo inválido.'
-      render 'edit'
+      redirect_to expressas_path, notice: 'Intervalo seguinte é inválido e será excluído.'
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'

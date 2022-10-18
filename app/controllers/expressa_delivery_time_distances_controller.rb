@@ -13,8 +13,7 @@ class ExpressaDeliveryTimeDistancesController < ApplicationController
     if @expressa_delivery_time_distance.save && ExpressaDeliveryTimeDistance.count > @count
       redirect_to expressas_path, notice: 'Intervalo cadastrado com sucesso.'
     elsif @expressa_delivery_time_distance.save && ExpressaDeliveryTimeDistance.count == @count
-      flash.now[:notice] = 'Intervalo inválido.'
-      render 'edit'
+      redirect_to expressas_path, notice: 'Intervalo seguinte é inválido e será excluído.'
     else
       flash.now[:notice] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
       render 'new'

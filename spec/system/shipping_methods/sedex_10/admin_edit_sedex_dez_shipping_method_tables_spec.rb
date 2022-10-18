@@ -98,14 +98,14 @@ describe 'Usuáro altera configuração para modalidade de transporte SedexDez' 
     click_on 'Salvar'
          
     # Assert
-    expect(page).to have_content('Intervalo inválido.')
+    expect(page).to have_content('Intervalo seguinte é inválido e será excluído.')
     expect(page).to have_content('Distância máxima')
     expect(page).to have_content('Distância mínima')
     expect(page).to have_content('Prazo')
-    expect(page).to have_link('Voltar', href: sedex_dezs_path)
+    expect(page).not_to have_link('Voltar', href: sedex_dezs_path)
     expect(page).to have_link('Sair', href: destroy_user_session_path)
-    expect(page).not_to have_link('Editar intervalo')
-    expect(current_path).not_to eq sedex_dezs_path
+    expect(page).to have_link('Editar intervalo')
+    expect(current_path).to eq sedex_dezs_path
   end
   it 'e atualiza com dados inválidos para peso x valor por km' do
         # Arrange 

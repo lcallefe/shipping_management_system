@@ -13,8 +13,7 @@ class SedexPriceWeightsController < ApplicationController
     if @sedex_price_weight.save && SedexPriceWeight.count > @count
       redirect_to sedexes_path, notice: 'Intervalo cadastrado com sucesso.'
     elsif @sedex_price_weight.save && SedexPriceWeight.count == @count
-      flash.now[:notice] = 'Intervalo inválido.'
-      render 'edit'
+      redirect_to sedexes_path, notice: 'Intervalo seguinte é inválido e será excluído.'
     else
       flash.now[:notice] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
       render 'new'
@@ -28,8 +27,7 @@ class SedexPriceWeightsController < ApplicationController
     if @sedex_price_weight.update(sedex_price_weight_params) && SedexPriceWeight.count == @count
       redirect_to sedexes_path, notice: 'Intervalo alterado com sucesso.' 
     elsif @sedex_price_weight.update(sedex_price_weight_params) && SedexPriceWeight.count < @count  
-      flash.now[:notice] = 'Intervalo inválido.'
-      render 'edit'
+      redirect_to sedexes_path, notice: 'Intervalo seguinte é inválido e será excluído.'
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'

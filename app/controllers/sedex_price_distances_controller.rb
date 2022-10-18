@@ -27,8 +27,7 @@ class SedexPriceDistancesController < ApplicationController
     if @sedex_price_distance.update(sedex_price_distance_params) && SedexPriceDistance.count == @count
       redirect_to sedexes_path, notice: 'Intervalo alterado com sucesso.' 
     elsif @sedex_price_distance.update(sedex_price_distance_params) && SedexPriceDistance.count < @count  
-      flash.now[:notice] = 'Intervalo seguinte é inválido e será excluído.'
-      render 'edit'
+      redirect_to sedexes_path, notice: 'Intervalo seguinte é inválido e será excluído.'
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'
