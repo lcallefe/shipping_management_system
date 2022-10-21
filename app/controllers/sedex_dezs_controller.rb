@@ -12,7 +12,7 @@ class SedexDezsController < ApplicationController
   end
   def update
     if @sedex_dez.update(sedex_dez_params)
-      redirect_to sedex_dezes_path, notice: 'Modalidade de entrega alterada com sucesso.'
+      redirect_to sedex_dezs_path, notice: 'Modalidade de entrega alterada com sucesso.'
     else
       flash.now[:notice] = 'Não foi possível alterar modalidade de entrega'
       render 'edit'

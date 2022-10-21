@@ -98,7 +98,7 @@ describe 'Usuáro altera configuração para modalidade de transporte Sedex' do
     click_on 'Salvar'
          
     # Assert
-    expect(page).to have_content('Intervalo seguinte é inválido e será excluído.')
+    expect(page).to have_content('Intervalo inválido.')
     expect(page).to have_content('Distância máxima')
     expect(page).to have_content('Distância mínima')
     expect(page).to have_content('Prazo')

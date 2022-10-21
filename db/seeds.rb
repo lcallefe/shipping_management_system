@@ -120,7 +120,7 @@ second_wo = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'
                               customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
                               product_weight:10, sku:'123', departure_date:Date.today-5, warehouse_state:'SP', 
                               warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
-                              warehouse_number:'234', distance:10, status: 3, shipping_date:Date.today, 
+                              warehouse_number:'234', distance:10, status: 3co, shipping_date:Date.today, 
                               shipping_expected_date:(Date.today+3), shipping_method:s.name)
 vectra.update(work_order_id:second_wo.id)
 s.update(work_order_id:second_wo.id)

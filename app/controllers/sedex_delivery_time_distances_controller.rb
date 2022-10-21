@@ -29,7 +29,7 @@ class SedexDeliveryTimeDistancesController < ApplicationController
     if @sedex_delivery_time_distance.update(sedex_delivery_time_distance_params) && SedexDeliveryTimeDistance.count == @count
       redirect_to sedexes_path, notice: 'Intervalo alterado com sucesso.' 
     elsif @sedex_delivery_time_distance.update(sedex_delivery_time_distance_params) && SedexDeliveryTimeDistance.count < @count  
-      redirect_to sedexes_path, notice: 'Intervalo seguinte é inválido e será excluído.'
+      redirect_to sedexes_path, notice: 'Intervalo inválido.'
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'
