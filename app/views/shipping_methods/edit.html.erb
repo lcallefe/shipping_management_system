@@ -1,0 +1,16 @@
+<%= render 'error'%>
+<h1>Alterar modalidade de entrega</h1>
+
+<%= form_with(model: @expressa) do |f| %>
+  <div>
+    <%= f.label :flat_fee %>
+    <%= f.text_field :flat_fee %>
+  </div><br/><br/>
+  <div>
+    <%= f.label :status %>
+    <%= f.select :status, .statuses.keys.map { |status| [.human_enum_name(:status, status), status] } %>  
+  </div><br/>
+  <%= f.submit 'Salvar' %>
+<% end %>
+<%= link_to 'Sair', destroy_user_session_path %><br/><br/>
+<%= link_to 'Voltar', expressas_path %>

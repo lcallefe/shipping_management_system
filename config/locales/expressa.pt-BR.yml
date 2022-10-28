@@ -1,10 +1,15 @@
 pt-BR:   
   activerecord:
     models: 
-      expressa: 'Expressa'
+      shipping_method: 'Modalidade de transporte'
     attributes:
-      expressa:
+      shipping_method:
         flat_fee: 'Taxa fixa'
+        name: 'Nome'
+        min_distance: 'Distância mínima atendida'
+        max_distance: 'Distância máxima atendida'
+        min_weight: 'Peso mínimo atendido'
+        max_weight: 'Peso máximo atendido'
 
 
  

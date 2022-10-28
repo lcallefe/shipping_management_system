@@ -1,8 +1,5 @@
 class WorkOrder < ApplicationRecord
-  has_one :expressa
-  has_one :sedex_dez
-  has_one :sedex
-  has_one :vehicle
+  has_one :shipping_method
   validates :street, :city, :state, :number, :customer_name, :customer_cpf, presence: true
   validates :customer_phone_numer, :product_name,:product_weight, :sku, presence: true
   validates :warehouse_city, :warehouse_number,:warehouse_state, :warehouse_street, :distance, presence: true
@@ -23,28 +20,25 @@ class WorkOrder < ApplicationRecord
 
   def find_price
     @sm_and_prices = []
-    Expressa.last.update(work_order_id:self.id)
-    Sedex.last.update(work_order_id:self.id)
-    SedexDez.last.update(work_order_id:self.id)
-
+    ShippingMethod.last.update(work_order_id:self.id)
+   
     find_available_shipping_methods.each do |shipping_method| 
-      id_name = shipping_method
-      table_name = id_name.pluralize 
-
+ 
       price_distance = ActiveRecord::Base.connection.exec_query("select pd.price 
-      from work_orders w join #{table_name} sm
-      on w.id = sm.work_order_id join #{id_name}_price_distances pd 
-      on sm.id = pd.#{id_name}_id 
+      from work_orders w join shipping_methods sm
+      on w.id = sm.work_order_id join price_distances pd 
+      on sm.id = pd.shipping_method_id
       where w.distance between pd.min_distance and pd.max_distance and sm.status == 1").rows.join.to_i
 
       price_weight = ActiveRecord::Base.connection.exec_query("select pw.price 
-      from work_orders w join #{table_name} sm
-      on w.id = sm.work_order_id join #{id_name}_price_weights pw 
-      on sm.id = pw.#{id_name}_id 
+      from work_orders w join shipping_methods sm
+      on w.id = sm.work_order_id join price_weights pw 
+      on sm.id = pw.shipping_method_id
       where w.product_weight between pw.min_weight and pw.max_weight").rows.join.to_i
 
       flat_fee = ActiveRecord::Base.connection.exec_query("select sm.flat_fee 
-      from work_orders w join #{table_name} sm on w.id = sm.work_order_id and sm.status == 1").rows.join.to_i
+      from work_orders w join shipping_methods sm 
+      on w.id = sm.work_order_id and sm.status == 1").rows.join.to_i
       if !price_weight.nil? && !price_weight.zero? && !price_distance.nil? && !price_distance.zero? && !flat_fee.nil? && !flat_fee.zero?
         sm_price = (self.distance * price_weight) + price_distance + flat_fee
       end
@@ -59,18 +53,13 @@ class WorkOrder < ApplicationRecord
 
   def find_delivery_time
     @delivery_times = []
-    Expressa.last.update(work_order_id:self.id)
-    Sedex.last.update(work_order_id:self.id)
-    SedexDez.last.update(work_order_id:self.id)
-    
+    ShippingMethod.last.update(work_order_id:self.id)
+
     find_available_shipping_methods.each do |shipping_method| 
-      id_name = shipping_method
-      table_name = id_name.pluralize 
-      
       delivery_time = ActiveRecord::Base.connection.exec_query("select dt.delivery_time 
-      from work_orders w join #{table_name} sm
-      on w.id = sm.work_order_id join #{id_name}_delivery_time_distances dt 
-      on sm.id = dt.#{id_name}_id 
+      from work_orders w join shipping_methods sm
+      on w.id = sm.work_order_id join delivery_time_distances dt 
+      on sm.id = dt.shipping_method_id 
       where w.distance between dt.min_distance and dt.max_distance and sm.status == 1").rows.join.to_i
       @delivery_times << [shipping_method, delivery_time]
     end
@@ -108,7 +97,7 @@ class WorkOrder < ApplicationRecord
   end
 
   def set_vehicle  
-    @vehicle = Vehicle.joins(self.shipping_method.downcase.parameterize(separator:'_').to_sym).where("full_capacity >= ?", self.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
+    @vehicle = Vehicle.joins(:shipping_methods).where("full_capacity >= ?", self.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
     if !@vehicle.nil?
       @vehicle.update(work_order_id:self.id)
       @vehicle.in_progress!
@@ -121,10 +110,10 @@ class WorkOrder < ApplicationRecord
   
   private
   def find_available_shipping_methods  
-    expressa = Expressa.last.name 
-    sedex = Sedex.last.name  
-    sedex_dez = SedexDez.last.name
-    [expressa, sedex, sedex_dez]
+    shipping_methods = []
+    ShippingMethod.all.each do |sm|
+      shipping_methods << sm
+    end
   end
 
   def generate_code

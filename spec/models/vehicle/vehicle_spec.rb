@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SedexPriceDistance, type: :model do
+RSpec.describe Vehicle, type: :model do
   describe '#valid?' do
     context 'presence' do    
       it 'falso quando modelo do veículo está vazio' do
@@ -148,8 +148,7 @@ RSpec.describe SedexPriceDistance, type: :model do
     end
     context 'uniqueness' do
       it "falso quando número da placa não é único" do
-        sm = Sedex.create!(name:'Sedex', flat_fee: 50)
-        Vehicle.delete_all
+        sm = ShippingMethod.create!(name:'ShippingMethod', flat_fee: 50)
         vehicle = Vehicle.create!(brand_name:'Renault', model:'Sedan', fabrication_year:'2001', full_capacity:100, license_plate:'EFJ-1234', 
                                   sedex_id: sm.id, status:1)  
         second_vehicle = Vehicle.new(license_plate:'EFJ-1234')
@@ -160,8 +159,7 @@ RSpec.describe SedexPriceDistance, type: :model do
         expect(second_vehicle.errors[:license_plate]).to include("já está em uso")
       end
       it "verdadeiro quando número da placa é único" do
-        sm = Sedex.create!(name:'Sedex', flat_fee: 50)
-        Vehicle.delete_all
+        sm = ShippingMethod.create!(name:'ShippingMethod', flat_fee: 50)
         vehicle = Vehicle.create!(brand_name:'Renault', model:'Sedan', fabrication_year:'2001', full_capacity:100, license_plate:'EFJ-1253', 
                                   sedex_id: sm.id, status:1)  
         second_vehicle = Vehicle.new(license_plate:'EFJ-1235')

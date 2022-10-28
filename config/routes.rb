@@ -5,18 +5,11 @@ Rails.application.routes.draw do
   devise_scope :user do  
     get '/users/sign_out' => 'devise/sessions#destroy'     
   end 
-  resources :sedexes, only:[:index, :new, :create, :edit, :update]
-  resources :sedex_dezs, only:[:index, :new, :create, :edit, :update]
-  resources :expressas, only:[:index, :new, :create, :edit, :update]
-  resources :sedex_dez_price_distances, only:[:index, :new, :edit, :update, :create]
-  resources :sedex_dez_price_weights, only:[:index, :new, :edit, :update, :create]
-  resources :sedex_dez_delivery_time_distances, only:[:index, :new, :edit, :update, :create]
-  resources :sedex_price_distances, only:[:index, :new, :edit, :update, :create]
-  resources :sedex_price_weights, only:[:index, :new, :edit, :update, :create]
-  resources :sedex_delivery_time_distances, only:[:index, :new, :edit, :update, :create]
-  resources :expressa_price_distances, only:[:index, :new, :edit, :update, :create]
-  resources :expressa_price_weights, only:[:index, :new, :edit, :update, :create]
-  resources :expressa_delivery_time_distances, only:[:index, :new, :edit, :update, :create]
+  resources :shipping_methods, only:[:index, :new, :create, :edit, :update, :show]
+ 
+  resources :price_distances, only:[:index, :new, :edit, :update, :create]
+  resources :price_weights, only:[:index, :new, :edit, :update, :create]
+  resources :delivery_time_distances, only:[:index, :new, :edit, :update, :create]
   resources :work_orders, only:[:index, :new, :create, :show, :edit, :update, :show] do 
     get 'search', on: :collection
     get 'pending', on: :collection

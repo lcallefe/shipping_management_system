@@ -38,7 +38,7 @@ describe 'Administrador cadastra um veículo' do
     fill_in 'Marca', with: 'A'
     fill_in 'Modelo', with: 'AB'
     fill_in 'Ano de fabricação', with: '1'
-    choose 'Expressa'
+    choose ''
     fill_in 'Capacidade máxima de carga', with: 0
     click_on 'Salvar'
  

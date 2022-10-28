@@ -1,0 +1,38 @@
+<h1>Cadastrar Modalidade de Transporte</h1>
+
+<%= form_with(model: @shipping_method) do |f| %>
+  <div>
+    <%= f.label :flat_fee %>
+    <%= f.number_field :flat_fee %>
+  </div>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :min_weight %>
+    <%= f.number_field :min_weight %>
+  </div>
+
+  <div>
+    <%= f.label :max_weight %>
+    <%= f.number_field :max_weight %>
+  </div>
+
+  <div>
+    <%= f.label :min_distance %>
+    <%= f.number_field :min_distance %>
+  </div>
+
+  <div>
+    <%= f.label :max_distance %>
+    <%= f.number_field :max_distance %>
+  </div>
+
+  <%= f.submit 'Salvar' %>
+<% end %>
+
+<%= link_to 'Voltar', shipping_methods_path %>
+<%= link_to 'Sair', destroy_user_session_path %>

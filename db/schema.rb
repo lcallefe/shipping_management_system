@@ -10,125 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_17_060751) do
-  create_table "expressa_delivery_time_distances", force: :cascade do |t|
+ActiveRecord::Schema[7.0].define(version: 2022_10_28_175346) do
+  create_table "delivery_time_distances", force: :cascade do |t|
     t.integer "min_distance"
     t.integer "max_distance"
     t.integer "delivery_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "expressa_id", default: 1
-    t.index ["expressa_id"], name: "index_expressa_delivery_time_distances_on_expressa_id"
+    t.integer "shipping_method_id"
+    t.index ["shipping_method_id"], name: "index_delivery_time_distances_on_shipping_method_id"
   end
 
-  create_table "expressa_price_distances", force: :cascade do |t|
+  create_table "price_distances", force: :cascade do |t|
     t.integer "min_distance"
     t.integer "max_distance"
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "expressa_id", default: 1
-    t.index ["expressa_id"], name: "index_expressa_price_distances_on_expressa_id"
+    t.integer "shipping_method_id"
+    t.index ["shipping_method_id"], name: "index_price_distances_on_shipping_method_id"
   end
 
-  create_table "expressa_price_weights", force: :cascade do |t|
+  create_table "price_weights", force: :cascade do |t|
     t.integer "min_weight"
     t.integer "max_weight"
     t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "expressa_id", default: 1
-    t.index ["expressa_id"], name: "index_expressa_price_weights_on_expressa_id"
+    t.integer "shipping_method_id"
+    t.index ["shipping_method_id"], name: "index_price_weights_on_shipping_method_id"
   end
 
-  create_table "expressas", force: :cascade do |t|
-    t.string "name", default: "expressa"
+  create_table "shipping_methods", force: :cascade do |t|
+    t.string "name"
     t.integer "flat_fee"
     t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "work_order_id"
-    t.index ["work_order_id"], name: "index_expressas_on_work_order_id"
-  end
-
-  create_table "sedex_delivery_time_distances", force: :cascade do |t|
-    t.integer "min_distance"
     t.integer "max_distance"
-    t.integer "delivery_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sedex_id", default: 1
-    t.index ["sedex_id"], name: "index_sedex_delivery_time_distances_on_sedex_id"
-  end
-
-  create_table "sedex_dez_delivery_time_distances", force: :cascade do |t|
-    t.integer "min_distance"
-    t.integer "max_distance"
-    t.integer "delivery_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sedex_dez_id", default: 1
-    t.index ["sedex_dez_id"], name: "index_sedex_dez_delivery_time_distances_on_sedex_dez_id"
-  end
-
-  create_table "sedex_dez_price_distances", force: :cascade do |t|
-    t.integer "min_distance"
-    t.integer "max_distance"
-    t.integer "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sedex_dez_id", default: 1
-    t.index ["sedex_dez_id"], name: "index_sedex_dez_price_distances_on_sedex_dez_id"
-  end
-
-  create_table "sedex_dez_price_weights", force: :cascade do |t|
-    t.integer "min_weight"
     t.integer "max_weight"
-    t.float "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sedex_dez_id", default: 1
-    t.index ["sedex_dez_id"], name: "index_sedex_dez_price_weights_on_sedex_dez_id"
-  end
-
-  create_table "sedex_dezs", force: :cascade do |t|
-    t.string "name", default: "sedex_dez"
-    t.integer "flat_fee"
-    t.integer "status", default: 1
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "work_order_id"
-    t.index ["work_order_id"], name: "index_sedex_dezs_on_work_order_id"
-  end
-
-  create_table "sedex_price_distances", force: :cascade do |t|
     t.integer "min_distance"
-    t.integer "max_distance"
-    t.integer "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sedex_id", default: 1
-    t.index ["sedex_id"], name: "index_sedex_price_distances_on_sedex_id"
-  end
-
-  create_table "sedex_price_weights", force: :cascade do |t|
     t.integer "min_weight"
-    t.integer "max_weight"
-    t.float "price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "sedex_id", default: 1
-    t.index ["sedex_id"], name: "index_sedex_price_weights_on_sedex_id"
-  end
-
-  create_table "sedexes", force: :cascade do |t|
-    t.string "name", default: "sedex"
-    t.integer "flat_fee"
-    t.integer "status", default: 1
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "work_order_id"
-    t.index ["work_order_id"], name: "index_sedexes_on_work_order_id"
+    t.index ["work_order_id"], name: "index_shipping_methods_on_work_order_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -152,15 +76,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_17_060751) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sedex_dez_id"
-    t.integer "sedex_id"
-    t.integer "expressa_id"
     t.string "license_plate"
     t.string "model"
     t.integer "work_order_id"
-    t.index ["expressa_id"], name: "index_vehicles_on_expressa_id"
-    t.index ["sedex_dez_id"], name: "index_vehicles_on_sedex_dez_id"
-    t.index ["sedex_id"], name: "index_vehicles_on_sedex_id"
+    t.integer "shipping_method_id"
     t.index ["work_order_id"], name: "index_vehicles_on_work_order_id"
   end
 
@@ -192,5 +111,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_17_060751) do
     t.string "delay_reason"
   end
 
+  add_foreign_key "vehicles", "shipping_methods"
   add_foreign_key "vehicles", "work_orders"
 end

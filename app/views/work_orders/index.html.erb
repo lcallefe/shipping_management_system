@@ -1,17 +1,15 @@
 <%= link_to 'Voltar', root_path %>
 <% if user_signed_in? %>
-  <% if admin %>
+  <% admin %>
     <%= link_to 'Criar nova ordem de serviço', new_work_order_path %>
   <% end %>
 <%= link_to 'Ver ordens de serviço', pending_work_orders_path %>
 
-<% else %>
   <%= form_with(url: search_work_orders_path, method: :get) do |f| %>
     <%= f.label :query, 'Buscar entrega' %>
     <%= f.text_field :query %>
     <%= f.submit 'Buscar' %>
   <%end%>
-<% end %>
 
 
 

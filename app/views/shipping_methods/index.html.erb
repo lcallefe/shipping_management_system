@@ -1,0 +1,13 @@
+<%= link_to 'Cadastrar modalidade de transporte', new_shipping_method_path %>
+<%= link_to 'Voltar', root_path %>
+
+<% if @shipping_methods.present? %>
+  <% @shipping_methods.each do |sm| %>
+  <dl>
+    <dt><%= 'Modalidade de transporte:' %></dt> 
+    <dd><%= sm.name %>
+    <dt><%= 'Status: '%></dt> 
+    <dd><%= ShippingMethod.human_enum_name(:status, sm.status) %></dd><br/>
+    <dt><%= link_to "Ver detalhes", shipping_method_path(sm.id) %></dt> 
+  <% end %>
+<% end %>

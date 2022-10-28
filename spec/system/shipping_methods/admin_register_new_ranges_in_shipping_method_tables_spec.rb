@@ -1,0 +1,148 @@
+require 'rails_helper'
+
+describe 'Usuáro cadastra nova configuração para modalidade de transporte' do
+  it 'de distância x preço' do
+    user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
+    ShippingMethod.create!(flat_fee:45, name: "Entrega Rápida")
+                    
+    login_as(user)
+    visit root_path 
+    click_on 'Modalidades de transporte' 
+    click_on 'Entrega Rápida' 
+    click_link('Cadastrar intervalo', href: new_price_distance_path)
+    fill_in 'Distância mínima', with: '10'
+    fill_in 'Distância máxima', with: '40'
+    fill_in 'Preço', with: '50'
+    click_on 'Salvar'
+         
+    expect(page).to have_content('Intervalo cadastrado com sucesso.')
+    expect(page).to have_content('Olá Mariana')
+    expect(page).to have_content('10km')
+    expect(page).to have_content('40km')
+    expect(page).to have_content('R$ 50,00')
+    expect(page).to have_content('Configuração de preços por distância')
+    expect(page).to have_content('Distância mínima')
+    expect(page).to have_content('Distância máxima')
+    expect(page).to have_content('Preço')
+    expect(page).to have_link('Cadastrar intervalo', count:3)
+  end
+  it 'de distância x prazo' do
+    user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
+    ShippingMethod.create!(flat_fee:45, name: 'Entrega Rápida Plus')
+                    
+    login_as(user)
+    visit root_path 
+    click_on 'Modalidades de transporte' 
+    click_on 'Entrega Rápida'
+    click_link('Cadastrar intervalo', href: new_delivery_time_distance_path)
+    fill_in 'Distância mínima', with: '10'
+    fill_in 'Distância máxima', with: '40'
+    fill_in 'Prazo', with: '48'
+    click_on 'Salvar'
+         
+    expect(page).to have_content('Intervalo cadastrado com sucesso.')
+    expect(page).to have_content('Olá Carla')
+    expect(page).to have_content('10km')
+    expect(page).to have_content('40km')
+    expect(page).to have_content('48h')
+    expect(page).to have_content('Configuração de prazo por distância')
+    expect(page).to have_content('Distância mínima')
+    expect(page).to have_content('Distância máxima')
+    expect(page).to have_content('Prazo')
+    expect(page).to have_link('Cadastrar intervalo', count:3)
+  end
+  it 'de peso x preço' do
+    user = User.create!(email:'carlasouza@sistemadefrete.com.br', name:'Carla', password:'abobrinha123', admin:true)
+    ShippingMethod.create!(flat_fee:80, name:"Express")
+                    
+    login_as(user)
+    visit root_path 
+    click_on 'Modalidades de transporte' 
+    click_on 'Express'
+    click_link('Cadastrar intervalo', href: new_price_weight_path)
+    fill_in 'Peso mínimo', with: '10'
+    fill_in 'Peso máximo', with: '30'
+    fill_in 'Preço', with: '40'
+    click_on 'Salvar'
+         
+    expect(page).to have_content('Intervalo cadastrado com sucesso.')
+    expect(page).to have_content('Olá Carla')
+    expect(page).to have_content('10kg')
+    expect(page).to have_content('30kg')
+    expect(page).to have_content('R$ 40,00')
+    expect(page).to have_content('Peso | Valor por km')
+    expect(page).to have_content('Peso mínimo')
+    expect(page).to have_content('Peso máximo')
+    expect(page).to have_content('Valor por km')
+    expect(page).to have_link('Cadastrar intervalo', count:3)
+  end
+  it 'e mantém campos obrigatórios para distância x prazo' do
+    user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
+    ShippingMethod.create!(flat_fee:45, name:"Delivery")
+                    
+    login_as(user)
+    visit root_path 
+    click_on 'Modalidades de transporte' 
+    click_on 'Delivery' 
+    click_link('Cadastrar intervalo', href: new_price_distance_path)
+    fill_in 'Distância mínima', with: '10'
+    fill_in 'Distância máxima', with: ''
+    fill_in 'Preço', with: '100'
+    click_on 'Salvar'
+         
+    expect(page).to have_content('Não foi possível cadastrar intervalo, por favor verifique e tente novamente.')
+    expect(page).to have_content('Distância máxima não pode ficar em branco')
+    expect(page).to have_content('Distância máxima não é um número')
+    expect(page).to have_content('Distância mínima')
+    expect(page).to have_content('Preço')
+    expect(page).to have_link('Voltar', href: shipping_methods_path)
+    expect(page).to have_link('Sair', href: destroy_user_session_path)
+    expect(page).not_to have_link('Cadastrar intervalo')
+    expect(current_path).to eq price_distances_path
+  end
+  it 'e mantém campos obrigatórios para distância x prazo' do
+    user = User.create!(email:'marianadasilva@sistemadefrete.com.br', name:'Mariana', password:'C3b0l@0710', admin:true)
+    ShippingMethod.create!(flat_fee:45, name: 'Ultra Plus')
+                    
+    login_as(user)
+    visit root_path 
+    click_on 'Modalidades de transporte' 
+    click_on 'Ultra Plus' 
+    click_link('Cadastrar intervalo', href: new_delivery_time_distance_path)
+    fill_in 'Distância mínima', with: ''
+    fill_in 'Distância máxima', with: '20'
+    fill_in 'Prazo', with: '24'
+    click_on 'Salvar'
+         
+    expect(page).to have_content('Não foi possível cadastrar intervalo, por favor verifique e tente novamente.')
+    expect(page).to have_content('Distância mínima não pode ficar em branco')
+    expect(page).to have_content('Distância mínima não é um número')
+    expect(page).to have_content('Olá Mariana')
+    expect(page).to have_link('Voltar', href: shipping_methods_path)
+    expect(page).to have_link('Sair', href: destroy_user_session_path)
+    expect(page).not_to have_link('Editar intervalo')
+    expect(current_path).to eq delivery_time_distances_path
+  end
+  it 'e cadastra dados inválidos para peso | valor por km' do
+    user = User.create!(email:'susanasousa@sistemadefrete.com.br', name:'Susana', password:'C3n0ur4$', admin:true)
+    ShippingMethod.create!(flat_fee:45, name:'Ultra Plus')
+                    
+    login_as(user)
+    visit root_path 
+    click_on 'Modalidades de transporte' 
+    click_on 'Ultra Plus' 
+    click_link('Cadastrar intervalo', href: new_price_weight_path)
+    fill_in 'Peso mínimo', with: 0
+    fill_in 'Peso máximo', with: -1
+    fill_in 'Preço', with: '10'
+    click_on 'Salvar'
+         
+    expect(page).to have_content('Peso mínimo deve ser maior que 0')
+    expect(page).to have_content('Peso máximo deve ser maior que 0')
+    expect(page).to have_content('Não foi possível cadastrar intervalo, por favor verifique e tente novamente.')
+    expect(page).to have_link('Voltar', href: shipping_methods_path)
+    expect(page).to have_link('Sair', href: destroy_user_session_path)
+    expect(page).not_to have_content('Peso | Valor por km')
+    expect(current_path).to eq price_weights_path
+  end
+end

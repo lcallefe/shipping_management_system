@@ -15,7 +15,7 @@ describe 'Usuario visita tela inicial' do
     expect(page).to have_content('Modalidades de transporte:')
     expect(page).to have_link('Sedex', href: sedexes_path)
     expect(page).to have_link('Sedex 10', href: sedex_dezs_path)
-    expect(page).to have_link('Expressa', href: expressas_path)
+    expect(page).to have_link('', href: expressas_path)
     expect(page).to have_content('Ordens de serviço')
     expect(page).to have_link('Sair')
   end

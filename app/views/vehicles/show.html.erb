@@ -1,4 +1,4 @@
-<% if admin %>
+<% admin %>
   <%= link_to 'Alterar status', edit_vehicle_path(@vehicle.id)%>
 <% end %>
 <%= link_to 'Voltar', search_vehicles_path %>
@@ -20,7 +20,7 @@
    <% elsif !@vehicle.sedex_dez_id.nil? %>
     <dd><%= SedexDez.find(@vehicle.sedex_dez_id).name %></dd>
    <% elsif !@vehicle.expressa_id.nil? %>
-    <dd><%= Expressa.find(@vehicle.expressa_id).name %></dd>
+    <dd><%= .find(@vehicle.expressa_id).name %></dd>
    <% end %>
 </dl>
 

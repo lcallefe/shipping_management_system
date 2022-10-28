@@ -5,9 +5,9 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 
-ExpressaDeliveryTimeDistance.destroy_all
-ExpressaPriceDistance.destroy_all
-ExpressaPriceWeight.destroy_all 
+DeliveryTimeDistance.destroy_all
+PriceDistance.destroy_all
+PriceWeight.destroy_all 
 
 SedexDeliveryTimeDistance.destroy_all
 SedexPriceDistance.destroy_all
@@ -18,7 +18,7 @@ SedexDezPriceDistance.destroy_all
 SedexDezPriceWeight.destroy_all  
 
 Sedex.destroy_all  
-Expressa.destroy_all  
+.destroy_all  
 SedexDez.destroy_all  
 
 Vehicle.destroy_all 
@@ -28,16 +28,16 @@ WorkOrder.destroy_all
 User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678')
 User.create!(name: 'João', email: 'joao@sistemadefrete.com.br', password: '12345678', admin:true)
 
-e = Expressa.create!(flat_fee:10)
+e = .create!(flat_fee:10)
 
-ExpressaDeliveryTimeDistance.create!(min_distance:5, max_distance:10, delivery_time:15)
-ExpressaDeliveryTimeDistance.create!(min_distance:11, max_distance:30, delivery_time:35)
+DeliveryTimeDistance.create!(min_distance:5, max_distance:10, delivery_time:15)
+DeliveryTimeDistance.create!(min_distance:11, max_distance:30, delivery_time:35)
 
-ExpressaPriceDistance.create!(min_distance:5, max_distance:15, price:10)
-ExpressaPriceDistance.create!(min_distance:16, max_distance:32, price:20)
+PriceDistance.create!(min_distance:5, max_distance:15, price:10)
+PriceDistance.create!(min_distance:16, max_distance:32, price:20)
 
-ExpressaPriceWeight.create!(min_weight:5, max_weight:15, price:1)
-ExpressaPriceWeight.create!(min_weight:16, max_weight:23, price:2)
+PriceWeight.create!(min_weight:5, max_weight:15, price:1)
+PriceWeight.create!(min_weight:16, max_weight:23, price:2)
 
 s = Sedex.create!(flat_fee:20) 
 
