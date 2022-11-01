@@ -44,10 +44,9 @@ class WorkOrder < ApplicationRecord
         sm_price = (self.distance * price_weight) + price_distance + flat_fee
       end
       if sm_price == nil then @sm_and_prices == nil else @sm_and_prices << [shipping_method, sm_price] end
-      @sm_and_prices.uniq 
     end
 
-    delivery_time_collection(@sm_and_prices)
+    #delivery_time_collection(@sm_and_prices)
 
     return @sm_and_prices.to_h
   end
@@ -64,11 +63,8 @@ class WorkOrder < ApplicationRecord
       where w.distance between dt.min_distance and dt.max_distance and sm.status == 1").rows.join.to_i
       @delivery_times << [shipping_method, delivery_time]
     end
-    
-    delivery_time_collection(@delivery_times)
-    
+
     return @delivery_times.to_h
- 
   end
 
   def check_available_price_and_delivery_times 
@@ -106,7 +102,6 @@ class WorkOrder < ApplicationRecord
     update_attribute(:total_price, price_and_delivery_time[1])
   end
 
-
   def set_vehicle  
     @vehicle = Vehicle.joins(:shipping_method).where("full_capacity >= ?", self.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
     if !@vehicle.nil?
@@ -119,18 +114,8 @@ class WorkOrder < ApplicationRecord
   end 
   
   private
-
   def generate_code
     self.code = SecureRandom.alphanumeric(15).upcase
-  end
-
-  def delivery_time_collection(delivery_times)  
-    delivery_times.map!{|dt| 
-      delivery_times.compact!
-      if dt.length == 2 
-        delivery_times.delete(dt)
-      end 
-    }.compact!
   end
 
   def find_available_shipping_methods 
