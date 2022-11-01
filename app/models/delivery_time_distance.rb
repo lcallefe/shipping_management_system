@@ -6,6 +6,7 @@ class DeliveryTimeDistance < ApplicationRecord
   validates :min_distance, :max_distance, :delivery_time, numericality: { greater_than: 0 }
   validates :min_distance, :max_distance, :delivery_time, numericality: { only_integer: true }
   validate :check_distance_boundaries
+  validate :invalid_range?
 
   def invalid_range?  
     model = DeliveryTimeDistance.all
@@ -15,7 +16,6 @@ class DeliveryTimeDistance < ApplicationRecord
            (dt.delivery_time <= model[i-1].delivery_time || 
             dt.min_distance <= model[i-1].min_distance || 
             dt.min_distance <= model[i-1].max_distance) 
-          dt.destroy 
           errors.add(:base, "Intervalo inválido.")
         end
       end

@@ -9,7 +9,7 @@ class PriceWeightsController < ApplicationController
 
   def create
     @price_weight = PriceWeight.new(price_weight_params)
-    if @price_weight.save && !@price_weight.invalid_range?
+    if @price_weight.save 
       redirect_to shipping_method_path(ShippingMethod.find_by(id:@price_weight.shipping_method_id)), 
                                        notice: 'Intervalo cadastrado com sucesso.'
     else
@@ -22,7 +22,7 @@ class PriceWeightsController < ApplicationController
   end
   
   def update
-    if @price_weight.update(price_weight_params) && !@price_weight.invalid_range?
+    if @price_weight.update(price_weight_params) 
       redirect_to shipping_method_path(ShippingMethod.find_by(id:@price_weight.shipping_method_id)), 
                                        notice: 'Intervalo cadastrado com sucesso.'
                                        

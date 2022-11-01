@@ -296,7 +296,6 @@ RSpec.describe DeliveryTimeDistance, type: :model do
 
         expect(second_range.errors.include?(:base)).to be true  
         expect(second_range.errors[:base]).to include("Intervalo inválido.")
-        expect(DeliveryTimeDistance.where(id:second_range.id)).not_to exist
       end
 
       it 'falso quando prazo do intervalo atual é menor que prazo do anterior' do
@@ -312,7 +311,6 @@ RSpec.describe DeliveryTimeDistance, type: :model do
 
         expect(second_range.errors.include?(:base)).to be true  
         expect(second_range.errors[:base]).to include("Intervalo inválido.")
-        expect(DeliveryTimeDistance.where(id:second_range.id)).not_to exist
       end
 
       it 'falso quando prazo do intervalo atual é igual a prazo do anterior' do
@@ -327,7 +325,6 @@ RSpec.describe DeliveryTimeDistance, type: :model do
 
         expect(second_range.errors.include?(:base)).to be true  
         expect(second_range.errors[:base]).to include("Intervalo inválido.")
-        expect(DeliveryTimeDistance.where(id:second_range.id)).not_to exist
       end
 
       it 'falso quando distância máxima é atualizada para valor superior ao da distância mínima do pŕoximo intervalo' do
@@ -343,7 +340,6 @@ RSpec.describe DeliveryTimeDistance, type: :model do
 
         expect(second_range.errors.include?(:base)).to be true  
         expect(second_range.errors[:base]).to include("Intervalo inválido.")
-        expect(DeliveryTimeDistance.where(id:second_range.id)).not_to exist
       end
     end
   end

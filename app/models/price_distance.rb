@@ -5,6 +5,7 @@ class PriceDistance < ApplicationRecord
   validates :min_distance, comparison: { less_than: :max_distance }
   validates :min_distance, :max_distance, :price, numericality: { greater_than: 0, only_integer: true }
   validate :check_distance_boundaries
+  validate :invalid_range?
 
   def invalid_range?  
     model = PriceDistance.all
@@ -13,7 +14,6 @@ class PriceDistance < ApplicationRecord
         if (pd.id > model[i-1].id) && (pd.price <= model[i-1].price || 
             pd.min_distance <= model[i-1].min_distance || 
             pd.min_distance <= model[i-1].max_distance) 
-          pd.destroy 
           errors.add(:base, "Intervalo inválido.")
         end
       end

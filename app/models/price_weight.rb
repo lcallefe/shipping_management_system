@@ -7,6 +7,7 @@ class PriceWeight < ApplicationRecord
   validates :min_weight, :max_weight, numericality: { greater_than: 0, only_integer: true }
   validates :price, numericality: { greater_than: 0 }
   validate :check_weight_boundaries
+  validate :invalid_range?
 
   def invalid_range?  
     model = PriceWeight.all
@@ -15,7 +16,6 @@ class PriceWeight < ApplicationRecord
         if (pw.id > model[i-1].id) && (pw.price <= model[i-1].price || 
             pw.min_weight <= model[i-1].min_weight || 
             pw.min_weight <= model[i-1].max_weight) 
-          pw.destroy 
           errors.add(:base, "Intervalo inválido.")
         end
       end

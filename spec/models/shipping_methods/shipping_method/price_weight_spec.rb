@@ -291,7 +291,6 @@ RSpec.describe PriceWeight, type: :model do
 
         expect(second_range.errors.include?(:base)).to be true  
         expect(second_range.errors[:base]).to include("Intervalo inválido.")
-        expect(PriceWeight.where(id:second_range.id)).not_to exist
       end
 
       it 'falso quando preço do intervalo atual é menor que preço do anterior' do
@@ -306,7 +305,6 @@ RSpec.describe PriceWeight, type: :model do
 
         expect(second_range.errors.include?(:base)).to be true  
         expect(second_range.errors[:base]).to include("Intervalo inválido.")
-        expect(PriceWeight.where(id:second_range.id)).not_to exist
       end
 
       it 'falso quando preço do intervalo atual é igual a preço do anterior' do
@@ -321,7 +319,6 @@ RSpec.describe PriceWeight, type: :model do
 
         expect(second_range.errors.include?(:base)).to be true  
         expect(second_range.errors[:base]).to include("Intervalo inválido.")
-        expect(PriceWeight.where(id:second_range.id)).not_to exist
       end
 
       it 'falso quando peso máximo é atualizado para valor superior ao peso mínimo do pŕoximo intervalo' do
@@ -337,7 +334,6 @@ RSpec.describe PriceWeight, type: :model do
 
         expect(second_range.errors.include?(:base)).to be true  
         expect(second_range.errors[:base]).to include("Intervalo inválido.")
-        expect(PriceWeight.where(id:second_range.id)).not_to exist
       end
     end
   end
