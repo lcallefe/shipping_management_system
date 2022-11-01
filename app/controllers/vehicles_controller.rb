@@ -3,11 +3,11 @@ class VehiclesController < ApplicationController
 
   def index 
     @vehicles = Vehicle.all
-
   end 
   
   def new  
-    @vehicle = Vehicle.new
+    @vehicle = Vehicle.new(params[:shipping_method_id])
+    @shipping_methods = ShippingMethod.all
   end
 
   def create  
@@ -52,11 +52,16 @@ class VehiclesController < ApplicationController
 
   private  
   def vehicle_create_params  
-    vehicle_create_params = params.require(:vehicle).permit(:brand_name, :model, :fabrication_year, :full_capacity, :license_plate)
+    params[:shipping_method_id] = 
+    vehicle_create_params = params.require(:vehicle).permit(:brand_name, :model, :fabrication_year, 
+                                                            :full_capacity, :license_plate,
+                                                            :shipping_method_id)
   end
+
   def vehicle_edit_params  
     vehicle_edit_params = params.require(:vehicle).permit(:status)
   end
+  
   def find_vehicle_by_id  
     @vehicle = Vehicle.find(params[:id])
   end

@@ -10,7 +10,10 @@ pt-BR:
         max_distance: 'Distância máxima atendida'
         min_weight: 'Peso mínimo atendido'
         max_weight: 'Peso máximo atendido'
-
+        min_price: 'Preço mínimo'
+        max_price: 'Preço máximo'
+        min_delivery_time: 'Prazo mínimo'
+        max_delivery_time: 'Prazo máximo'
 
  
 

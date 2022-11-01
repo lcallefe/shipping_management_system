@@ -79,7 +79,7 @@
 #     expect(page).to have_content('Peso mínimo')
 #     expect(page).to have_content('Peso máximo')
 #     expect(page).to have_content('Valor por km')
-#     expect(current_path).to eq expressas_path
+#     expect(current_path).to eq shipping_methods_path
 #   end
 #   it 'e atualiza com dados inválidos para distância x prazo' do
 #     # Arrange 
@@ -102,10 +102,10 @@
 #     expect(page).to have_content('Distância máxima')
 #     expect(page).to have_content('Distância mínima')
 #     expect(page).to have_content('Prazo')
-#     expect(page).to have_link('Voltar', href: expressas_path)
+#     expect(page).to have_link('Voltar', href: shipping_methods_path)
 #     expect(page).to have_link('Sair', href: destroy_user_session_path)
 #     expect(page).not_to have_link('Editar intervalo')
-#     expect(current_path).not_to eq expressas_path
+#     expect(current_path).not_to eq shipping_methods_path
 #   end
 #   it 'e atualiza com dados inválidos para peso x valor por km' do
 #         # Arrange 
@@ -128,10 +128,10 @@
 #     expect(page).to have_content('Não foi possível alterar intervalo, por favor verifique e tente novamente.')
 #     expect(page).to have_content('Peso máximo não é um número')
 #     expect(page).to have_content('Olá Mariana')
-#     expect(page).to have_link('Voltar', href: expressas_path)
+#     expect(page).to have_link('Voltar', href: shipping_methods_path)
 #     expect(page).to have_link('Sair', href: destroy_user_session_path)
 #     expect(page).not_to have_link('Editar intervalo')
-#     expect(current_path).not_to eq expressas_path
+#     expect(current_path).not_to eq shipping_methods_path
 #   end
 #   it 'e atualiza com dados inválidos para distância x preço' do
 #         # Arrange 
@@ -153,9 +153,9 @@
 #     # Assert
 #     expect(page).to have_content('Preço deve ser maior que 0')
 #     expect(page).to have_content('Não foi possível alterar intervalo, por favor verifique e tente novamente.')
-#     expect(page).to have_link('Voltar', href: expressas_path)
+#     expect(page).to have_link('Voltar', href: shipping_methods_path)
 #     expect(page).to have_link('Sair', href: destroy_user_session_path)
 #     expect(page).not_to have_link('Editar intervalo')
-#     expect(current_path).not_to eq expressas_path
+#     expect(current_path).not_to eq shipping_methods_path
 #   end
 # end

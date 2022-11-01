@@ -1,7 +1,7 @@
 pt-BR:
   activerecord:
     attributes:
-      sedex_dez:
+      shipping_method:
         statuses:
           active: "Ativo"
           disabled: "Desabilitado"

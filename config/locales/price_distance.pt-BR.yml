@@ -1,12 +1,12 @@
 pt-BR:   
   activerecord:
     models: 
-      expressa_delivery_time_distance: 'Configuração de prazos'
+      price_distance: 'Configuração de preços'
     attributes:
-      expressa_delivery_time_distance:
+      price_distance:
         min_distance: 'Distância mínima'
         max_distance: 'Distância máxima'
-        delivery_time: 'Prazo'
+        price: 'Preço'
 
  
 

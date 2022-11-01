@@ -3,7 +3,7 @@
  
 
   <h2>Selecione a opção desejada:</h2><br/>
-  <h3>Modalidades de transporte:</h3><br/>
+  <h3>Modalidades de transporte</h3><br/>
   <%= link_to 'Modalidades de transporte', shipping_methods_path %> <br/>
   <h3> Ordens de serviço </h3>
   <%= link_to 'Ordens de serviço', work_orders_path %>
@@ -11,5 +11,5 @@
   <%= link_to 'Busca por veículo', search_vehicles_path %> 
   <%= link_to 'Ver veículos', vehicles_path %> 
 <% else %>
-  <%= link_to 'Consultar entrega', work_orders_path %>
+  <%= link_to 'Consultar entrega', search_work_orders_path %>
 <% end %>

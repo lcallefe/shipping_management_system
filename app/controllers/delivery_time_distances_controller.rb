@@ -1,33 +1,30 @@
 class DeliveryTimeDistancesController < ApplicationController
   before_action :set_time_distance, only:[:edit, :update]
-  before_action :expressa_delivery_time_distance_params, only:[:create, :update]
-  before_action :count, only:[:create, :update]
+  before_action :delivery_time_distance_params, only:[:create, :update]
+  before_action :admin, only:[:create, :update, :new, :edit]
 
   def new
-    @expressa_delivery_time_distance = DeliveryTimeDistance.new
+    @delivery_time_distance = DeliveryTimeDistance.new(shipping_method_id: params[:shipping_method_id])
   end
 
   def create
-    @expressa_delivery_time_distance = DeliveryTimeDistance.create(expressa_delivery_time_distance_params)
+    @delivery_time_distance = DeliveryTimeDistance.new(delivery_time_distance_params)
     
-    if @expressa_delivery_time_distance.save && DeliveryTimeDistance.count > @count
-      redirect_to expressas_path, notice: 'Intervalo cadastrado com sucesso.'
-    elsif @expressa_delivery_time_distance.save && DeliveryTimeDistance.count == @count
-      redirect_to expressas_path, notice: 'Intervalo seguinte é inválido e será excluído.'
+    if @delivery_time_distance.save
+      redirect_to shipping_method_path(ShippingMethod.find_by(id:@delivery_time_distance.shipping_method_id)), notice: 'Intervalo cadastrado com sucesso.' 
     else
       flash.now[:notice] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
       render 'new'
     end
   end
+
   def edit
   end
 
   def update 
-    if @expressa_delivery_time_distance.update(expressa_delivery_time_distance_params) && DeliveryTimeDistance.count == @count
-      redirect_to expressas_path, notice: 'Intervalo alterado com sucesso.' 
-    elsif @expressa_delivery_time_distance.update(expressa_delivery_time_distance_params) && DeliveryTimeDistance.count < @count  
-      flash.now[:notice] = 'Intervalo inválido.'
-      render 'edit'
+    if @delivery_time_distance.update(delivery_time_distance_params)
+       redirect_to shipping_method_path(ShippingMethod.find_by(id:@delivery_time_distance.shipping_method_id)), 
+       notice: 'Intervalo alterado com sucesso.' 
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'
@@ -35,15 +32,11 @@ class DeliveryTimeDistancesController < ApplicationController
   end
   
   private
-  def expressa_delivery_time_distance_params
-    expressa_delivery_time_distance_params = params.require(:expressa_delivery_time_distance).permit(:min_distance, :max_distance, :delivery_time, :expressa_id)
+  def delivery_time_distance_params
+    delivery_time_distance_params = params.require(:delivery_time_distance).permit(:min_distance, :max_distance, :delivery_time, :shipping_method_id)
   end
 
   def set_time_distance   
-    @expressa_delivery_time_distance = DeliveryTimeDistance.find(params[:id])
-  end
-
-  def count  
-    @count = DeliveryTimeDistance.count
+    @delivery_time_distance = DeliveryTimeDistance.find(params[:id])
   end
 end

@@ -1,6 +1,6 @@
-<h1>Cadastrar Preço</h1>
+<h1>Editar Preço</h1>
 <%= render 'error' %>
-<%= form_with(model: @expressa_price_weight) do |f| %>
+<%= form_with(model: @price_weight) do |f| %>
   <div>
     <%= f.label :min_weight %>
     <%= f.number_field :min_weight %>
@@ -16,4 +16,4 @@
   <%= f.submit 'Salvar' %>
 <% end %>
 
-<%= link_to 'Voltar', expressas_path %>
+<%= link_to 'Voltar', shipping_methods_path %>

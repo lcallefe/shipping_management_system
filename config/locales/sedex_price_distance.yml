@@ -1,9 +1,0 @@
-pt-BR:   
-  activerecord:
-    models: 
-      sedex_price_distance: 'Configuração de preços'
-    attributes:
-      sedex_price_distance:
-        min_distance: 'Distância mínima'
-        max_distance: 'Distância máxima'
-        price: 'Preço'

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe 'Usuário encerra uma ordem de serviço' do
   it 'dentro do prazo com sucesso' do
+    
     user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678')  
 
     work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
@@ -10,10 +11,13 @@ describe 'Usuário encerra uma ordem de serviço' do
     shipping_expected_date:5.days.from_now, warehouse_street:'Rua dos Vianas',
     warehouse_city:'São Bernardo do Campo', warehouse_state:'SP', warehouse_number:'234', 
     distance:11, shipping_date:Date.today, status:1)
-    sm = ShippingMethod.create!(flat_fee:30, name:'sedex_dez', min_distance:5, max_distance:20, min_weight:5, max_weight:30, work_order_id:work_order.id)
+    
+    sm = ShippingMethod.create!(flat_fee:45, name:'Delivery', min_distance:5, max_distance:20, min_weight:5, max_weight:50, 
+                                min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240, 
+                                work_order_id:work_order.id)
 
     Vehicle.create!(brand_name:'Ford', model:'Fiesta', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1234', 
-                    shipping_method_id: sm.id, status:2, work_order_id: work_order.id)
+                    shipping_method_id: sm.id, status:2)
     
     visit new_user_session_path
     login_as(user)  
@@ -29,17 +33,22 @@ describe 'Usuário encerra uma ordem de serviço' do
   end
 
   it 'fora do prazo com sucesso' do
+
     user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678')  
  
     work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
-    customer_cpf:'12345678909', customer_phone_numer: '11981232345',
-    product_name:'Bicicleta', product_weight:5, sku:'123', departure_date:4.days.ago, 
-    shipping_expected_date:3.day.ago, warehouse_street:'Rua dos Vianas',
-    warehouse_city:'São Bernardo do Campo', warehouse_state:'SP', warehouse_number:'234', 
-    distance:11, status:1, shipping_date:Date.today)
-    sm = ShippingMethod.create!(flat_fee:20, name:'sedex', min_distance:5, max_distance:20, min_weight:5, max_weight:30, work_order_id:work_order.id)
+                                   customer_cpf:'12345678909', customer_phone_numer: '11981232345',
+                                   product_name:'Bicicleta', product_weight:5, sku:'123', departure_date:4.days.ago, 
+                                   shipping_expected_date:3.day.ago, warehouse_street:'Rua dos Vianas',
+                                   warehouse_city:'São Bernardo do Campo', warehouse_state:'SP', warehouse_number:'234', 
+                                   distance:11, status:1, shipping_date:Date.today)
+
+    sm = ShippingMethod.create!(flat_fee:45, name:'Delivery', min_distance:5, max_distance:20, min_weight:5, max_weight:50, 
+                                min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240, 
+                                work_order_id:work_order.id)
+    
     Vehicle.create!(brand_name:'Ford', model:'Fiesta', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1234', 
-                    shipping_method_id: sm.id, status:2, work_order_id: work_order.id)
+                    shipping_method_id: sm.id, status:2)
     
 
     visit new_user_session_path
@@ -57,16 +66,22 @@ describe 'Usuário encerra uma ordem de serviço' do
   end
 
   it 'e mantém campos obrigatórios ao encerrar fora do prazo' do
+
     user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678')  
+
     work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
-      customer_cpf:'12345678909', customer_phone_numer: '11981232345',
-      product_name:'Bicicleta', product_weight:5, sku:'123', departure_date:5.days.ago, 
-      shipping_expected_date:3.day.ago, warehouse_street:'Rua dos Vianas',
-      warehouse_city:'São Bernardo do Campo', warehouse_state:'SP', warehouse_number:'234', 
-      distance:11, status:1, shipping_date:Date.today)
-    sm = ShippingMethod.create!(flat_fee:20, name:'sedex', min_distance:5, max_distance:20, min_weight:5, max_weight:30, work_order_id:work_order.id)
+                                   customer_cpf:'12345678909', customer_phone_numer: '11981232345',
+                                   product_name:'Bicicleta', product_weight:5, sku:'123', departure_date:5.days.ago, 
+                                   shipping_expected_date:3.day.ago, warehouse_street:'Rua dos Vianas',
+                                   warehouse_city:'São Bernardo do Campo', warehouse_state:'SP', warehouse_number:'234', 
+                                   distance:11, status:1, shipping_date:Date.today)
+
+    sm = ShippingMethod.create!(flat_fee:45, name:'Delivery', min_distance:5, max_distance:20, min_weight:5, max_weight:50, 
+                                min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240, 
+                                work_order_id:work_order.id)
+
     Vehicle.create!(brand_name:'Ford', model:'Fiesta', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1234', 
-                    shipping_method_id: sm.id, status:2, work_order_id: work_order.id)
+                    shipping_method_id: sm.id, status:2)
     
     visit new_user_session_path
     login_as(user)
@@ -81,18 +96,30 @@ describe 'Usuário encerra uma ordem de serviço' do
   end
 
   it 'e volta para a tela de ordens de serviço' do
+
     user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678')  
+
     work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
       customer_cpf:'12345678909', customer_phone_numer: '11981232345',
       product_name:'Bicicleta', product_weight:5, sku:'123', departure_date:2.days.ago, 
       shipping_expected_date:1.day.ago, warehouse_street:'Rua dos Vianas',
       warehouse_city:'São Bernardo do Campo', warehouse_state:'SP', warehouse_number:'234', 
       distance:11, status:1)
-    sm1 = ShippingMethod.create!(flat_fee:20, name:'Correios', min_distance:5, max_distance:20, min_weight:5, max_weight:30)
-    sm2 = ShippingMethod.create!(flat_fee:40, name:'Delivery', min_distance:5, max_distance:30, min_weight:5, max_weight:30)
-    sm3 = ShippingMethod.create!(flat_fee:50, name:'Express', min_distance:5, max_distance:40, min_weight:5, max_weight:30)
+
+    sm1 = ShippingMethod.create!(flat_fee:45, name:'Delivery', min_distance:5, max_distance:20, min_weight:5, max_weight:50, 
+                                min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240, 
+                                work_order_id:work_order.id)
+
+    sm2 = ShippingMethod.create!(flat_fee:45, name:'Delivery', min_distance:5, max_distance:20, min_weight:5, max_weight:50, 
+                                min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240, 
+                                work_order_id:work_order.id)
+
+    sm3 = ShippingMethod.create!(flat_fee:45, name:'Delivery', min_distance:5, max_distance:20, min_weight:5, max_weight:50, 
+                                min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240, 
+                                work_order_id:work_order.id)
+
     Vehicle.create!(brand_name:'Ford', model:'Fiesta', fabrication_year:'2001', full_capacity:100, license_plate:'ABC-1234', 
-                    shipping_method_id: sm1.id, status:2, work_order_id: work_order.id)
+                    shipping_method_id: sm1.id, status:2)
 
     
     login_as(user)

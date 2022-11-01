@@ -1,3 +1,4 @@
+<%= render 'error' %>
 <h1>Cadastrar Modalidade de Transporte</h1>
 
 <%= form_with(model: @shipping_method) do |f| %>
@@ -29,6 +30,26 @@
   <div>
     <%= f.label :max_distance %>
     <%= f.number_field :max_distance %>
+  </div>
+
+  <div>
+    <%= f.label :min_price %>
+    <%= f.number_field :min_price %>
+  </div>
+
+  <div>
+    <%= f.label :max_price %>
+    <%= f.number_field :max_price %>
+  </div>
+
+  <div>
+    <%= f.label :min_delivery_time %>
+    <%= f.number_field :min_delivery_time %>
+  </div>
+
+  <div>
+    <%= f.label :max_delivery_time %>
+    <%= f.number_field :max_delivery_time %>
   </div>
 
   <%= f.submit 'Salvar' %>

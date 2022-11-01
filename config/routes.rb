@@ -5,11 +5,16 @@ Rails.application.routes.draw do
   devise_scope :user do  
     get '/users/sign_out' => 'devise/sessions#destroy'     
   end 
-  resources :shipping_methods, only:[:index, :new, :create, :edit, :update, :show]
- 
-  resources :price_distances, only:[:index, :new, :edit, :update, :create]
-  resources :price_weights, only:[:index, :new, :edit, :update, :create]
-  resources :delivery_time_distances, only:[:index, :new, :edit, :update, :create]
+  
+  resources :price_distances, only:[:new, :create, :edit, :update]
+  resources :price_weights, only:[:new, :create, :edit, :update]
+  resources :delivery_time_distances, only:[:new, :create, :edit, :update]
+
+  resources :shipping_methods, only:[:index, :new, :create, :edit, :update, :show] do 
+    resources :price_distances, only:[:new, :create, :edit, :update]
+    resources :price_weights, only:[:new, :create, :edit, :update]
+    resources :delivery_time_distances, only:[:new, :create, :edit, :update]
+  end
   resources :work_orders, only:[:index, :new, :create, :show, :edit, :update, :show] do 
     get 'search', on: :collection
     get 'pending', on: :collection

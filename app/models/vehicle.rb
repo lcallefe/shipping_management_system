@@ -1,6 +1,5 @@
 class Vehicle < ApplicationRecord
   belongs_to :shipping_method
-  belongs_to :work_order, optional: true
   validates :license_plate, uniqueness: true
   validates :license_plate, format: { with: /\A[A-Z]{3}-\d{4}\z/,
     message: "não possui o formato esperado" }

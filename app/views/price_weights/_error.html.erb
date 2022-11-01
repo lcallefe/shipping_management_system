@@ -1,0 +1,8 @@
+<% if @price_weight.errors.full_messages.any? %>
+  <%  @price_weight.errors.full_messages.each do |msg| %>
+    <div><br>
+      <%= msg %>
+    </div>
+  <% end %>
+<% end %>
+<br>

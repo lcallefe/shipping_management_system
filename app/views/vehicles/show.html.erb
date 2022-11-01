@@ -1,6 +1,4 @@
-<% admin %>
-  <%= link_to 'Alterar status', edit_vehicle_path(@vehicle.id)%>
-<% end %>
+<%= link_to 'Alterar status', edit_vehicle_path(@vehicle.id)%>
 <%= link_to 'Voltar', search_vehicles_path %>
 <h1></h1>
 <dl>
@@ -15,12 +13,8 @@
   <dt>Status:</dt>
   <dd><%= Vehicle.human_enum_name(:status, @vehicle.status) %></dd>
    <dt>Método de entrega:</dt>
-   <% if !@vehicle.sedex_id.nil? %>
-    <dd><%= Sedex.find(@vehicle.sedex_id).name %></dd>
-   <% elsif !@vehicle.sedex_dez_id.nil? %>
-    <dd><%= SedexDez.find(@vehicle.sedex_dez_id).name %></dd>
-   <% elsif !@vehicle.expressa_id.nil? %>
-    <dd><%= .find(@vehicle.expressa_id).name %></dd>
+   <% if !@vehicle.shipping_method.nil? %>
+    <dd><%= @vehicle.shipping_method.name %></dd>
    <% end %>
 </dl>
 

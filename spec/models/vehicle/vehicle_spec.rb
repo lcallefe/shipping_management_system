@@ -148,20 +148,24 @@ RSpec.describe Vehicle, type: :model do
     end
     context 'uniqueness' do
       it "falso quando número da placa não é único" do
-        sm = ShippingMethod.create!(name:'ShippingMethod', flat_fee: 50)
+        s = ShippingMethod.create!(flat_fee:45, name:'Delivery', min_distance:5, max_distance:20, min_weight:5, max_weight:50, 
+                                   min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240)
         vehicle = Vehicle.create!(brand_name:'Renault', model:'Sedan', fabrication_year:'2001', full_capacity:100, license_plate:'EFJ-1234', 
-                                  sedex_id: sm.id, status:1)  
+                                  shipping_method_id: s.id, status:1)  
         second_vehicle = Vehicle.new(license_plate:'EFJ-1234')
-
         second_vehicle.valid?
+
+        
 
         expect(second_vehicle.errors.include?(:license_plate)).to be true
         expect(second_vehicle.errors[:license_plate]).to include("já está em uso")
       end
+
       it "verdadeiro quando número da placa é único" do
-        sm = ShippingMethod.create!(name:'ShippingMethod', flat_fee: 50)
+        sm = ShippingMethod.create!(flat_fee:45, name:'Delivery', min_distance:5, max_distance:20, min_weight:5, max_weight:50, 
+                                    min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240)
         vehicle = Vehicle.create!(brand_name:'Renault', model:'Sedan', fabrication_year:'2001', full_capacity:100, license_plate:'EFJ-1253', 
-                                  sedex_id: sm.id, status:1)  
+                                  shipping_method_id: sm.id, status:1)  
         second_vehicle = Vehicle.new(license_plate:'EFJ-1235')
 
         vehicle.valid?

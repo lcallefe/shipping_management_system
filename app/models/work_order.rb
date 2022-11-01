@@ -20,12 +20,12 @@ class WorkOrder < ApplicationRecord
 
   def find_price
     @sm_and_prices = []
-    ShippingMethod.last.update(work_order_id:self.id)
+    ShippingMethod.update(work_order_id:self.id)
    
-    find_available_shipping_methods.each do |shipping_method| 
- 
+    find_available_shipping_methods.each do |sm| 
+  
       price_distance = ActiveRecord::Base.connection.exec_query("select pd.price 
-      from work_orders w join shipping_methods sm
+      from work_orders w join shipping_methods sm 
       on w.id = sm.work_order_id join price_distances pd 
       on sm.id = pd.shipping_method_id
       where w.distance between pd.min_distance and pd.max_distance and sm.status == 1").rows.join.to_i
@@ -34,16 +34,17 @@ class WorkOrder < ApplicationRecord
       from work_orders w join shipping_methods sm
       on w.id = sm.work_order_id join price_weights pw 
       on sm.id = pw.shipping_method_id
-      where w.product_weight between pw.min_weight and pw.max_weight").rows.join.to_i
+      where w.product_weight between pw.min_weight and pw.max_weight and sm.status == 1").rows.join.to_i
 
       flat_fee = ActiveRecord::Base.connection.exec_query("select sm.flat_fee 
       from work_orders w join shipping_methods sm 
       on w.id = sm.work_order_id and sm.status == 1").rows.join.to_i
+      
       if !price_weight.nil? && !price_weight.zero? && !price_distance.nil? && !price_distance.zero? && !flat_fee.nil? && !flat_fee.zero?
         sm_price = (self.distance * price_weight) + price_distance + flat_fee
       end
       if sm_price == nil then @sm_and_prices == nil else @sm_and_prices << [shipping_method, sm_price] end
-      @sm_and_prices 
+      @sm_and_prices.uniq 
     end
 
     delivery_time_collection(@sm_and_prices)
@@ -53,7 +54,7 @@ class WorkOrder < ApplicationRecord
 
   def find_delivery_time
     @delivery_times = []
-    ShippingMethod.last.update(work_order_id:self.id)
+    ShippingMethod.update(work_order_id:self.id)
 
     find_available_shipping_methods.each do |shipping_method| 
       delivery_time = ActiveRecord::Base.connection.exec_query("select dt.delivery_time 
@@ -67,16 +68,16 @@ class WorkOrder < ApplicationRecord
     delivery_time_collection(@delivery_times)
     
     return @delivery_times.to_h
+ 
   end
 
   def check_available_price_and_delivery_times 
-    sms = find_available_shipping_methods 
     new_hash_available_shipping_methods = []
     delivery_time = find_delivery_time 
     price = find_price
 
     if !delivery_time.empty? && !price.empty? 
-      sms.each do |s|
+      find_available_shipping_methods.each do |s|
         if (!price.include? s) || (!delivery_time.include? s) || (delivery_time[s].zero?) || (price[s].zero?)
           if (price.include? s) && (delivery_time.include? s) 
             price.delete(s) 
@@ -88,18 +89,27 @@ class WorkOrder < ApplicationRecord
           end
         end
       end
+
       new_hash_available_shipping_methods << delivery_time.merge!(price){ |k, delivery_time, price| Array(delivery_time).push(price) }
     end
+
     if new_hash_available_shipping_methods[0].nil? 
       self.errors.add(:base, "Não há modalidades de entrega disponíveis.")
     end
     new_hash_available_shipping_methods[0]
   end
 
+  def set_deadline_and_price
+    price_and_delivery_time = check_available_price_and_delivery_times.values[0]
+    update_attribute(:departure_date, Date.today)
+    update_attribute(:shipping_expected_date, Date.today + (price_and_delivery_time[0].to_f/24))
+    update_attribute(:total_price, price_and_delivery_time[1])
+  end
+
+
   def set_vehicle  
-    @vehicle = Vehicle.joins(:shipping_methods).where("full_capacity >= ?", self.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
+    @vehicle = Vehicle.joins(:shipping_method).where("full_capacity >= ?", self.product_weight).and(Vehicle.where("vehicles.status == ?",1)).order('RANDOM()').first
     if !@vehicle.nil?
-      @vehicle.update(work_order_id:self.id)
       @vehicle.in_progress!
     else  
       self.errors.add(:base, "Não há veículos disponíveis para a modalidade escolhida.")
@@ -109,12 +119,6 @@ class WorkOrder < ApplicationRecord
   end 
   
   private
-  def find_available_shipping_methods  
-    shipping_methods = []
-    ShippingMethod.all.each do |sm|
-      shipping_methods << sm
-    end
-  end
 
   def generate_code
     self.code = SecureRandom.alphanumeric(15).upcase
@@ -127,6 +131,10 @@ class WorkOrder < ApplicationRecord
         delivery_times.delete(dt)
       end 
     }.compact!
+  end
+
+  def find_available_shipping_methods 
+    ShippingMethod.all
   end
 
   def check_address  

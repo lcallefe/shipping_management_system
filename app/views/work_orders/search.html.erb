@@ -1,31 +1,38 @@
-<%= link_to 'Voltar', work_orders_path %>
+<%= form_with(url: search_work_orders_path, method: :get) do |f| %>
+  <%= f.label :query, 'Buscar entrega' %>
+  <%= f.text_field :query %>
+  <%= f.submit 'Buscar' %>
+<%end%>
+
 <% if @work_order.present?%>
-<h1>Resultados da busca por: <%= @work_order.code %></h1> 
-<dl>
-  <dt><%= 'Endereço de saída: ' %></dt> 
-  <dd><%= @work_order.warehouse_street %>, <%= @work_order.warehouse_number %>, <%= @work_order.warehouse_city %> - <%= @work_order.warehouse_state %></dd><br/> 
-  <dt><%= 'Endereço de entrega: ' %></dt> 
-  <dd><%= @work_order.street %>, <%= @work_order.number %>, <%= @work_order.city %> - <%= @work_order.state %></dd><br/> 
-  <dt><%= 'Informações do veículo:' %></dt><br/>
-  <dt><%= 'Marca: '%></dt> 
-  <dd><%= @vehicle.brand_name %></dd><br/>
-  <dt><%= 'Modelo: '%></dt> 
-  <dd><%= @vehicle.model %></dd><br/>
-  <dt><%= 'Placa: '%></dt> 
-  <dd><%= @vehicle.license_plate %></dd><br/>
-  <dt><%= 'Ano de fabricação: '%></dt> 
-  <%= @vehicle.fabrication_year %><br/><br/>
-  <dt><%= 'Data prevista de entrega: '%></dt> 
-  <dd><%= I18n.l(@work_order.shipping_expected_date) %></dd><br/>
-  <% if !@work_order.shipping_date.nil? %>
-    <dt><%= 'Data de entrega: '%></dt> 
-    <dd><%= I18n.l(@work_order.shipping_date) %></dd><br/>
-  <% end %>
-  <% if !@work_order.shipping_date.nil? && @work_order.shipping_date > @work_order.shipping_expected_date %>
-    <dt><%= 'Motivo do atraso: '%></dt> 
-    <dd><%= @work_order.delay_reason %></dd><br/>
-  <% end %>
-</dl>
+  <h1>Resultados da busca por: <%= @work_order.code %></h1> 
+  <dl>
+    <dt><%= 'Endereço de saída: ' %></dt> 
+    <dd><%= @work_order.warehouse_street %>, <%= @work_order.warehouse_number %>, <%= @work_order.warehouse_city %> - <%= @work_order.warehouse_state %></dd><br/> 
+    <dt><%= 'Endereço de entrega: ' %></dt> 
+    <dd><%= @work_order.street %>, <%= @work_order.number %>, <%= @work_order.city %> - <%= @work_order.state %></dd><br/> 
+    <dt><%= 'Informações do veículo:' %></dt><br/>
+    <dt><%= 'Marca: '%></dt> 
+    <dd><%= @vehicle.brand_name %></dd><br/>
+    <dt><%= 'Modelo: '%></dt> 
+    <dd><%= @vehicle.model %></dd><br/>
+    <dt><%= 'Placa: '%></dt> 
+    <dd><%= @vehicle.license_plate %></dd><br/>
+    <dt><%= 'Ano de fabricação: '%></dt> 
+    <%= @vehicle.fabrication_year %><br/><br/>
+    <dt><%= 'Data prevista de entrega: '%></dt> 
+    <dd><%= I18n.l(@work_order.shipping_expected_date) %></dd><br/>
+    <% if !@work_order.shipping_date.nil? %>
+      <dt><%= 'Data de entrega: '%></dt> 
+      <dd><%= I18n.l(@work_order.shipping_date) %></dd><br/>
+    <% end %>
+    <% if !@work_order.shipping_date.nil? && @work_order.shipping_date > @work_order.shipping_expected_date %>
+      <dt><%= 'Motivo do atraso: '%></dt> 
+      <dd><%= @work_order.delay_reason %></dd><br/>
+    <% end %>
+  </dl>
+<% else %>
+  <%= "Nenhuma ordem de serviço encontrada." %>
 <% end %>
 
 

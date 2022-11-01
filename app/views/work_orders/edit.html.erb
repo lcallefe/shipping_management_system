@@ -1,20 +1,22 @@
 <%= render 'error' %>
 <%= link_to 'Voltar', pending_work_orders_path %>
   <% if !@shipping_methods.nil? && @work_order.pending? %>
+
     <h3><%='Modalidades de entrega disponíveis'%></h3>
     <%= form_with(model:@work_order) do |f|%>
       <% @shipping_methods.each do |k, v|%>
         <div>
         <div><br/>
           <%= 'Modalidade' %><br/>
-          <%= f.radio_button :shipping_method, k.titleize  %>
-          <%= f.label :shipping_method, k.titleize, :value => "#{k.titleize}"  %>
+
+          <%= f.radio_button :shipping_method, k.name.titleize  %>
+          <%= f.label :shipping_method, k.name.titleize, :value => "#{k.name.titleize}"  %>
         </div><br/>
         <div>
-          <%= "Preço #{k.titleize}:" %><br/>
+          <%= "Preço #{k.name.titleize}:" %><br/>
           <%= number_to_currency(v[1], :unit => "R$ ", :separator => ",", :delimiter => ".")%>
         </div><br/>
-          <%= "Prazo Modalidade #{k.titleize}:"%><br/>
+          <%= "Prazo Modalidade #{k.name.titleize}:"%><br/>
           <%= v[0] %> h
         </div><br/>
       <% end %>
@@ -27,7 +29,6 @@
       <div>
         <%= f.label :delay_reason  %>
         <%= f.text_area :delay_reason  %>
-
       </div><br/><br/>
     <% end %>
   <%= f.submit 'Encerrar ordem de serviço' %>

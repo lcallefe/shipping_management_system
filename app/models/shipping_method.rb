@@ -1,16 +1,20 @@
 class ShippingMethod < ApplicationRecord
-  has_many :delivery_time_distances
-  has_many :price_distances
-  has_many :price_weights
-  has_many :vehicles
-  before_validation :validate_flat_fee
-  belongs_to :work_orders, optional:true
-  validates :flat_fee, numericality: { only_integer: true }, :allow_nil => true
+  has_many :delivery_time_distances, autosave: true
+  has_many :price_distances, autosave: true
+  has_many :price_weights, autosave: true
+  has_many :vehicles, autosave: true
+  belongs_to :work_orders, optional:true, autosave: true
+  validates :min_distance, :max_distance, :min_price, :max_price,
+            :min_delivery_time, :max_delivery_time, :flat_fee,
+            :min_weight, :max_weight, :name, :presence => true
+  validates :flat_fee, numericality: { greater_than: 0, only_integer: true }, 
+            :allow_nil => true
+  validates :min_distance, :max_distance, :min_weight, :max_weight, :min_price,
+            :max_price, :min_delivery_time, :max_delivery_time,
+            numericality: { greater_than: 0, only_integer: true }
+
   enum status: { active: 1, disabled: 0 }
-  private
-  def validate_flat_fee
-    if (!flat_fee.nil? && flat_fee <= 0)
-      errors.add(:flat_fee, "deve ser maior que 0")
-    end
-  end
+
+  
+  
 end

@@ -22,15 +22,15 @@
     <%= f.number_field :full_capacity %>
   </div><br/>
   <div><br/>
-    <%= 'Modalidade' %><br/>
-      <%= f.radio_button :sedex_id, false %>
-      <%= f.label :sedex_id, :value => false  %>
-      <%= f.radio_button :sedex_dez_id, false %>
-      <%= f.label :sedex_dez_id, :value => false %>
-      <%= f.radio_button :expressa_id, false  %>
-      <%= f.label :expressa_id, :value => false %>
-  </div><br/>
-  <%= f.submit 'Salvar' %>
+  <% if @shipping_methods.present? %>
+    <%= 'Modalidades' %><br/>
+    <% @shipping_methods.each do |sm|%>
+        <%= f.radio_button :shipping_method_id, sm.id %> 
+        <%= f.label :shipping_method_id, sm.id, :value => "#{sm.id}"%> - <%= sm.name %>
+    </div><br/>
+    <% end %>
+    <%= f.submit 'Salvar' %>
+  <% end %>
 <% end %>
 
 <%= link_to 'Voltar', vehicles_path %>

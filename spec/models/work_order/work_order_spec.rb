@@ -223,26 +223,25 @@ RSpec.describe WorkOrder, type: :model do
 
     context 'accuracy' do
       it 'verdadeiro quando cálculo do preço é realizado corretamente' do 
-        
         work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
                                        customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
                                        product_weight:10, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                                        warehouse_number:'234', distance:10)
-        s = Sedex.create!(name:'sedex', flat_fee: 50)
-        ShippingMethod.create!(name:'expressa', flat_fee:40)
-        ShippingMethod.create!(name:'sedex_dez', flat_fee:30)
-        PriceDistance.create!(min_distance:5, max_distance:40, price:30, sedex_id:s.id)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
-        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
-        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
-                        sedex_id: s.id, status:1, work_order_id: work_order.id)
-        work_order.update(shipping_method:s.name)
-      
+
+        s = ShippingMethod.create!(flat_fee:45, name:'sedex', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                   min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240)
+ 
+        PriceDistance.create!(min_distance:5, max_distance:40, price:30, shipping_method_id:s.id)
+        PriceWeight.create!(min_weight:10, max_weight:30, price:10, shipping_method_id:s.id)
+        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, shipping_method_id:s.id)
         
+        s.update(work_order_id:work_order.id)
+        price = work_order.find_price.values.join.to_i
 
-
-        expect(work_order.find_price[s.name]).to eq 90 
+        
+        
+        expect(price).to eq 175
       end
 
       it 'falso quando cálculo do preço não está correto' do 
@@ -251,21 +250,19 @@ RSpec.describe WorkOrder, type: :model do
                                        product_weight:10, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                                        warehouse_number:'234', distance:10)
-        s = Sedex.create!(name:'sedex', flat_fee: 50)
-        ShippingMethod.create!(name:'expressa', flat_fee:40)
-        ShippingMethod.create!(name:'sedex_dez', flat_fee:30)
-        PriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
-        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
-        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
-                        sedex_id: s.id, status:1, work_order_id: work_order.id)
+        s = ShippingMethod.create!(flat_fee:60, name:'rapida', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                   min_price:5, max_price:40, min_delivery_time:1, max_delivery_time:240)
+      
+        PriceDistance.create!(min_distance:5, max_distance:40, price:10, shipping_method_id:s.id)
+        PriceWeight.create!(min_weight:6, max_weight:30, price:10, shipping_method_id:s.id)
+        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, shipping_method_id:s.id)
+        
         s.update(work_order_id: work_order.id)
-        work_order.update(shipping_method:s.name)
-
-     
+        price = work_order.find_price.values.join.to_i
 
 
-        expect(work_order.find_price[s.name]).not_to eq 69
+
+        expect(price).not_to eq 79
       end
     end
 
@@ -277,56 +274,58 @@ RSpec.describe WorkOrder, type: :model do
                                        product_weight:500, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                                        warehouse_number:'234', distance:400)
-        s = ShippingMethod.create!(name:'sedex', flat_fee: 50)
-        ShippingMethod.create!(name:'expressa', flat_fee:40)
-        ShippingMethod.create!(name:'sedex_dez', flat_fee:30)
+
+        s = ShippingMethod.create!(flat_fee:60, name:'rapida', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                   min_price:5, max_price:40, min_delivery_time:1, max_delivery_time:240)
+        e = ShippingMethod.create!(flat_fee:60, name:'expressa', min_distance:5, max_distance:400, min_weight:5, max_weight:500, 
+                                   min_price:5, max_price:40, min_delivery_time:1, max_delivery_time:240, status:0)
+        
         PriceDistance.create!(min_distance:5, max_distance:40, price:10, shipping_method_id:s.id)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
-        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30)
-        PriceDistance.create!(min_distance:5, max_distance:40, price:10)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:1)
-        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30)
-        PriceDistance.create!(min_distance:5, max_distance:40, price:10)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:1)
-        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+        PriceWeight.create!(min_weight:6, max_weight:30, price:6, shipping_method_id:s.id)
+        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, shipping_method_id:s.id)
+        PriceDistance.create!(min_distance:5, max_distance:400, price:10, shipping_method_id:e.id)
+        PriceWeight.create!(min_weight:6, max_weight:500, price:5, shipping_method_id:e.id)
+        DeliveryTimeDistance.create!(min_distance:5, max_distance:400, delivery_time:30, shipping_method_id:e.id)
+
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
-                        sedex_id: s.id, status:1, work_order_id: work_order.id)
+                        shipping_method_id: s.id, status:1)
+        Vehicle.create!(brand_name:'Chevrolet', model:'Monza', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1238', 
+                        shipping_method_id: e.id, status:1)
         work_order.check_available_price_and_delivery_times
-
-
 
 
         expect(work_order.errors.include?(:base)).to be true  
         expect(work_order.errors[:base]).to include("Não há modalidades de entrega disponíveis.") 
       end
+
       it 'falso quando ordem de serviço é iniciada e não há 
           veículos disponíveis para realizar a entrega' do 
-  
         work_order = WorkOrder.create!(street: 'Av Paulista', city: 'São Paulo', state:'SP', number:'10', customer_name:'Mario', 
                                        customer_cpf:'12345678909', customer_phone_numer: '11981232345', product_name:'Bicicleta', 
                                        product_weight:51, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                                        warehouse_number:'234', distance:400)
-        s = ShippingMethod.create!(name:'sedex', flat_fee: 50)
-        e = ShippingMethod.create!(name:'expressa', flat_fee:40)
-        sd = ShippingMethod.create!(name:'sedex_dez', flat_fee:30)
-        PriceWeight.create!(min_weight:1, max_weight:50, price:10)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:20)
-        PriceWeight.create!(min_weight:1, max_weight:50, price:30)
+        s = ShippingMethod.create!(flat_fee:70, name:'sedex', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                   min_price:5, max_price:40, min_delivery_time:1, max_delivery_time:240)
+        e = ShippingMethod.create!(flat_fee:70, name:'expressa', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                   min_price:5, max_price:40, min_delivery_time:1, max_delivery_time:240)
+
+        PriceWeight.create!(min_weight:10, max_weight:20, price:40, shipping_method_id:e.id)
+        PriceWeight.create!(min_weight:30, max_weight:40, price:30, shipping_method_id:s.id)
+
         # veículo em entrega
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:50, license_plate:'ABC-1234', 
-                        sedex_id: s.id, status:2)
+                        shipping_method_id:s.id, status:2)
         # método de entrega expressa não atende o peso
         Vehicle.create!(brand_name:'Fiat', model:'Tempra', fabrication_year:'1995', full_capacity:50, license_plate:'BAU-1235', 
-                        expressa_id: e.id, status:1) 
+                        shipping_method_id: e.id, status:1) 
         # veículo em manutenção
         Vehicle.create!(brand_name:'Chevrolet', model:'Celta', fabrication_year:'1999', full_capacity:50, license_plate:'ABC-1235', 
-                        sedex_dez_id:1, status:0) 
-        work_order.update(shipping_method:sd.name)                  
+                        shipping_method_id:s.id, status:0) 
+        s.update(work_order_id:work_order.id)       
+        e.update(work_order_id:work_order.id)                   
         work_order.set_vehicle 
                    
-        
-
 
 
         expect(work_order.errors.include?(:base)).to be true  
@@ -340,23 +339,23 @@ RSpec.describe WorkOrder, type: :model do
                                        product_weight:50, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                                        warehouse_number:'234', distance:400)
-        s = ShippingMethod.create!(name:'sedex', flat_fee: 50)
-        e = ShippingMethod.create!(name:'expressa', flat_fee:40)
-        sd = ShippingMethod.create!(name:'sedex_dez', flat_fee:30)
-        PriceWeight.create!(min_weight:1, max_weight:40, price:10)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:20)
-        PriceWeight.create!(min_weight:1, max_weight:50, price:30)
+        rapida = ShippingMethod.create!(flat_fee:60, name:'rapida', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                       min_price:5, max_price:40, min_delivery_time:1, max_delivery_time:240)
+
+        PriceWeight.create!(min_weight:6, max_weight:40, price:10, shipping_method_id:rapida.id)
+
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:50, license_plate:'ABC-1234', 
-                        sedex_id: s.id, status:1)
+                        shipping_method_id: rapida.id, status:1)
+
         Vehicle.create!(brand_name:'Fiat', model:'Tempra', fabrication_year:'1995', full_capacity:50, license_plate:'ABC-1235', 
-                        expressa_id: e.id, status:1)  
+                        shipping_method_id: rapida.id, status:0)
+
         Vehicle.create!(brand_name:'Chevrolet', model:'Celta', fabrication_year:'1999', full_capacity:50, license_plate:'ABC-1236', 
-                        sedex_dez_id:1, status:1) 
-        work_order.update(shipping_method:sd.name)                  
+                        shipping_method_id:rapida.id, status:2) 
+
+        rapida.update(work_order_id:work_order.id)                
         work_order.set_vehicle 
                    
-        
-
 
 
         expect(work_order.errors.include?(:base)).to be false  
@@ -369,19 +368,21 @@ RSpec.describe WorkOrder, type: :model do
                                        product_weight:10, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                                        warehouse_number:'234', distance:41)
-        s = ShippingMethod.create!(name:'sedex', flat_fee: 50)
-        ShippingMethod.create!(name:'expressa', flat_fee:40)
-        ShippingMethod.create!(name:'sedex_dez', flat_fee:30)
-        PriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
-        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
-        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
-                        sedex_id: s.id, status:1, work_order_id: work_order.id) 
+
+        s = ShippingMethod.create!(flat_fee:70, name:'sedex', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                   min_price:5, max_price:40, min_delivery_time:1, max_delivery_time:240)
+        
+        PriceDistance.create!(min_distance:5, max_distance:40, price:10, shipping_method_id:s.id)
+        PriceWeight.create!(min_weight:6, max_weight:30, price:10, shipping_method_id:s.id)
+        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, shipping_method_id:s.id)
+        
+        Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:11, license_plate:'ABC-1235', 
+                        shipping_method_id: s.id, status:1) 
         work_order.check_available_price_and_delivery_times
 
 
 
-
+        
         expect(work_order.errors.include?(:base)).to be true  
         expect(work_order.errors[:base]).to include("Não há modalidades de entrega disponíveis.")
        end
@@ -392,16 +393,16 @@ RSpec.describe WorkOrder, type: :model do
                                        product_weight:31, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Rua dos Vianas', warehouse_city:'São Bernardo do Campo',  
                                        warehouse_number:'234', distance:40)
-        s = Sedex.create!(name:'sedex', flat_fee: 50)
-        ShippingMethod.create!(name:'expressa', flat_fee:40)
-        ShippingMethod.create!(name:'sedex_dez', flat_fee:30)
-        PriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
-        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+        s = ShippingMethod.create!(flat_fee:90, name:'sedex', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                   min_price:5, max_price:50, min_delivery_time:1, max_delivery_time:240)
+ 
+        PriceDistance.create!(min_distance:5, max_distance:40, price:10, shipping_method_id:s.id)
+        PriceWeight.create!(min_weight:10, max_weight:30, price:5, shipping_method_id:s.id)
+        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, shipping_method_id:s.id)
+        
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
-                        sedex_id: s.id, status:1, work_order_id: work_order.id) 
+                        shipping_method_id: s.id, status:1) 
         work_order.check_available_price_and_delivery_times
-
 
 
 
@@ -415,16 +416,19 @@ RSpec.describe WorkOrder, type: :model do
                                        product_weight:29, sku:'123', departure_date:Date.today, warehouse_state:'SP', 
                                        warehouse_street:'Av Bosque da Saúde', warehouse_city:'São Paulo',  
                                        warehouse_number:'111', distance:10)
-        s = Sedex.create!(name:'sedex', flat_fee: 50, status:0)
-        ShippingMethod.create!(name:'expressa', flat_fee:10)
-        ShippingMethod.create!(name:'sedex_dez', flat_fee:10)
-        PriceDistance.create!(min_distance:5, max_distance:40, price:10, sedex_id:s.id)
-        PriceWeight.create!(min_weight:1, max_weight:30, price:1, sedex_id:s.id)
-        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, sedex_id:s.id)
+                                       
+        sedex = ShippingMethod.create!(flat_fee:45, name:'sedex', min_distance:5, max_distance:50, min_weight:5, max_weight:50, 
+                                       min_price:6, max_price:50, min_delivery_time:1, max_delivery_time:240, status:0)
+                               
+        PriceDistance.create!(min_distance:5, max_distance:40, price:10, shipping_method_id:sedex.id)
+        
+        PriceWeight.create!(min_weight:7, max_weight:30, price:7, shipping_method_id:sedex.id)
+        
+        DeliveryTimeDistance.create!(min_distance:5, max_distance:40, delivery_time:30, shipping_method_id:sedex.id)
+        
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
-                        sedex_id: s.id, status:1, work_order_id: work_order.id) 
+                        shipping_method_id: sedex.id, status:1) 
         work_order.check_available_price_and_delivery_times
-
 
 
 

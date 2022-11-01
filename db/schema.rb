@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_28_175346) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_01_025638) do
   create_table "delivery_time_distances", force: :cascade do |t|
     t.integer "min_distance"
     t.integer "max_distance"
@@ -52,6 +52,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_28_175346) do
     t.integer "max_weight"
     t.integer "min_distance"
     t.integer "min_weight"
+    t.integer "max_price"
+    t.integer "min_price"
+    t.integer "min_delivery_time"
+    t.integer "max_delivery_time"
     t.index ["work_order_id"], name: "index_shipping_methods_on_work_order_id"
   end
 
@@ -78,9 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_28_175346) do
     t.datetime "updated_at", null: false
     t.string "license_plate"
     t.string "model"
-    t.integer "work_order_id"
     t.integer "shipping_method_id"
-    t.index ["work_order_id"], name: "index_vehicles_on_work_order_id"
   end
 
   create_table "work_orders", force: :cascade do |t|
@@ -107,10 +109,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_28_175346) do
     t.string "warehouse_number"
     t.integer "distance"
     t.string "code"
-    t.string "shipping_method"
     t.string "delay_reason"
   end
 
+  add_foreign_key "delivery_time_distances", "shipping_methods"
+  add_foreign_key "price_distances", "shipping_methods"
+  add_foreign_key "price_weights", "shipping_methods"
   add_foreign_key "vehicles", "shipping_methods"
-  add_foreign_key "vehicles", "work_orders"
 end
