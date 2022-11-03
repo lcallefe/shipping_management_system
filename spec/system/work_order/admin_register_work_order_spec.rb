@@ -2,10 +2,8 @@ require 'rails_helper'
 
 describe 'Administrador cria uma ordem de serviço' do
   it 'com sucesso' do
-    # Arrange
     user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678', admin:true)
 
-    # Act
     login_as(user)
     visit root_path
     click_on 'Ordens de serviço'
@@ -34,10 +32,8 @@ describe 'Administrador cria uma ordem de serviço' do
   end
 
   it 'com dados inválidos' do
-    # Arrange
     user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678', admin:true)
 
-    # Act
     login_as(user)
     visit root_path
     click_on 'Ordens de serviço'
@@ -59,7 +55,6 @@ describe 'Administrador cria uma ordem de serviço' do
     fill_in 'Distância remetente x destinatário', with: 0
     click_on 'Salvar'
  
-    # Assert
     expect(page).to have_content 'CPF não possui o tamanho esperado (11 caracteres)'
     expect(page).to have_content 'Distância remetente x destinatário deve ser maior que 0'
     expect(page).to have_content 'Endereço do cliente deve ser diferente do destinatário'
@@ -68,11 +63,10 @@ describe 'Administrador cria uma ordem de serviço' do
     expect(page).to have_link('Sair', href: destroy_user_session_path)
     expect(current_path).not_to eq pending_work_orders_path
   end
+  
   it 'e mantém campos obrigatórios' do
-    # Arrange
     user = User.create!(name: 'Maria', email: 'maria@sistemadefrete.com.br', password: '12345678', admin:true)
 
-    # Act
     login_as(user)
     visit root_path
     click_on 'Ordens de serviço'
@@ -94,7 +88,6 @@ describe 'Administrador cria uma ordem de serviço' do
     fill_in 'Distância remetente x destinatário', with: ''
     click_on 'Salvar'
  
-    # Assert
     expect(page).to have_content 'Endereço não pode ficar em branco'
     expect(page).to have_content 'CPF não pode ficar em branco'
     expect(page).to have_content 'Código do produto não pode ficar em branco'

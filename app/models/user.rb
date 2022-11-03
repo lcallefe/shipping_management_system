@@ -7,6 +7,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :validatable
+  validates :email, :password, :name, presence: true
   before_validation :check_email_format
 
   def description
@@ -15,10 +16,8 @@ class User < ApplicationRecord
 
   private
   def check_email_format
-    if !self.email.end_with? '@sistemadefrete.com.br' || self.email.length <= 22
+    if !self.email.nil? && (!self.email.end_with? '@sistemadefrete.com.br' || self.email.length <= 22)
       errors.add(:base, "Domínio inválido, por favor verifique seu e-mail de registro.")
     end
   end
-
-
 end

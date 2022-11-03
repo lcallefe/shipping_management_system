@@ -46,8 +46,6 @@ class WorkOrder < ApplicationRecord
       if sm_price == nil then @sm_and_prices == nil else @sm_and_prices << [shipping_method, sm_price] end
     end
 
-    #delivery_time_collection(@sm_and_prices)
-
     return @sm_and_prices.to_h
   end
 
