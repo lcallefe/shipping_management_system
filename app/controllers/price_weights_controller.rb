@@ -40,8 +40,4 @@ class PriceWeightsController < ApplicationController
   def set_price_weight  
     @price_weight = PriceWeight.find(params[:id])
   end
-
-  def count 
-    @count = PriceWeight.count 
-  end
 end

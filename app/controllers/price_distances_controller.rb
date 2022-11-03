@@ -1,6 +1,6 @@
 class PriceDistancesController < ApplicationController
   before_action :set_price_distance, only:[:edit, :update]
-  before_action :find_params, only:[:create, :update]
+  before_action :price_distance_params, only:[:create, :update]
   before_action :admin, only:[:create, :update, :new, :edit]
 
   def new
@@ -25,8 +25,6 @@ class PriceDistancesController < ApplicationController
     if @price_distance.update(price_distance_params)
       redirect_to shipping_method_path(ShippingMethod.find_by(id:@price_distance.shipping_method_id)), 
                                        notice: 'Intervalo alterado com sucesso.'
-    elsif @price_distance.update(price_distance_params) && PriceDistance.count < @count  
-      redirect_to shipping_method_path, notice: 'Intervalo seguinte é inválido e será excluído.'
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'
@@ -40,14 +38,5 @@ class PriceDistancesController < ApplicationController
 
   def set_price_distance  
     @price_distance = PriceDistance.find(params[:id])
-  end
-
-  def find_params  
-    
-    price_distance_params
-  end
-
-  def count  
-    @count = PriceDistance.count
   end
 end

@@ -100,5 +100,4 @@ class WorkOrdersController < ApplicationController
   def work_order_complete_params
     work_order_start_params = params.require(:work_order).permit(:delay_reason)
   end
-
 end
