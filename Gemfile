@@ -49,6 +49,4 @@ group :development, :test do
   gem 'capybara'
 end
 
-
-
 gem "importmap-rails", "~> 1.1"

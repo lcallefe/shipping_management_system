@@ -11,7 +11,7 @@ class DeliveryTimeDistancesController < ApplicationController
     @delivery_time_distance = DeliveryTimeDistance.new(delivery_time_distance_params)
     
     if @delivery_time_distance.save
-      redirect_to shipping_method_path(ShippingMethod.find_by(id:@delivery_time_distance.shipping_method_id)), notice: 'Intervalo cadastrado com sucesso.' 
+      redirect_to shipping_method_path(@delivery_time_distance.shipping_method), notice: 'Intervalo cadastrado com sucesso.' 
     else
       flash.now[:notice] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
       render 'new'
@@ -23,8 +23,7 @@ class DeliveryTimeDistancesController < ApplicationController
 
   def update 
     if @delivery_time_distance.update(delivery_time_distance_params)
-       redirect_to shipping_method_path(ShippingMethod.find_by(id:@delivery_time_distance.shipping_method_id)), 
-       notice: 'Intervalo alterado com sucesso.' 
+       redirect_to shipping_method_path(@delivery_time_distance.shipping_method), notice: 'Intervalo alterado com sucesso.' 
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'

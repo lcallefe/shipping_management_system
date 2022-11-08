@@ -10,7 +10,7 @@ class PriceDistancesController < ApplicationController
   def create
     @price_distance = PriceDistance.new(price_distance_params)
     if @price_distance.save 
-      redirect_to shipping_method_path(ShippingMethod.find_by(id:@price_distance.shipping_method_id)), 
+      redirect_to shipping_method_path(@price_distance.shipping_method), 
                                        notice: 'Intervalo cadastrado com sucesso.'
     else
       flash.now[:notice] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
@@ -23,7 +23,7 @@ class PriceDistancesController < ApplicationController
 
   def update
     if @price_distance.update(price_distance_params)
-      redirect_to shipping_method_path(ShippingMethod.find_by(id:@price_distance.shipping_method_id)), 
+      redirect_to shipping_method_path(@price_distance.shipping_method), 
                                        notice: 'Intervalo alterado com sucesso.'
     else
       flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
@@ -39,4 +39,5 @@ class PriceDistancesController < ApplicationController
   def set_price_distance  
     @price_distance = PriceDistance.find(params[:id])
   end
+
 end

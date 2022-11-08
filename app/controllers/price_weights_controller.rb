@@ -9,11 +9,11 @@ class PriceWeightsController < ApplicationController
 
   def create
     @price_weight = PriceWeight.new(price_weight_params)
-    if @price_weight.save 
-      redirect_to shipping_method_path(ShippingMethod.find_by(id:@price_weight.shipping_method_id)), 
+    if valid_value(@price_weight) && @price_weight.save 
+      redirect_to shipping_method_path(@price_weight.shipping_method), 
                                        notice: 'Intervalo cadastrado com sucesso.'
     else
-      flash.now[:notice] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
+      flash.now[:alert] = 'Não foi possível cadastrar intervalo, por favor verifique e tente novamente.'
       render 'new'
     end
   end
@@ -22,12 +22,12 @@ class PriceWeightsController < ApplicationController
   end
   
   def update
-    if @price_weight.update(price_weight_params) 
-      redirect_to shipping_method_path(ShippingMethod.find_by(id:@price_weight.shipping_method_id)), 
+    if valid_value(@price_weight) && @price_weight.update(price_weight_params) 
+      redirect_to shipping_method_path(@product_weight.shipping_method), 
                                        notice: 'Intervalo cadastrado com sucesso.'
                                        
     else
-      flash.now[:notice] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
+      flash.now[:alert] = 'Não foi possível alterar intervalo, por favor verifique e tente novamente.'
       render 'edit'
     end
   end
@@ -39,5 +39,10 @@ class PriceWeightsController < ApplicationController
 
   def set_price_weight  
     @price_weight = PriceWeight.find(params[:id])
+  end
+
+  def valid_value(price_weight) 
+    RangeConfiguration.new(price_weight.min_weight, price_weight.max_weight, 
+                           price_weight.price, PriceWeight.all).check_values
   end
 end

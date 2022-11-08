@@ -29,7 +29,7 @@ class WorkOrdersController < ApplicationController
 
   def edit
     if @work_order.pending?
-      @shipping_methods = @work_order.check_available_price_and_delivery_times
+      @shipping_methods = @work_order.check_available_prices_and_delivery_times
     end
   end
 
@@ -41,7 +41,7 @@ class WorkOrdersController < ApplicationController
     elsif @work_order.in_progress? 
       complete
     else
-      @shipping_methods = @work_order.check_available_price_and_delivery_times
+      @shipping_methods = @work_order.check_available_prices_and_delivery_times
       flash.now[:notice] = 'Não foi possível iniciar a ordem de serviço.'
       render 'edit' 
     end
@@ -62,14 +62,7 @@ class WorkOrdersController < ApplicationController
     
     if Date.today > @work_order.shipping_expected_date
       if @work_order.update(work_order_complete_params)
-        if params[:work_order][:delay_reason].present?
-          @work_order.after_deadline!
-          @vehicle.active!
-          redirect_to pending_work_orders_path, notice: 'Ordem de serviço encerrada com sucesso.'
-        else  
-          flash.now[:notice] = "Motivo do atraso não pode ficar em branco."
-          render 'edit'
-        end
+        delay_check
       else 
         flash.now[:notice] = "Não foi possível encerrar a ordem de serviço."
       end
@@ -91,6 +84,17 @@ class WorkOrdersController < ApplicationController
     :number, :customer_name, :customer_cpf, :customer_phone_numer, :product_name,
     :product_weight, :sku, :warehouse_street, :warehouse_state, :warehouse_number, 
     :distance, :warehouse_city)
+  end
+
+  def delay_check 
+    if params[:work_order][:delay_reason].present?
+      @work_order.after_deadline!
+      @vehicle.active!
+      redirect_to pending_work_orders_path, notice: 'Ordem de serviço encerrada com sucesso.'
+    else  
+      flash.now[:notice] = "Motivo do atraso não pode ficar em branco."
+      render 'edit'
+    end
   end
 
   def work_order_start_params

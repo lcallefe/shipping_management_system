@@ -63,9 +63,10 @@ class WorkOrder < ApplicationRecord
     end
 
     return @delivery_times.to_h
+
   end
 
-  def check_available_price_and_delivery_times 
+  def check_available_prices_and_delivery_times 
     new_hash_available_shipping_methods = []
     delivery_time = find_delivery_time 
     price = find_price
@@ -94,7 +95,7 @@ class WorkOrder < ApplicationRecord
   end
 
   def set_deadline_and_price
-    price_and_delivery_time = check_available_price_and_delivery_times.values[0]
+    price_and_delivery_time = check_available_prices_and_delivery_times.values[0]
     update_attribute(:departure_date, Date.today)
     update_attribute(:shipping_expected_date, Date.today + (price_and_delivery_time[0].to_f/24))
     update_attribute(:total_price, price_and_delivery_time[1])

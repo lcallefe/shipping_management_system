@@ -291,7 +291,7 @@ RSpec.describe WorkOrder, type: :model do
                         shipping_method_id: s.id, status:1)
         Vehicle.create!(brand_name:'Chevrolet', model:'Monza', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1238', 
                         shipping_method_id: e.id, status:1)
-        work_order.check_available_price_and_delivery_times
+        work_order.check_available_prices_and_delivery_times
 
 
         expect(work_order.errors.include?(:base)).to be true  
@@ -378,7 +378,7 @@ RSpec.describe WorkOrder, type: :model do
         
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:11, license_plate:'ABC-1235', 
                         shipping_method_id: s.id, status:1) 
-        work_order.check_available_price_and_delivery_times
+        work_order.check_available_prices_and_delivery_times
 
 
 
@@ -402,7 +402,7 @@ RSpec.describe WorkOrder, type: :model do
         
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
                         shipping_method_id: s.id, status:1) 
-        work_order.check_available_price_and_delivery_times
+        work_order.check_available_prices_and_delivery_times
 
 
 
@@ -428,7 +428,7 @@ RSpec.describe WorkOrder, type: :model do
         
         Vehicle.create!(brand_name:'Chevrolet', model:'Chevette', fabrication_year:'1995', full_capacity:100, license_plate:'ABC-1235', 
                         shipping_method_id: sedex.id, status:1) 
-        work_order.check_available_price_and_delivery_times
+        work_order.check_available_prices_and_delivery_times
 
 
 

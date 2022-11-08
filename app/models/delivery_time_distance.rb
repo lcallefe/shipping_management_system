@@ -1,4 +1,4 @@
-class DeliveryTimeDistance < ApplicationRecord
+class DeliveryTimeDistance < Appl
   belongs_to :shipping_method
   after_create :udtate_min_distance
   validates :min_distance, :max_distance, :delivery_time, :presence => true

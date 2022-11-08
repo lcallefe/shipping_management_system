@@ -1,7 +1,5 @@
 class ShippingMethod < ApplicationRecord
-  has_many :delivery_time_distances, autosave: true
-  has_many :price_distances, autosave: true
-  has_many :price_weights, autosave: true
+  has_many :range_configurations, autosave: true
   has_many :vehicles, autosave: true
   belongs_to :work_orders, optional:true, autosave: true
   validates :max_weight, comparison: { greater_than: :min_weight}
@@ -18,7 +16,4 @@ class ShippingMethod < ApplicationRecord
             numericality: { greater_than: 0, only_integer: true }
 
   enum status: { active: 1, disabled: 0 }
-
-  
-  
 end
